@@ -47,6 +47,12 @@
   .panel{aspect-ratio:1/1}
   .spec div{grid-template-columns:112px 1fr}
   .doc-h{flex-wrap:wrap}.doc-h .m{margin-left:0;flex-basis:100%}
+  /* Stacked, with the lead finding first: the register is context, and
+     pushing it above the finding buries what the card is for. */
+  .doc-b{grid-template-columns:1fr}
+  .doc-lead{order:1}
+  .doc-reg{order:2;border-right:0;border-top:1px solid var(--line-2)}
+  .doc-strip{grid-template-columns:1fr 1fr}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}

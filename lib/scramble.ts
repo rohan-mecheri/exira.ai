@@ -88,3 +88,63 @@ export function scramble(
 
   return { done, cancel: finish };
 }
+
+export interface ObfuscateOptions extends ScrambleOptions {
+  /** How many characters are readable at once as the wave passes. Default 3. */
+  band?: number;
+  /** Ciphered characters between the end of one sweep and the next. Default 6. */
+  gap?: number;
+}
+
+/* Permanent obfuscation. Unlike scramble(), this never settles: a narrow
+   band of true characters sweeps left to right and the string re-ciphers
+   behind it, forever.
+
+   The band is deliberately shorter than the string. A decrypt that
+   completes leaves a readable value on screen, which is the opposite of
+   what a withheld client identifier should do; this one is always mid
+   attempt and the whole value is never legible at once. The real string
+   stays on the wrapper's aria-label for anyone who needs it. */
+export function obfuscate(
+  el: HTMLElement,
+  text: string,
+  opts: ObfuscateOptions = {}
+): { stop: () => void } {
+  const charset = opts.charset ?? CHARSET_ALNUM;
+  const speed = opts.speed ?? 30;
+  const revealDelay = opts.revealDelay ?? 55;
+  const band = opts.band ?? 3;
+  const gap = opts.gap ?? 6;
+
+  const chars = text.split("");
+  const isSpace = chars.map((c) => /\s/.test(c));
+  const period = chars.length + band + gap;
+
+  let timer: ReturnType<typeof setInterval> | null = null;
+  let tick = 0;
+
+  const randomChar = () => charset.charAt(Math.floor(Math.random() * charset.length));
+
+  const step = () => {
+    const head = ((tick * speed) / revealDelay) % period;
+    let out = "";
+    for (let i = 0; i < chars.length; i++) {
+      const behind = head - i;
+      out += isSpace[i] || (behind >= 0 && behind < band) ? chars[i] : randomChar();
+    }
+    el.textContent = out;
+    tick += 1;
+  };
+
+  step();
+  timer = setInterval(step, speed);
+
+  return {
+    stop: () => {
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+    },
+  };
+}

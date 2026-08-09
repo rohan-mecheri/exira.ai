@@ -2,24 +2,46 @@ import { Scramble } from "./Scramble";
 
 /* Section 04: what actually lands in the data room.
 
-   The header used to announce "Technical Due Diligence, confidential",
-   which said nothing a reader could not already see. It now shows what a
-   real deliverable would show and we cannot: the client, enciphered. The
-   identifier never settles, which is the point.
+   The card has to read as a document, not a dashboard. The version with
+   eight big stat tiles read as the latter and buried the finding; the
+   version with four and nothing else was thin, one finding floating in a
+   lot of white.
 
-   The scope row used to run eight tiles across two rows and took more
-   space than the finding it was framing. Four remain, and they describe
-   the shape of the output rather than the size of the input, because the
-   size of the input is not what a deal team is buying.
+   So the numbers are a masthead strip now, one line, and the body is what
+   a report body actually is: a register down the side and the lead finding
+   opened up beside it. The register runs past the fold so the veil cuts it
+   mid-list, which is the honest shape of a preview.
+
+   The client is enciphered and stays that way; see components/Scramble.tsx.
 
    .doc here is the report card and only the report card; the thesis body
    grid is .essay. */
 
 const SCOPE: readonly { value: string; label: string }[] = [
   { value: "1.23M", label: "Lines read" },
-  { value: "46", label: "Findings raised" },
-  { value: "3", label: "Cross-module risks" },
+  { value: "46", label: "Findings" },
+  { value: "3", label: "Cross-module" },
   { value: "0", label: "Deal-blocking" },
+];
+
+type Severity = "material" | "attention" | "noted";
+
+interface RegisterRow {
+  id: string;
+  module: string;
+  severity: Severity;
+}
+
+/* Eight of forty-six. The veil takes the tail. */
+const REGISTER: readonly RegisterRow[] = [
+  { id: "F-0118", module: "M03 × M11", severity: "material" },
+  { id: "F-0092", module: "M02", severity: "attention" },
+  { id: "F-0071", module: "M06", severity: "attention" },
+  { id: "F-0064", module: "M04", severity: "noted" },
+  { id: "F-0055", module: "M11", severity: "noted" },
+  { id: "F-0043", module: "M05", severity: "attention" },
+  { id: "F-0031", module: "M09", severity: "noted" },
+  { id: "F-0028", module: "M07", severity: "noted" },
 ];
 
 export function Report() {
@@ -36,6 +58,7 @@ export function Report() {
             traceable evidence reference.
           </p>
         </div>
+
         <div className="doc-wrap rv d1">
           <article className="doc">
             <div className="doc-h">
@@ -46,37 +69,59 @@ export function Report() {
               <span className="t">Assessment report</span>
               <span className="m">June 2026 · 11 modules</span>
             </div>
-            <div className="scope rv d2">
+
+            <div className="doc-strip rv d2">
               {SCOPE.map((s) => (
-                <div key={s.label} className="sc">
-                  <div className="v">{s.value}</div>
-                  <div className="l">{s.label}</div>
+                <div key={s.label} className="dst">
+                  <span className="v">{s.value}</span>
+                  <span className="l">{s.label}</span>
                 </div>
               ))}
             </div>
-            <div className="doc-b">
-              <p className="doc-sect">Material risk · highest attention</p>
-              <div className="dfind rv d3">
-                <span className="fid">
-                  F-0118 · M03 SCALABILITY × M11 TECHNICAL DEBT · CROSS-MODULE
-                </span>
-                <h3>Three concurrent infrastructure migrations in flight</h3>
-                <p>
-                  The event streaming backbone, the caching and job-queue layer, and the data access
-                  layer for user identity are simultaneously mid-migration. Each is individually
-                  justified and each is executed responsibly, with dual-write patterns that keep old
-                  and new systems in sync. The risk is not the migrations but their concurrent,
-                  in-flight state: three simultaneous transitions introduce operational complexity
-                  and a window of exposure to data inconsistency until each is closed out.
-                </p>
-                <div className="refs">
-                  <b>disposition</b>confirm completion dates pre-close
-                  <br />
-                  <b>remediation</b>1–2 months streaming · 1–2 months cache · 2–3 months identity
-                  <br />
-                  <b>evidence</b>3 refs · dual-write helpers, migration config, routing fallback
-                  <br />
-                  <b>critic</b>upheld · severity unchanged · no contradictory evidence
+
+            <div className="doc-b rv d3">
+              <div className="doc-reg">
+                <p className="reg-h">Findings register</p>
+                <div className="reg">
+                  {REGISTER.map((r, i) => (
+                    <div
+                      key={r.id}
+                      className={i === 0 ? "reg-i on" : "reg-i"}
+                      data-sev={r.severity}
+                    >
+                      <span className="rid">{r.id}</span>
+                      <span className="rmod">{r.module}</span>
+                      <span className="rdot" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="doc-lead">
+                <p className="doc-sect">Material risk · highest attention</p>
+                <div className="dfind">
+                  <span className="fid">
+                    F-0118 · M03 SCALABILITY × M11 TECHNICAL DEBT · CROSS-MODULE
+                  </span>
+                  <h3>Three concurrent infrastructure migrations in flight</h3>
+                  <p>
+                    The event streaming backbone, the caching and job-queue layer, and the data
+                    access layer for user identity are simultaneously mid-migration. Each is
+                    individually justified and each is executed responsibly, with dual-write patterns
+                    that keep old and new systems in sync. The risk is not the migrations but their
+                    concurrent, in-flight state: three simultaneous transitions introduce operational
+                    complexity and a window of exposure to data inconsistency until each is closed
+                    out.
+                  </p>
+                  <div className="refs">
+                    <b>disposition</b>confirm completion dates pre-close
+                    <br />
+                    <b>remediation</b>1–2 months streaming · 1–2 months cache · 2–3 months identity
+                    <br />
+                    <b>evidence</b>3 refs · dual-write helpers, migration config, routing fallback
+                    <br />
+                    <b>critic</b>upheld · severity unchanged · no contradictory evidence
+                  </div>
                 </div>
               </div>
             </div>

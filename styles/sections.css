@@ -100,14 +100,35 @@
   white-space:nowrap}
 .doc-h .m{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.11em;
   text-transform:uppercase;color:var(--muted-2)}
-.scope{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-2);
+/* Masthead strip: value and label on one line, so the numbers frame the
+   document instead of filling it. */
+.doc-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-2);
   border-bottom:1px solid var(--line-2)}
-.sc{background:var(--surface);padding:13px 22px 14px}
-.sc .v{font-family:var(--mono);font-size:clamp(16px,1.6vw,21px);font-weight:500;
-  letter-spacing:-.03em;color:var(--b900);line-height:1}
-.sc .l{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--muted-2);margin-top:8px}
-.doc-b{padding:clamp(20px,2.6vw,32px)}
+.dst{background:var(--surface);padding:11px 22px;display:flex;align-items:baseline;gap:9px}
+.dst .v{font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:-.03em;
+  color:var(--b900);line-height:1}
+.dst .l{font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted-2)}
+
+/* Register down the side, lead finding opened up beside it. */
+.doc-b{display:grid;grid-template-columns:214px minmax(0,1fr)}
+.doc-reg{border-right:1px solid var(--line-2);padding:clamp(18px,2.2vw,24px) 20px}
+.doc-lead{padding:clamp(18px,2.2vw,24px) clamp(20px,2.6vw,30px)}
+.reg-h{font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted-2);padding-bottom:11px;border-bottom:1px solid var(--line)}
+.reg-i{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;
+  padding:9px 0 9px 9px;border-bottom:1px solid var(--line-2);position:relative;
+  font-family:var(--mono);font-size:10.5px}
+.reg-i::before{content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:2px;
+  background:var(--b500);transform:scaleY(0);transform-origin:center;
+  transition:transform .4s var(--e)}
+.reg-i.on::before{transform:scaleY(1)}
+.reg-i .rid{color:var(--muted);letter-spacing:.05em}
+.reg-i.on .rid{color:var(--b900);font-weight:500}
+.reg-i .rmod{color:var(--muted-2);font-size:9.5px;letter-spacing:.06em}
+.reg-i .rdot{width:5px;height:5px;border-radius:50%;background:var(--muted-2)}
+.reg-i[data-sev="material"] .rdot{background:var(--watch)}
+.reg-i[data-sev="attention"] .rdot{background:var(--b400)}
 .doc-sect{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
   color:var(--muted-2);padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:4px}
 .dfind{border-left:2px solid var(--watch);padding:2px 0 2px 18px;margin-top:22px}
