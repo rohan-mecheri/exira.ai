@@ -8,8 +8,11 @@
   --b900:#06307C; --b700:#0B3785; --b500:#234D9E; --b400:#426EB7; --b300:#6F92D7;
   --pos:#146A3C; --pos-bg:#E3F0E8; --watch:#8A5A0A; --watch-bg:#F5EEDD;
   --neg:#8C2F2F;
-  --sans:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  /* --font-sans / --font-mono are emitted by next/font in app/layout.tsx.
+     Instrument.tsx reads the resolved --mono stack at runtime, because a
+     canvas needs a concrete family string rather than a CSS variable. */
+  --sans:var(--font-sans),-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:var(--font-mono),ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --gut:clamp(20px,4.6vw,64px); --maxw:1300px;
   --e:cubic-bezier(.22,.61,.36,1);
 }

@@ -1,0 +1,13 @@
+/* Exira — stylesheet entry.
+   Order matters: tokens, base, components, responsive last.
+
+   Every page loads the whole sheet. It totals ~16KB uncompressed, and a
+   single deterministic order is worth more than the bytes saved by
+   route-splitting it — that split is what let .doc mean two different
+   things depending on which page you were on. */
+@import "./tokens.css";
+@import "./base.css";
+@import "./hero.css";
+@import "./sections.css";
+@import "./thesis.css";
+@import "./responsive.css";

@@ -47,6 +47,7 @@ p{margin:0}
 .nav-links{display:flex;align-items:center;gap:30px;margin-left:auto}
 .nav-links a{font-size:14px;color:var(--ink-2);position:relative;padding-block:5px}
 .nav-links a.btn{color:#fff}
+.nav-links a[aria-current]{color:var(--b900);font-weight:500}
 .nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;
   background:var(--b500);transition:right .3s var(--e)}
 .nav-links a:not(.btn):hover::after{right:0}

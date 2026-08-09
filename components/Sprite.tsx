@@ -1,4 +1,14 @@
-<svg class="sprite" aria-hidden="true" focusable="false"><defs>
+/* The brand mark, inlined rather than linked.
+
+   These are the exact paths from the supplied SVGs, unmodified. They live
+   in one place and paint on the first frame with no request. Held as a
+   string and injected verbatim: hand-converting 60 lines of gradient,
+   pattern and clipPath markup to JSX is a transcription risk with nothing
+   to gain. The browser parses it in SVG context, so it renders correctly
+   from the server-rendered HTML.
+
+   Reference it with <svg><use href="#sym-lockup"/></svg>, or #sym-icon. */
+const SPRITE = String.raw`<defs>
 <linearGradient id="topLayerGradient" x1="0%" y1="50%" x2="100%" y2="50%">
       <stop offset="0%"   stop-color="#06307C"/>
       <stop offset="30%"  stop-color="#0B3785"/>
@@ -59,4 +69,15 @@
   </g></g>
 <symbol id="sym-lockup" viewBox="0 0 1430 434"><use href="#ico-src"/><use href="#wrd-src"/></symbol>
 <symbol id="sym-icon" viewBox="-15 -15 493 464"><use href="#ico-src"/></symbol>
-</defs></svg>
+</defs>`;
+
+export function Sprite() {
+  return (
+    <svg
+      className="sprite"
+      aria-hidden="true"
+      focusable="false"
+      dangerouslySetInnerHTML={{ __html: SPRITE }}
+    />
+  );
+}

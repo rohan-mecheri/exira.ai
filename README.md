@@ -2,8 +2,10 @@
 
 Marketing site for Exira — automated technical due diligence.
 
-Two pages, no framework. Vanilla JS modules, plain CSS with custom properties,
-Vite for dev server and bundling.
+Next.js App Router, TypeScript, plain CSS with custom properties. No CSS
+framework: the token system in `styles/tokens.css` is carrying the
+mono-is-evidence rule, and utility classes would scatter that decision
+across every element.
 
 ---
 
@@ -13,44 +15,56 @@ Requires Node 20+ (see `.nvmrc`).
 
 ```bash
 npm install
-npm run dev       # http://localhost:5173
+npm run dev       # http://localhost:3000
 ```
 
-| Script            | Does                                        |
-| ----------------- | ------------------------------------------- |
-| `npm run dev`     | Dev server with hot reload                  |
-| `npm run build`   | Static build to `dist/`                     |
-| `npm run preview` | Serve the built output locally              |
+| Script              | Does                                     |
+| ------------------- | ---------------------------------------- |
+| `npm run dev`       | Dev server with fast refresh             |
+| `npm run build`     | Production build                         |
+| `npm run start`     | Serve the production build locally       |
+| `npm run typecheck` | `tsc --noEmit`                           |
 
-Deploy: any static host. Build command `npm run build`, output directory `dist`.
+Deploy: Vercel, no configuration. Both routes prerender as static content —
+there is no server-side work at request time.
 
 ---
 
 ## Layout
 
 ```
-index.html              Home
-thesis.html             Long-form thesis
-src/
-  js/
-    main.js             Home entry
-    thesis.js           Thesis entry
-    data.js             MODULES — the eleven modules and their findings
-    nav.js              Header + mobile drawer (shared, guarded)
-    reveal.js           One-shot scroll reveals
-    modules.js          Section 03 module matrix
-    pinned.js           Section 02 scroll-pinned sequence
-    instrument.js       Hero canvas — the mark, exploded
-  styles/
-    main.css            Entry; imports the rest in order
-    tokens.css          Colour, type, spacing custom properties
-    base.css            Reset, type scale, buttons
-    hero.css            Hero + instrument panel
-    sections.css        Sections 01–05, CTA, footer
-    responsive.css      All breakpoints, loaded last
-    thesis.css          Thesis page only
-  partials/
-    sprite.html         Inlined brand mark (see below)
+app/
+  layout.tsx            Nav, Footer, sprite, fonts, metadata
+  page.tsx              Home
+  thesis/page.tsx       Thesis
+components/
+  Nav.tsx               Header + mobile drawer (shared)
+  Footer.tsx            Footer (shared)
+  Sprite.tsx            Inlined brand mark (see below)
+  Arrow.tsx             The two CTA arrows
+  Hero.tsx              Hero copy + instrument
+  Instrument.tsx        Hero canvas — the mark, exploded
+  Gap.tsx               Section 01
+  Pinned.tsx            Section 02 scroll-pinned sequence
+  PipelineSchematic.tsx Section 02 schematic, lit by active stage
+  ModuleMatrix.tsx      Section 03 module matrix
+  Report.tsx            Section 04 report card
+  WhereItFits.tsx       Section 05
+  Cta.tsx               The close
+  Reveals.tsx           One-shot scroll reveals
+  Toc.tsx               Thesis contents rail
+lib/
+  modules.ts            MODULES — the eleven modules and their findings
+  isolation.ts          STAGES — section 02's four stages
+  segments.ts           SEGMENTS — thesis §04's seven buyers
+styles/
+  globals.css           Entry; imports the rest in order
+  tokens.css            Colour, type, spacing custom properties
+  base.css              Reset, type scale, buttons, nav
+  hero.css              Hero + instrument panel
+  sections.css          Sections 01–05, CTA, footer
+  thesis.css            Thesis page only
+  responsive.css        All breakpoints, loaded last
 public/
   favicon.svg
   brand/                Original logo SVGs, unmodified
@@ -60,34 +74,57 @@ docs/
 
 ## Things worth knowing before you edit
 
-**The brand mark is inlined, not linked.** `src/partials/sprite.html` holds the
-exact paths from the supplied SVGs and is injected into both pages by a small
-plugin in `vite.config.js` at the `<!--#include sprite-->` marker. One source of
-truth, and the logo paints on the first frame with no request. Reference it with
-`<svg><use href="#sym-lockup"/></svg>` or `#sym-icon`.
+**Content lives in `lib/`, not in the markup.** `MODULES`, `STAGES` and
+`SEGMENTS` are typed, and every field is required — a module without a
+disposition is a build error rather than an empty pill on the page. Add a
+module by adding an entry, not by copying a tile.
+
+**The brand mark is inlined, not linked.** `components/Sprite.tsx` holds the
+exact paths from the supplied SVGs and renders once in the root layout. One
+source of truth, and the logo paints on the first frame with no request.
+Reference it with `<svg><use href="#sym-lockup"/></svg>` or `#sym-icon`. It
+is injected as a string rather than hand-converted to JSX — sixty lines of
+gradient, pattern and clipPath markup is a transcription risk with nothing
+to gain.
 
 **Mono means machine-verified.** IBM Plex Mono is reserved for evidence —
-counts, module IDs, findings, dispositions, spec keys. Instrument Sans carries
-human argument: headlines, lede, body. Keeping that line is what makes the data
-read as measured rather than marketed.
+counts, module IDs, findings, dispositions, spec keys. Instrument Sans
+carries human argument: headlines, lede, body. Keeping that line is what
+makes the data read as measured rather than marketed.
 
-**The hero canvas uses the real logo geometry.** `instrument.js` draws the mark's
-silhouette from its actual path data (`A = 0.0278`, `B = 0.9722`, half-width to
-half-height `231:100`). Changing those constants stops it being the logo.
+**Fonts are self-hosted via `next/font`.** No third-party request, and the
+fallback is metric-matched so nothing shifts on load. The families are
+exposed as `--font-sans` / `--font-mono`, which `tokens.css` folds into the
+`--sans` and `--mono` stacks. `Instrument.tsx` reads the resolved `--mono`
+value at runtime, because a canvas needs a concrete family string rather
+than a CSS variable — that read is the one place a font rename could break
+silently.
 
-**Section 02 is scroll-pinned.** `pinned.js` sizes a tall track, sticks the
-stage, and advances four frames with scroll before releasing. Below 900px, or
-under `prefers-reduced-motion`, it unpins and stacks all four. Track height is
-`N * 78 + 100` vh — shorten by cutting a frame, not by shrinking the track, or
-the stepping gets twitchy.
+**The hero canvas uses the real logo geometry.** `Instrument.tsx` draws the
+mark's silhouette from its actual path data (`A = 0.0278`, `B = 0.9722`,
+half-width to half-height `231:100`). Changing those constants stops it
+being the logo. It is direct canvas and `requestAnimationFrame` work inside
+a `useEffect` — every listener, timer, observer and frame is torn down on
+unmount, or a client-side navigation away would leave a loop painting to a
+detached canvas.
 
-**Findings are real.** `data.js` holds output from an actual eleven-module pass
-on a public production codebase. The company is deliberately not named anywhere
-in the UI — keep it that way unless you have their written blessing.
+**Section 02 is scroll-pinned.** `Pinned.tsx` sizes a tall track, sticks the
+stage, and advances four frames with scroll before releasing. Below 900px,
+or under `prefers-reduced-motion`, it unpins and stacks all four. Track
+height is `N * 78 + 100` vh — shorten by cutting a stage from `STAGES`, not
+by shrinking the track, or the stepping gets twitchy. Scroll position is
+read imperatively; everything downstream is ordinary state, so the steps,
+frames and schematic cannot drift out of sync.
 
-**Fonts load from Google Fonts.** For a fully self-contained build, install
-`@fontsource/instrument-sans` and `@fontsource/ibm-plex-mono` and import them in
-`main.css` instead of the `<link>` tags.
+**`.doc` is the report card, and only the report card.** It used to also be
+the thesis body grid, kept apart only by which stylesheet loaded last. The
+thesis grid is `.essay` now, and every page loads one stylesheet in one
+order. If you add a page-specific rule, check the name isn't already taken.
+
+**Findings are real.** `lib/modules.ts` holds output from an actual
+eleven-module pass on a public production codebase. The company is
+deliberately not named anywhere in the UI — keep it that way unless you
+have their written blessing.
 
 ## Before launch
 
@@ -96,3 +133,4 @@ in the UI — keep it that way unless you have their written blessing.
 - [ ] Add an OG image — a still of the hero instrument mid-pass
 - [ ] Add analytics (Plausible or Fathom), tracking one event: `book_demo_click`
 - [ ] Decide on the fine-tune claim — see `docs/website-spec.md` §9
+- [ ] Confirm the production origin in `app/layout.tsx` (`metadataBase`)
