@@ -94,7 +94,7 @@ export function Pinned() {
                 <h2>Architecturally unable to see your code.</h2>
                 <p className="lede">
                   The assessment is initiated and controlled by the target. It executes inside a
-                  confidential enclave that Exira cannot enter, view or manipulate — not by policy,
+                  confidential enclave that Exira cannot enter, view or manipulate. Not by policy;
                   by construction.
                 </p>
               </div>
@@ -154,7 +154,7 @@ export function Pinned() {
       <div className="wrap">
         <p className="pin-note">
           Where that level of isolation is not required, the same eleven modules run under an
-          engagement NDA with time-limited read-only access —{" "}
+          engagement NDA with time-limited read-only access:{" "}
           <b>faster to stand up, lower cost, identical output.</b>
         </p>
       </div>

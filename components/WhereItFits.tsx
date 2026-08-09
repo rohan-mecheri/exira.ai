@@ -10,12 +10,12 @@ const MOMENTS: readonly Moment[] = [
   {
     phase: "Screening · pre-LOI",
     heading: "Look before you commit",
-    body: "Run it on targets you would never resource a full engagement for. Firms doing this aren't just faster — they see more of the market.",
+    body: "Run it on targets you would never resource a full engagement for. Firms doing this aren't just faster; they see more of the market.",
   },
   {
     phase: "Exclusivity",
     heading: "Findings while price is open",
-    body: "Architecture, security, licensing and remediation cost in engineering months — while there is still a number to move.",
+    body: "Architecture, security, licensing and remediation cost in engineering months, while there is still a number to move.",
   },
   {
     phase: "Hold period",

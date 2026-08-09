@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 /* Same link-resolution rule as the header — see Nav.tsx. */
 
 const SECTIONS = [
-  { hash: "#security", label: "Security" },
-  { hash: "#coverage", label: "Coverage" },
-  { hash: "#report", label: "The report" },
+  { hash: "#security", label: "Isolation" },
+  { hash: "#coverage", label: "Modules" },
+  { hash: "#report", label: "Report" },
 ];
 
 export function Footer() {
@@ -20,7 +20,7 @@ export function Footer() {
     <footer className="foot">
       <div className="wrap foot-in">
         <div>
-          <Link href={home ? "#top" : "/"} aria-label="Exira — home">
+          <Link href={home ? "#top" : "/"} aria-label="Exira home">
             <svg className="logo" role="img" aria-label="Exira">
               <use href="#sym-lockup" />
             </svg>

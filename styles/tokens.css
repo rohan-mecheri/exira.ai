@@ -2,7 +2,12 @@
    EXIRA — mono is evidence, sans is argument
    ══════════════════════════════════════════════════════════ */
 :root{
-  --paper:#EFF2F7; --paper-2:#E6EBF3; --surface:#FFFFFF;
+  /* One ground, every section. The site used to band between --paper,
+     white and --paper-2 to mark sections; the bands read as separate
+     pages rather than one document, so section rhythm is carried by
+     spacing and hairlines instead. Nothing here is pure white. */
+  --paper:#EEF1F7; --paper-2:#E7ECF3;
+  --surface:#FCFDFF; --surface-2:#FFFFFF;
   --ink:#001448; --ink-2:#22355A; --muted:#5D7092; --muted-2:#8D9BB4;
   --line:#D8DFEA; --line-2:#E6EBF3;
   --b900:#06307C; --b700:#0B3785; --b500:#234D9E; --b400:#426EB7; --b300:#6F92D7;

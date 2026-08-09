@@ -21,13 +21,13 @@ export const SEGMENTS: readonly Segment[] = [
   {
     n: "02",
     name: "Private credit and debt financing",
-    body: "Lending against SaaS businesses has grown from roughly $8B in 2015 to over $500B — about a fifth of direct lending. Lenders underwriting a term loan against a software company have no instrument for assessing whether the technical asset backing the collateral is sound. Technical covenants are increasingly written into these agreements, and nobody is monitoring them.",
+    body: "Lending against SaaS businesses has grown from roughly $8B in 2015 to over $500B, about a fifth of direct lending. Lenders underwriting a term loan against a software company have no instrument for assessing whether the technical asset backing the collateral is sound. Technical covenants are increasingly written into these agreements, and nobody is monitoring them.",
     tag: "Structurally underserved",
   },
   {
     n: "03",
     name: "Cyber insurance underwriting",
-    body: "Around three in four carriers now run external attack-surface scans during underwriting. Those tools assess the perimeter. Roughly a fifth of cyber claims were denied or partly denied in 2025, and about a third of those denials traced to failure to maintain attested controls — carriers are litigating against risks their underwriting never reached.",
+    body: "Around three in four carriers now run external attack-surface scans during underwriting. Those tools assess the perimeter. Roughly a fifth of cyber claims were denied or partly denied in 2025, and about a third of those denials traced to failure to maintain attested controls. Carriers are litigating against risks their underwriting never reached.",
     tag: "Adjacent",
   },
   {

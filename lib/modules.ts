@@ -1,140 +1,88 @@
-/* Assessment content.
-   Findings come from a real eleven-module pass on a public production
-   codebase. The target is deliberately not named anywhere in the UI. */
+/* The module catalogue.
 
-/** Drives the tile dot colour. "" is the neutral default. */
-export type Signal = "" | "pos" | "watch";
-
-/** The disposition a deal team reads off the tile. */
-export type Disposition =
-  | "Low concern"
-  | "Positive signal"
-  | "Verify"
-  | "Manageable";
+   This is the product's coverage, not the output of any one assessment.
+   Section 03 renders it as a list of what each module examines; the
+   dispositions, signals and findings that belong to a specific pass live
+   with that pass, not here. */
 
 export interface Module {
-  /** M01–M11. */
+  /** M01-M11. */
   id: string;
   /** Module name, as it appears on the tile. */
   name: string;
-  signal: Signal;
-  disposition: Disposition;
   /** Uppercase label for the hero canvas callout. */
   short: string;
-  /** Full finding — the report line. */
-  full: string;
-  /** Tile finding — the same line, trimmed to fit a matrix cell. */
-  tile: string;
+  /** What this module reads. Written as coverage, not as a finding. */
+  does: string;
 }
 
 export const MODULES: readonly Module[] = [
   {
     id: "M01",
     name: "Key-person dependency",
-    signal: "",
-    disposition: "Low concern",
     short: "KEY-PERSON",
-    full: "Healthy distribution · departures all pre-2025 · one contributor at 5.6%",
-    tile: "Healthy distribution · departures pre-2025 · one contributor at 5.6%",
+    does: "Where authorship concentrates, who has already left, and which systems still depend on them.",
   },
   {
     id: "M02",
     name: "Security & vulnerability posture",
-    signal: "",
-    disposition: "Low concern",
     short: "SECURITY",
-    full: "Patch latency 1–6 days vs 30–90 norm · 42 custom rules · CodeQL disabled",
-    tile: "Patch latency 1–6 days vs 30–90 norm · 42 custom rules · CodeQL disabled",
+    does: "Dependency exposure, patch latency, secret handling, and which controls the pipeline actually enforces.",
   },
   {
     id: "M03",
     name: "Scalability & cloud architecture",
-    signal: "",
-    disposition: "Low concern",
     short: "SCALABILITY",
-    full: "51 Rust service crates · workload-classified analytics · 2 migrations in flight",
-    tile: "51 service crates · workload-classified analytics · 2 migrations in flight",
+    does: "Service boundaries, data flow, and what the architecture does at the next order of magnitude.",
   },
   {
     id: "M04",
     name: "Engineering organisation health",
-    signal: "",
-    disposition: "Low concern",
     short: "ENG HEALTH",
-    full: "6× velocity growth (4–5× net of bots) · no coverage floor · 486 skipped tests",
-    tile: "6× velocity growth · no coverage floor set · 486 skipped tests",
+    does: "Throughput, review discipline and test practice, read from repository history rather than claimed.",
   },
   {
     id: "M05",
     name: "Compliance & regulatory posture",
-    signal: "",
-    disposition: "Low concern",
     short: "COMPLIANCE",
-    full: "GDPR complete · HIPAA enforced in CI · SOC 2 Type II to verify out-of-band",
-    tile: "GDPR complete · HIPAA enforced in CI · SOC 2 Type II to verify",
+    does: "Which obligations are enforced in code, which are asserted on paper, and what needs verifying out of band.",
   },
   {
     id: "M06",
     name: "IP & licensing risk",
-    signal: "",
-    disposition: "Low concern",
     short: "LICENSING",
-    full: "Three-tier structure, machine-enforced · no AGPL/SSPL — confirmed absence",
-    tile: "Machine-enforced licence boundary · no AGPL/SSPL — confirmed absence",
+    does: "Every dependency licence, how it combines with the product's own distribution, and what survives the transaction.",
   },
   {
     id: "M07",
     name: "Technology modernisation risk",
-    signal: "",
-    disposition: "Low concern",
     short: "MODERNISATION",
-    full: "Every component current · earliest EOL 2028 · Python 3.13 prep underway",
-    tile: "Every component current · earliest EOL 2028 · 3.13 prep underway",
+    does: "Runtime, framework and platform versions against their support horizons, and the upgrades already overdue.",
   },
   {
     id: "M08",
     name: "AI & ML readiness",
-    signal: "pos",
-    disposition: "Positive signal",
     short: "AI & ML",
-    full: "Multi-provider gateway · shipped AI-observability product · evals in CI",
-    tile: "Multi-provider gateway · shipped observability product · evals in CI",
+    does: "Whether AI capability is built in or bolted on: provider dependence, evaluation discipline, data foundations.",
   },
   {
     id: "M09",
     name: "Integration compatibility",
-    signal: "pos",
-    disposition: "Positive signal",
     short: "INTEGRATION",
-    full: "154 inbound connectors — ETL-vendor tier · production MCP server",
-    tile: "154 inbound connectors — ETL-vendor tier · production MCP server",
+    does: "The surface the product exposes and consumes, and the real cost of integrating it with an acquirer.",
   },
   {
     id: "M10",
     name: "FinOps & cloud cost efficiency",
-    signal: "watch",
-    disposition: "Verify",
     short: "FINOPS",
-    full: "Controls present in code · live spend requires billing API access",
-    tile: "Controls present in code · live spend requires billing access",
+    does: "The architectural decisions that drive infrastructure spend, and whether cost control exists in code.",
   },
   {
     id: "M11",
     name: "Technical debt",
-    signal: "watch",
-    disposition: "Manageable",
     short: "TECH DEBT",
-    full: "~70% of Python API untyped — bounded, 3–6 months · 3 concurrent migrations",
-    tile: "~70% of API untyped — bounded, 3–6 months · 3 concurrent migrations",
+    does: "Deferred work carried in the codebase, converted into remediation effort in engineering months.",
   },
-];
-
-/** Assessment totals, shown as the twelfth cell of the matrix. */
-export const ASSESSMENT_TOTALS: readonly { value: string; label: string }[] = [
-  { value: "46", label: "findings raised" },
-  { value: "3", label: "cross-module risks" },
-  { value: "2", label: "to verify out-of-band" },
-  { value: "0", label: "deal-blocking" },
 ];
 
 export interface LifecycleEvent {
@@ -143,14 +91,14 @@ export interface LifecycleEvent {
   detail: string;
 }
 
-/** Signed lifecycle record from the same pass. Not yet rendered — this is
-    the spine of the /assessment page. */
+/** Signed lifecycle record from a real pass. Not yet rendered; this is the
+    spine of the /assessment page. */
 export const LIFECYCLE_RECORD: readonly LifecycleEvent[] = [
-  { at: "09:14:02", event: "authorisation issued", detail: "4 repositories · read-only" },
-  { at: "09:14:03", event: "enclave provisioned", detail: "digest a91f…3c07 · attested" },
+  { at: "09:14:02", event: "authorisation issued", detail: "4 repositories, read-only" },
+  { at: "09:14:03", event: "enclave provisioned", detail: "digest a91f…3c07, attested" },
   { at: "09:14:07", event: "repository cloned", detail: "direct from provider over TLS" },
   { at: "09:14:09", event: "credentials erased", detail: "post-checkout" },
-  { at: "09:41:55", event: "analysis complete", detail: "11 modules · 46 findings" },
+  { at: "09:41:55", event: "analysis complete", detail: "11 modules, 46 findings" },
   { at: "09:41:57", event: "report sealed", detail: "sha256 7e2b…9d14" },
   { at: "09:42:01", event: "enclave destroyed", detail: "storage keys discarded" },
 ];

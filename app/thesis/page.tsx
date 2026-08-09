@@ -28,7 +28,7 @@ export default function Thesis() {
           <h1>Technical diligence is a consulting practice. It should be a product.</h1>
           <p className="stand">
             Software is the most transacted asset class in private markets and the least
-            systematically evaluated one. The constraint has never been demand — it has been that
+            systematically evaluated one. The constraint has never been demand. It has been that
             assessment required a scarce human, billed by the hour, on a timeline no deal can
             accommodate. That constraint is gone.
           </p>
@@ -50,7 +50,7 @@ export default function Thesis() {
             </h2>
             <p>
               When capital changes hands in a software deal, the thing actually being bought is a
-              codebase. Not the ARR schedule, not the customer list — those are consequences. The
+              codebase. Not the ARR schedule, not the customer list; those are consequences. The
               code is what produces them, and it is the one asset in the transaction that nobody in
               the room can read.
             </p>
@@ -100,8 +100,8 @@ export default function Thesis() {
             <p>That produces three structural failures, none of which more spending fixes:</p>
             <p className="small">
               <strong>It cannot run early.</strong> At $40K a look, diligence runs on the deal you
-              have already decided to do. The screening decision — the one that determines which
-              deals you pursue at all — is made without it.
+              have already decided to do. The screening decision, the one that determines which
+              deals you pursue at all, is made without it.
             </p>
             <p className="small">
               <strong>It cannot run repeatedly.</strong> A snapshot ages. By the time a continuation
@@ -135,7 +135,7 @@ export default function Thesis() {
               <em>Diligence becomes screening.</em> If assessment is cheap enough to run pre-LOI, it
               runs on targets you would never have resourced. A firm looking at forty deals a year is
               suddenly making technical judgements on all forty rather than the eight that reached
-              exclusivity. That is not a speed improvement — it is a wider field of view.
+              exclusivity. That is not a speed improvement; it is a wider field of view.
             </p>
             <p>
               <em>Diligence becomes monitoring.</em> The same engine re-run on a schedule through the
@@ -146,7 +146,7 @@ export default function Thesis() {
               <em>Diligence becomes preparation.</em> Run from the sell side twelve months out, the
               identical pass surfaces what a buyer&apos;s diligence would surface, while remediation
               is still a sprint rather than a re-trade. Repeated quarterly, it produces a documented
-              history of technical governance — which is an asset in a negotiation, not just a file.
+              history of technical governance, which is an asset in a negotiation, not just a file.
             </p>
             <p>
               One engine, four moments in the life of an asset. The unit of value shifts from a
@@ -203,7 +203,7 @@ export default function Thesis() {
               <strong>The target has to be able to say yes.</strong> This is the real gate. No
               portfolio company hands its source code to a third-party vendor because a prospective
               buyer asked. Any product that requires it is capped at the deals where the target has
-              no leverage — which is not the deals worth doing.
+              no leverage, which is not the deals worth doing.
             </p>
             <div className="pull">
               <p>
@@ -213,8 +213,8 @@ export default function Thesis() {
             </div>
             <p>
               That is why the architecture is the go-to-market. An attested, ephemeral, single-tenant
-              environment the target authorises and can revoke — where we receive the findings and
-              never the repository — is not a security feature bolted onto a product. It is the thing
+              environment the target authorises and can revoke, where we receive the findings and
+              never the repository, is not a security feature bolted onto a product. It is the thing
               that makes the product deployable across a portfolio at all.
             </p>
           </section>
@@ -226,20 +226,20 @@ export default function Thesis() {
             <p>
               An assessment engine that reads a target&apos;s entire codebase across eleven modules,
               reconciles the findings against each other, subjects every conclusion to an independent
-              critic pass, and returns an investor-grade report in hours — inside an environment the
+              critic pass, and returns an investor-grade report in hours, inside an environment the
               target controls and we cannot enter.
             </p>
             <p>
-              The first proof is a complete assessment of a large, public production codebase —
-              44,499 commits, 552 contributors, 1.23M lines — run across all eleven modules, with
+              The first proof is a complete assessment of a large, public production codebase of
+              44,499 commits, 552 contributors and 1.23M lines, run across all eleven modules, with
               every finding carrying evidence references and a remediation estimate. It is the same
               output a deal team would receive inside an exclusivity window.
             </p>
             <div className="end">
               <p>
                 This thesis will be wrong in places, and we would rather find out from someone doing
-                these deals than from a spreadsheet. If you run software transactions — buy-side,
-                sell-side, or credit — we would like to hear where it breaks.
+                these deals than from a spreadsheet. If you run software transactions, buy-side,
+                sell-side, or credit, we would like to hear where it breaks.
               </p>
               <div className="cta-row">
                 <Link className="btn" href="/#demo">

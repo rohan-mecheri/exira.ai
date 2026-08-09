@@ -11,18 +11,47 @@ import { MODULES } from "@/lib/modules";
    half-width to half-height 231:100). Changing those constants stops it
    being the logo.
 
-   Direct canvas work, so it lives in an effect behind a ref. The drawing
-   is unchanged from the vanilla version; what is new is that every
-   listener, timer, observer and animation frame is torn down on unmount —
+   THE CYCLE, and why it is shaped this way.
+
+   The first version drew all thirteen planes from the first frame as pale
+   ghosts and simply recoloured them as the pass climbed. That had two
+   problems: nothing was ever created, so the pass read as a highlight
+   sliding over static furniture; and the loop ended with every plane
+   snapping from resolved back to ghost in a single frame.
+
+   So: planes are not drawn until they exist. Each one rises into its slot
+   and stays. When the stack is complete it holds, then the twelve lower
+   planes converge upward into the assessment plane and fade — the eleven
+   modules reconciling into one output, which is the actual product claim.
+   The assessment plane then dissolves on its own.
+
+   The loop closes because both ends are empty. DISSOLVE finishes at alpha
+   zero and BUILD opens at alpha zero, so the seam has nothing to show. No
+   frame ever contains a discontinuity.
+
+   Direct canvas work, so it lives in an effect behind a ref. Every
+   listener, timer, observer and animation frame is torn down on unmount:
    under client-side navigation a leaked rAF loop would keep painting to a
    detached canvas.
    ══════════════════════════════════════════════════════════ */
 
 const N = 13;
-const STEP = 760;
-const HOLD = 2200;
 const A = 0.0278;
 const B = 0.9722;
+
+/* Phase durations, ms. SPAWN is deliberately longer than STEP so two
+   planes are in motion at once and the build reads as continuous rather
+   than as thirteen separate events. */
+const STEP = 440;
+const SPAWN = 620;
+const BUILD = (N - 1) * STEP + SPAWN;
+const HOLD = 2000;
+const RESOLVE = 1150;
+const DISSOLVE = 760;
+const CYCLE = BUILD + HOLD + RESOLVE + DISSOLVE;
+
+/** Stagger between planes during the upward convergence. */
+const CONVERGE_STAGGER = 26;
 
 /* What each plane is, bottom to top: the evidence base, the eleven
    modules, the resolved assessment. The pass labels the plane it is
@@ -32,6 +61,11 @@ const LABELS: readonly { name: string; sub?: string }[] = [
   ...MODULES.map((m) => ({ name: m.short, sub: m.id })),
   { name: "ASSESSMENT" },
 ];
+
+const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
+const easeOut = (u: number) => 1 - Math.pow(1 - u, 3);
+const easeIn = (u: number) => u * u * u;
+const easeInOut = (u: number) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
 
 interface Plane {
   x: number;
@@ -46,7 +80,6 @@ interface Mote {
   r: number;
   a: number;
 }
-type PlaneState = "pending" | "on" | "done";
 
 export function Instrument() {
   const cvRef = useRef<HTMLCanvasElement>(null);
@@ -76,9 +109,10 @@ export function Instrument() {
     let H = 0;
     let P: Plane[] = [];
     let dust: Mote[] = [];
+    let rise = 0;
     let raf: number | null = null;
     let t0 = performance.now();
-    let last = -1;
+    let lastCap = -1;
     let labelled = false;
     let rz: ReturnType<typeof setTimeout> | undefined;
     let dead = false;
@@ -132,25 +166,30 @@ export function Instrument() {
       const top = H / 2 - (gap * (N - 1)) / 2;
       P = [];
       for (let i = 0; i < N; i++) P.push({ x: cx, y: top + gap * (N - 1 - i), rw, rh });
+      rise = gap * 2;
       dust = [];
       for (let i = 0; i < 18; i++) dust.push(seed(true));
     }
 
-    /* architectural dimension line, left of the stack */
-    function dimension() {
-      const t = P[11];
+    /* Architectural dimension line, left of the stack. It grows with the
+       build rather than being there from the start, so it reads as a
+       measurement accruing. `topY` is interpolated, not snapped to a
+       plane, or the line would tick upward in twelve visible steps. */
+    function dimension(topY: number, a: number, textA: number) {
+      if (a <= 0.002) return;
       const b = P[1];
       const x = Math.max(9, b.x - b.rw - 22);
       ctx.save();
+      ctx.globalAlpha = a;
       ctx.strokeStyle = "rgba(93,112,146,.4)";
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(x, t.y);
+      ctx.moveTo(x, topY);
       ctx.lineTo(x, b.y);
       ctx.stroke();
       (
         [
-          [x, t.y],
+          [x, topY],
           [x, b.y],
         ] as const
       ).forEach(([px, py]) => {
@@ -159,28 +198,31 @@ export function Instrument() {
         ctx.lineTo(px + 3.5, py);
         ctx.stroke();
       });
-      ctx.translate(x - 7, (t.y + b.y) / 2);
-      ctx.rotate(-Math.PI / 2);
-      ctx.font = `500 8px ${mono}`;
-      ctx.fillStyle = "#8D9BB4";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "bottom";
-      ctx.fillText("11 MODULES", 0, 0);
+      if (textA > 0.002) {
+        ctx.globalAlpha = a * textA;
+        ctx.translate(x - 7, (topY + b.y) / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.font = `500 8px ${mono}`;
+        ctx.fillStyle = "#8D9BB4";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "bottom";
+        ctx.fillText("11 MODULES", 0, 0);
+      }
       ctx.restore();
     }
 
-    /* Leader line and label for the plane the pass is currently on.
-       Starts outside the expanding ring the active plane draws, so the two
-       never collide. Suppressed wherever the gutter is zero. */
-    function callout(i: number, sub: number) {
-      if (!labelled || i < 0 || i >= N) return;
+    /* Leader line and label for the plane the pass is on. Starts outside
+       the expanding ring so the two never collide. Suppressed wherever the
+       gutter is zero. */
+    function callout(i: number, a: number, dy: number) {
+      if (!labelled || a <= 0.002 || i < 0 || i >= N) return;
       const label = LABELS[i];
       const L = P[i];
+      const sy = L.y + dy;
       const sx = L.x + L.rw * 1.2 + 6;
-      const sy = L.y;
       const tx = L.x + L.rw * 1.2 + 20;
       ctx.save();
-      ctx.globalAlpha = Math.min(1, sub * 4);
+      ctx.globalAlpha = a;
       ctx.strokeStyle = "rgba(35,77,158,.5)";
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -206,17 +248,29 @@ export function Instrument() {
       ctx.restore();
     }
 
-    function plane(i: number, state: PlaneState, sub: number) {
+    /* One plane, fully parameterised. `heat` is how recently it arrived:
+       1 at the instant it lands, decaying to 0 as it settles. It drives
+       the blue wash and the ring that expands off the edge. */
+    function drawPlane(i: number, a: number, dy: number, s: number, heat: number) {
+      if (a <= 0.002) return;
       const L = P[i];
+      const x = L.x;
+      const y = L.y + dy;
+      const rw = L.rw * s;
+      const rh = L.rh * s;
+
+      ctx.save();
+      ctx.globalAlpha = a;
+
       if (i === 0) {
-        mark(ctx, L.x, L.y, L.rw, L.rh);
+        mark(ctx, x, y, rw, rh);
         ctx.fillStyle = "#F9FBFF";
         ctx.fill();
         ctx.save();
         ctx.clip();
         ctx.fillStyle = "rgba(78,142,255,.5)";
-        for (let gx = L.x - L.rw; gx < L.x + L.rw; gx += 8)
-          for (let gy = L.y - L.rh; gy < L.y + L.rh; gy += 7) {
+        for (let gx = x - rw; gx < x + rw; gx += 8)
+          for (let gy = y - rh; gy < y + rh; gy += 7) {
             ctx.beginPath();
             ctx.arc(gx, gy, 0.75, 0, 6.283);
             ctx.fill();
@@ -226,74 +280,48 @@ export function Instrument() {
         ctx.strokeStyle = "rgba(202,219,255,.9)";
         ctx.stroke();
       } else if (i === N - 1) {
-        mark(ctx, L.x, L.y, L.rw, L.rh);
-        if (state !== "pending") {
-          const g = ctx.createLinearGradient(L.x - L.rw, L.y, L.x + L.rw, L.y);
-          g.addColorStop(0, "#06307C");
-          g.addColorStop(0.3, "#0B3785");
-          g.addColorStop(0.55, "#234D9E");
-          g.addColorStop(0.78, "#426EB7");
-          g.addColorStop(1, "#6F92D7");
-          ctx.fillStyle = g;
-          ctx.fill();
-          ctx.lineWidth = 1.25;
-          ctx.strokeStyle = "rgba(23,78,158,.8)";
-          ctx.stroke();
-        } else {
-          ctx.fillStyle = "rgba(35,77,158,.035)";
-          ctx.fill();
-          ctx.lineWidth = 1;
-          ctx.strokeStyle = "rgba(35,77,158,.16)";
-          ctx.setLineDash([4, 4]);
-          ctx.stroke();
-          ctx.setLineDash([]);
-        }
+        mark(ctx, x, y, rw, rh);
+        const g = ctx.createLinearGradient(x - rw, y, x + rw, y);
+        g.addColorStop(0, "#06307C");
+        g.addColorStop(0.3, "#0B3785");
+        g.addColorStop(0.55, "#234D9E");
+        g.addColorStop(0.78, "#426EB7");
+        g.addColorStop(1, "#6F92D7");
+        ctx.fillStyle = g;
+        ctx.fill();
+        ctx.lineWidth = 1.25;
+        ctx.strokeStyle = "rgba(23,78,158,.8)";
+        ctx.stroke();
       } else {
         const d = i / (N - 2);
-        mark(ctx, L.x, L.y, L.rw, L.rh);
-        ctx.fillStyle =
-          state === "done" ? `rgba(214,220,233,${0.74 + 0.13 * d})` : "rgba(233,237,246,.46)";
+        mark(ctx, x, y, rw, rh);
+        ctx.fillStyle = `rgba(214,220,233,${0.74 + 0.13 * d})`;
         ctx.fill();
-        ctx.lineWidth = state === "done" ? 1.3 : 1;
-        ctx.strokeStyle = state === "done" ? "rgba(255,255,255,.95)" : "rgba(35,77,158,.13)";
+        ctx.lineWidth = 1.3;
+        ctx.strokeStyle = "rgba(255,255,255,.95)";
         ctx.stroke();
-        if (state === "on") {
-          const e = 1 - Math.pow(1 - sub, 3);
-          mark(ctx, L.x, L.y, L.rw, L.rh);
-          ctx.fillStyle = `rgba(66,110,183,${0.3 * (1 - sub * 0.5)})`;
-          ctx.fill();
-          ctx.lineWidth = 1.4;
-          ctx.strokeStyle = "rgba(6,48,124,.78)";
-          ctx.stroke();
-          mark(ctx, L.x, L.y, L.rw * (1 + e * 0.2), L.rh * (1 + e * 0.2));
-          ctx.lineWidth = 1;
-          ctx.strokeStyle = `rgba(66,110,183,${0.42 * (1 - e)})`;
-          ctx.stroke();
-        }
       }
+
+      if (heat > 0.002 && i !== N - 1) {
+        mark(ctx, x, y, rw, rh);
+        ctx.fillStyle = `rgba(66,110,183,${0.3 * heat})`;
+        ctx.fill();
+        ctx.lineWidth = 1.4;
+        ctx.strokeStyle = `rgba(6,48,124,${0.78 * heat})`;
+        ctx.stroke();
+      }
+      if (heat > 0.002) {
+        const e = 1 - heat;
+        mark(ctx, x, y, rw * (1 + e * 0.22), rh * (1 + e * 0.22));
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = `rgba(66,110,183,${0.42 * heat})`;
+        ctx.stroke();
+      }
+      ctx.restore();
     }
 
-    function frame() {
-      if (dead) return;
-      if (!P.length) {
-        raf = requestAnimationFrame(frame);
-        return;
-      }
-      const el = performance.now() - t0;
-      const cyc = N * STEP + HOLD;
-      const p = el % cyc;
-      let idx = Math.floor(p / STEP);
-      const run = idx < N;
-      if (!run) idx = N - 1;
-      const sub = run ? (p % STEP) / STEP : 1;
-      if (last > idx) last = -1;
-      if (run && idx !== last) {
-        last = idx;
-        if (cap) cap.textContent = String(Math.max(0, Math.min(11, idx))).padStart(2, "0");
-      }
-      if (!run && cap) cap.textContent = "11";
-
-      ctx.clearRect(0, 0, W, H);
+    function drawDust(a: number) {
+      if (a <= 0.002) return;
       ctx.fillStyle = "rgba(35,77,158,.32)";
       for (const q of dust) {
         q.y -= q.v;
@@ -303,27 +331,120 @@ export function Instrument() {
           Object.assign(q, seed(false));
           continue;
         }
-        ctx.globalAlpha = 0.48 * q.a * Math.min(1, (q.y - (b.y - 3)) / 40);
+        ctx.globalAlpha = a * 0.48 * q.a * Math.min(1, (q.y - (b.y - 3)) / 40);
         ctx.beginPath();
         ctx.arc(q.x, q.y, q.r, 0, 6.283);
         ctx.fill();
       }
       ctx.globalAlpha = 1;
-      dimension();
-      for (let i = 0; i < N; i++)
-        plane(i, i < idx ? "done" : run && i === idx ? "on" : "pending", sub);
-      // Label last, so it sits over the planes rather than under them.
-      if (run) callout(idx, sub);
+    }
+
+    function frame() {
+      if (dead) return;
+      if (!P.length) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
+      const t = (performance.now() - t0) % CYCLE;
+      const tRes = t - BUILD - HOLD;
+      const tDis = tRes - RESOLVE;
+
+      // Counter: 00 at the evidence plane, 01–11 as each module lands,
+      // then held at 11 for the rest of the cycle.
+      const spawned = Math.min(N - 1, Math.floor(t / STEP));
+      const capNum = t < BUILD ? Math.max(0, Math.min(11, spawned)) : 11;
+      if (cap && capNum !== lastCap) {
+        lastCap = capNum;
+        cap.textContent = String(capNum).padStart(2, "0");
+      }
+
+      ctx.clearRect(0, 0, W, H);
+      drawDust(tRes > 0 ? clamp01(1 - tRes / (RESOLVE * 0.7)) : 1);
+
+      // Dimension line grows to the highest module plane placed so far.
+      if (t < BUILD + HOLD) {
+        const kf = Math.min(11, t / STEP);
+        const k0 = Math.floor(kf);
+        const k1 = Math.min(11, k0 + 1);
+        const topY = P[k0].y + (P[k1].y - P[k0].y) * (kf - k0);
+        dimension(topY, clamp01((t - 2 * STEP) / 320), clamp01((t - 11 * STEP) / 320));
+      } else if (tRes > 0) {
+        dimension(P[11].y, clamp01(1 - tRes / (RESOLVE * 0.5)), 1);
+      }
+
+      let labelIdx = -1;
+      let labelA = 0;
+      let labelDy = 0;
+
+      // Where the stack resolves to. The assessment plane drifts down to
+      // the middle of the frame as it absorbs the others, so what is left
+      // at the end is centred rather than stranded against the top edge.
+      const anchorDy =
+        tRes > 0 ? (H / 2 - P[N - 1].y) * easeInOut(clamp01(tRes / RESOLVE)) : 0;
+      const anchorY = P[N - 1].y + anchorDy;
+
+      for (let i = 0; i < N; i++) {
+        const u = clamp01((t - i * STEP) / SPAWN);
+        if (u <= 0) continue;
+
+        const e = easeOut(u);
+        let a = e;
+        let dy = (1 - e) * rise;
+        let s = 0.88 + 0.12 * e;
+        let heat = 1 - u;
+
+        if (tRes > 0) {
+          if (i < N - 1) {
+            // Converge upward into the assessment plane and fade.
+            const span = RESOLVE - (N - 2) * CONVERGE_STAGGER;
+            const v = clamp01((tRes - i * CONVERGE_STAGGER) / span);
+            dy += (anchorY - P[i].y) * easeInOut(v);
+            a *= 1 - v * v;
+            heat = 0;
+          } else {
+            // The output acknowledges what it absorbed.
+            dy += anchorDy;
+            heat = Math.max(heat, 0.4 * Math.sin(Math.PI * clamp01(tRes / RESOLVE)));
+          }
+        }
+        if (tDis > 0) {
+          const v = clamp01(tDis / DISSOLVE);
+          a *= 1 - easeIn(v);
+          s *= 1 + 0.14 * v;
+        }
+
+        drawPlane(i, a, dy, s, heat);
+
+        if (i === spawned) {
+          labelIdx = i;
+          labelDy = dy;
+        }
+      }
+
+      // Label rides with its plane, then hands over to the next. The
+      // assessment label is the punchline, so it stays through the hold.
+      if (t < BUILD + HOLD) {
+        const local = t - spawned * STEP;
+        const inFade = clamp01(local / 150);
+        const outFade = spawned === N - 1 ? 1 : clamp01((STEP - local) / 150);
+        labelA = Math.min(inFade, outFade);
+      } else if (tRes > 0) {
+        labelIdx = N - 1;
+        labelDy = anchorDy;
+        labelA = clamp01(1 - tRes / (RESOLVE * 0.55));
+      }
+      callout(labelIdx, labelA, labelDy);
 
       raf = requestAnimationFrame(frame);
     }
 
+    /* Reduced motion: the finished state, drawn once. */
     function still() {
       measure();
       if (!P.length) return;
       ctx.clearRect(0, 0, W, H);
-      dimension();
-      for (let i = 0; i < N; i++) plane(i, "done", 1);
+      dimension(P[11].y, 1, 1);
+      for (let i = 0; i < N; i++) drawPlane(i, 1, 0, 1, 0);
       if (cap) cap.textContent = "11";
     }
 
@@ -339,7 +460,7 @@ export function Instrument() {
         return;
       }
       t0 = performance.now();
-      last = -1;
+      lastCap = -1;
       if (raf) cancelAnimationFrame(raf);
       raf = requestAnimationFrame(frame);
     }
@@ -350,14 +471,16 @@ export function Instrument() {
     };
     addEventListener("resize", onResize);
 
-    // Only paint while the panel is on screen.
+    // Only paint while the panel is on screen, and restart the cycle when
+    // it comes back: whoever scrolls to the hero sees the build from the
+    // beginning rather than joining halfway through.
     let io: IntersectionObserver | null = null;
     if ("IntersectionObserver" in window && !reduce) {
       io = new IntersectionObserver(
         (es) =>
           es.forEach((e) => {
             if (e.isIntersecting) {
-              if (!raf && !dead) raf = requestAnimationFrame(frame);
+              if (!raf && !dead) boot();
             } else if (raf) {
               cancelAnimationFrame(raf);
               raf = null;
@@ -385,7 +508,7 @@ export function Instrument() {
       <div
         className="panel"
         role="img"
-        aria-label="A stack of thirteen layers: an evidence base, eleven analysis modules, and a resolved assessment at the top. A pass rises through them in sequence, naming each layer as it reaches it."
+        aria-label="A stack of thirteen layers building in sequence: an evidence base, eleven analysis modules, and a resolved assessment at the top. Each layer is named as it lands, and the completed stack resolves into the assessment."
       >
         <canvas ref={cvRef} />
       </div>

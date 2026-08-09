@@ -13,9 +13,9 @@ import { ArrowRight } from "./Arrow";
    navigation and lose the smooth in-page scroll. */
 
 const SECTIONS = [
-  { hash: "#security", label: "Security" },
-  { hash: "#coverage", label: "Coverage" },
-  { hash: "#report", label: "The report" },
+  { hash: "#security", label: "Isolation" },
+  { hash: "#coverage", label: "Modules" },
+  { hash: "#report", label: "Report" },
 ];
 
 export function Nav() {
@@ -30,7 +30,7 @@ export function Nav() {
   return (
     <header className="nav">
       <div className="wrap nav-in">
-        <Link href={home ? "#top" : "/"} aria-label="Exira — home">
+        <Link href={home ? "#top" : "/"} aria-label="Exira home">
           <svg className="logo" role="img" aria-label="Exira">
             <use href="#sym-lockup" />
           </svg>

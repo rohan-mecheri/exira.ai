@@ -12,7 +12,7 @@ export function Hero() {
           </h1>
           <p className="hero-sub">
             Eleven modules against the target&apos;s entire repository. Investor-grade findings in
-            hours — without us ever receiving the code.
+            hours, without us ever receiving the code.
           </p>
           <div className="hero-hr" />
           <div className="hero-cta">

@@ -9,19 +9,19 @@ interface Case {
 
 const CASES: readonly Case[] = [
   {
-    amount: "−$350M",
+    amount: "$350M",
     unit: "Off the purchase price",
     text: "Undisclosed data breaches surfaced during late-stage diligence, after the price had been agreed rather than before.",
     source: "Verizon / Yahoo · 2017",
   },
   {
-    amount: "−$30M",
+    amount: "$30M",
     unit: "Unbudgeted, post-close",
     text: "A platform acquisition where the target's ERP could not integrate. Found after signing, so it could not be negotiated into the price.",
     source: "RSM case file",
   },
   {
-    amount: "−5–25%",
+    amount: "5–25%",
     unit: "On 30–40% of deals",
     text: "Software transactions re-traded once the buyer surfaces code, security or licensing exposure during diligence.",
     source: "PitchBook · aggregate",
@@ -30,7 +30,7 @@ const CASES: readonly Case[] = [
 
 export function Gap() {
   return (
-    <section className="sec" style={{ background: "var(--surface)", borderBlock: "1px solid var(--line)" }}>
+    <section className="sec">
       <div className="wrap">
         <p className="eyebrow rv">
           <i>01</i>What goes unpriced
@@ -48,7 +48,7 @@ export function Gap() {
           ))}
         </div>
         <p className="gap-foot rv d3">
-          None of these were hidden. They were simply never looked for — technical diligence costs
+          None of these were hidden. They were simply never looked for. Technical diligence costs
           $40K–$300K and takes weeks, so it runs on the deal you have already decided to do, if it
           runs at all.
         </p>

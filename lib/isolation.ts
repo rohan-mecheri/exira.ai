@@ -1,15 +1,21 @@
-/* Section 02 — the four stages of a pass, and which parts of the
-   schematic each one lights up. */
+/* Section 02: the four stages of a pass, and which parts of the
+   schematic each one lights up.
+
+   These read as claims, not as a runbook. Everything here is something a
+   technical buyer can hold us to; nothing here is a description of how it
+   is built. Where the earlier copy named the mechanism (image formats,
+   registries, broker internals, the specific classes of repository input
+   we neutralise) it has been pulled back to the guarantee, because that
+   detail is the part a competitor could read once and copy. */
 
 /** Node and flow ids in the pipeline schematic. */
 export type SchemaId =
   | "n-target"
-  | "n-broker"
   | "n-enclave"
-  | "n-out"
+  | "n-policy"
   | "n-exira"
+  | "n-boundary"
   | "f-auth"
-  | "f-mint"
   | "f-out"
   | "f-del"
   | "f-clone"
@@ -25,7 +31,7 @@ export interface SpecRow {
 }
 
 export interface Stage {
-  /** 01–04, as printed. */
+  /** 01-04, as printed. */
   n: string;
   /** Label in the left-hand steps rail. */
   step: string;
@@ -41,55 +47,55 @@ export const STAGES: readonly Stage[] = [
     n: "01",
     step: "Workload attestation",
     heading: "What runs is fixed before anything is authorised.",
-    body: "Our CI pipeline builds the analysis engine — orchestration, deterministic scanners, policies, output filters — into a private OCI image. It is vulnerability-scanned, cryptographically signed and assigned an immutable digest. The confidential runner launches that digest and nothing else. Before granting any access, the target validates attestation evidence binding the environment's ephemeral key to the approved workload measurement.",
+    body: "The analysis engine is built, signed, and pinned to an immutable measurement. The environment launches that measurement and nothing else. Before granting any access the target verifies attestation evidence for itself, rather than taking our word for what is running. No interactive path into that environment exists, for us or for anyone.",
     spec: [
-      { key: "image", value: "signed OCI · immutable digest · private registry" },
-      { key: "launch", value: "digest-pinned · no debug build · no build tooling" },
-      { key: "interfaces", value: "no SSH · no console · no inbound admin path", tone: "w" },
-      { key: "proof", value: "remote attestation, verified target-side", tone: "g" },
+      { key: "build", value: "signed, immutable, independently verifiable" },
+      { key: "launch", value: "pinned measurement, nothing else runs" },
+      { key: "access", value: "no interactive path in, ours included", tone: "w" },
+      { key: "proof", value: "attestation verified target-side", tone: "g" },
     ],
-    hot: ["n-enclave"],
+    hot: ["n-enclave", "n-boundary"],
   },
   {
     n: "02",
     step: "Scoped authorisation",
     heading: "The credential is minted where we cannot hold it.",
-    body: "The target selects repositories and issues a one-time, read-only grant. Minting happens inside an attested credential broker, constrained by repository, job and time. The ordinary Exira control plane relays opaque ciphertext and never receives a usable token — a conventional integration whose private key sits on our backend would not satisfy this. The credential is erased immediately after checkout.",
+    body: "The target chooses what is in scope and issues a read-only grant bound to that scope and to a single job. It is minted inside the attested environment rather than on our infrastructure, so the ordinary Exira control plane never handles a usable credential at any point. The grant dies at checkout, and the target can revoke sooner.",
     spec: [
-      { key: "grant", value: "one-time · read-only · repository-scoped" },
-      { key: "minted in", value: "attested broker · job and time bound" },
-      { key: "control plane", value: "opaque ciphertext only · never a usable token", tone: "w" },
-      { key: "lifetime", value: "erased post-checkout" },
+      { key: "grant", value: "read-only, scope-bound, single use" },
+      { key: "minted", value: "inside attestation, never on our infrastructure" },
+      { key: "control plane", value: "never holds a usable credential", tone: "w" },
+      { key: "lifetime", value: "expires at checkout" },
       { key: "revocation", value: "target-side, at any point", tone: "g" },
     ],
-    hot: ["n-target", "n-broker", "n-enclave", "f-auth", "f-mint"],
+    hot: ["n-target", "n-enclave", "f-auth"],
   },
   {
     n: "03",
     step: "Sealed execution",
     heading: "The repository is treated as hostile input.",
-    body: "The checkout lands on encrypted ephemeral storage inside the enclave, cloned directly from the provider over TLS — we are not a proxy and hold no copy. Target code is not executed by default; parsers and static tools operate on files as data. Repository-supplied agent instructions, plugin definitions and MCP configurations are ignored, symlinks are constrained to the worktree, and egress is restricted to an allow-list.",
+    body: "Source arrives directly from the provider onto encrypted storage inside the environment. We are not a proxy and hold no copy. It is read as data rather than executed, and any instruction the repository asserts about how our tooling should behave is disregarded. Network egress is closed by default.",
     spec: [
-      { key: "storage", value: "encrypted ephemeral · one tenant, one assessment" },
-      { key: "execution", value: "none by default · files read as data" },
-      { key: "injection", value: "repo-supplied agent config ignored", tone: "w" },
-      { key: "egress", value: "allow-list only · no general network" },
-      { key: "training", value: "customer code never used to train, ours or a provider's", tone: "g" },
+      { key: "storage", value: "encrypted, ephemeral, one tenant per pass" },
+      { key: "execution", value: "read as data, not run" },
+      { key: "repo instructions", value: "disregarded by default", tone: "w" },
+      { key: "egress", value: "closed unless explicitly opened" },
+      { key: "training", value: "never, ours or a provider's", tone: "g" },
     ],
-    hot: ["n-enclave", "f-clone", "f-block"],
+    hot: ["n-enclave", "f-clone", "f-block", "n-boundary"],
   },
   {
     n: "04",
     step: "Export and destruction",
     heading: "Only a schema-validated register leaves.",
-    body: "Findings pass an output policy engine before release: schema enforced, secrets and source-leakage scanned, raw model sessions and native scanner output withheld. Evidence travels as file paths, line ranges and content hashes rather than unbounded excerpts. At the end of the approved window the runner, credentials and intermediate artifacts are destroyed and the target keeps a signed lifecycle record.",
+    body: "Findings pass an output policy before release. The register is schema-checked and screened for anything resembling source or secrets, and raw tooling output stays inside. Evidence travels as references rather than excerpts. At the end of the approved window the environment is destroyed, and the target keeps a signed record that it was.",
     spec: [
-      { key: "released", value: "findings register · report · evidence references" },
-      { key: "withheld", value: "checkout · credentials · raw sessions · excerpts", tone: "w" },
-      { key: "evidence", value: "path + line range + content hash" },
-      { key: "destruction", value: "runner · credentials · intermediate artifacts" },
+      { key: "released", value: "findings register, report, evidence references" },
+      { key: "withheld", value: "checkout, credentials, raw tooling output", tone: "w" },
+      { key: "evidence", value: "references, never excerpts" },
+      { key: "destruction", value: "environment and every intermediate" },
       { key: "record", value: "signed, tamper-evident, held by the target", tone: "g" },
     ],
-    hot: ["n-enclave", "n-out", "n-exira", "f-out", "f-del"],
+    hot: ["n-enclave", "n-policy", "n-exira", "f-out", "f-del"],
   },
 ];

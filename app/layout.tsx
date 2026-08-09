@@ -30,11 +30,11 @@ const mono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://exira.ai"),
   title: {
-    default: "Exira — Automated technical due diligence",
-    template: "%s — Exira",
+    default: "Exira · Automated technical due diligence",
+    template: "%s · Exira",
   },
   description:
-    "Exira assesses a target's entire codebase across eleven modules and returns an investor-grade assessment in hours — without ever receiving the code.",
+    "Exira assesses a target's entire codebase across eleven modules and returns an investor-grade assessment in hours, without ever receiving the code.",
   icons: { icon: "/favicon.svg" },
 };
 

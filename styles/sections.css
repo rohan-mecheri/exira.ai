@@ -5,7 +5,7 @@
   border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-top:clamp(32px,4vw,48px)}
 .case{background:var(--surface);padding:clamp(22px,2.4vw,30px);display:grid;gap:0;align-content:start;
   position:relative;transition:background .3s var(--e)}
-.case:hover{background:#FAFCFF}
+.case:hover{background:var(--surface-2)}
 .case .mk{position:absolute;top:0;left:0;right:0;height:2px;background:var(--b500);
   transform:scaleX(0);transform-origin:left;transition:transform .5s var(--e)}
 .case:hover .mk{transform:scaleX(1)}
@@ -20,7 +20,7 @@
 .gap-foot{margin-top:26px;font-size:14.5px;line-height:1.65;color:var(--muted);max-width:78ch}
 
 /* ══ 02 ISOLATION — pinned sequence ═══════════════════ */
-.pin{background:var(--surface);border-block:1px solid var(--line)}
+.pin{background:transparent}
 .pin-track{position:relative}
 .pin-stage{position:sticky;top:0;height:100vh;min-height:600px;display:flex;align-items:center;
   padding-block:40px}
@@ -42,7 +42,7 @@
 .pin-bar{margin-top:20px;height:2px;background:var(--line-2);border-radius:2px;overflow:hidden}
 .pin-bar i{display:block;height:100%;width:0;background:var(--b500);transition:width .15s linear}
 
-.schema{border:1px solid var(--line);border-radius:4px;background:#FAFCFF;padding:16px 18px 12px}
+.schema{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:18px 20px 14px}
 .schema svg{width:100%;height:auto}
 .frames{position:relative;margin-top:20px;min-height:322px}
 .frame{position:absolute;inset:0;opacity:0;transform:translateY(12px);pointer-events:none;
@@ -64,9 +64,13 @@
 
 /* schematic states */
 #schema .nd rect,#schema .nd path{transition:opacity .4s var(--e),stroke .4s var(--e)}
-#schema .nd{opacity:.34;transition:opacity .4s var(--e)}
+#schema .nd{opacity:.42;transition:opacity .4s var(--e)}
 #schema .nd.hot{opacity:1}
-#schema .fl{opacity:.2;transition:opacity .4s var(--e)}
+#schema .fl{opacity:.26;transition:opacity .4s var(--e)}
+/* The trust boundary is the frame of the diagram, not one of its steps,
+   so it never drops to step opacity. */
+#schema .bd{opacity:.55;transition:opacity .4s var(--e)}
+#schema .bd.hot{opacity:1}
 #schema .fl.hot{opacity:.95}
 
 /* ══ 03 COVERAGE — module matrix ══════════════════════ */
@@ -74,20 +78,13 @@
   background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
 .md{background:var(--surface);padding:17px 19px 19px;display:grid;gap:8px;align-content:start;
   transition:background .28s var(--e)}
-.md:hover{background:#FAFCFF}
-.md .top{display:flex;align-items:center;gap:9px}
+.md:hover{background:var(--surface-2)}
+.md .top{display:flex;align-items:center;gap:9px;min-height:14px}
 .md .id{font-family:var(--mono);font-size:10.5px;color:var(--muted-2);letter-spacing:.07em}
-.md .dot{width:5px;height:5px;border-radius:50%;background:var(--b400);margin-left:auto}
-.md[data-s="pos"] .dot{background:var(--pos)}
-.md[data-s="watch"] .dot{background:var(--watch)}
 .md h3{font-size:14.5px;letter-spacing:-.014em;line-height:1.25}
 .md p{font-family:var(--mono);font-size:11px;line-height:1.55;color:var(--muted);letter-spacing:-.012em}
-.md.sum{background:var(--paper-2)}
-.md.sum:hover{background:var(--paper-2)}
-.md.sum .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted-2)}
-.md.sum ul{margin:4px 0 0;padding:0;list-style:none;font-family:var(--mono);font-size:11.5px;
-  line-height:1.85;color:var(--ink-2)}
-.md.sum b{color:var(--b900);font-weight:500}
+.md.blank{background:var(--paper-2)}
+.md.blank:hover{background:var(--paper-2)}
 
 /* ══ 04 REPORT ═════════════════════════════════════════ */
 .doc-wrap{margin-top:clamp(30px,3.6vw,44px);position:relative}
@@ -96,11 +93,16 @@
 .doc-h{display:flex;align-items:center;gap:12px;padding:15px 22px;border-bottom:1px solid var(--line-2)}
 .doc-h svg{width:22px;height:22px;flex:0 0 auto}
 .doc-h .t{font-size:14.5px;font-weight:500;letter-spacing:-.012em}
+/* The client, enciphered. Sized so the perpetual scramble never reflows
+   the row: mono, fixed tracking, and its own chip. */
+.doc-client{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;
+  color:var(--b700);background:var(--paper-2);border-radius:2px;padding:4px 8px;
+  white-space:nowrap}
 .doc-h .m{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.11em;
   text-transform:uppercase;color:var(--muted-2)}
 .scope{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-2);
   border-bottom:1px solid var(--line-2)}
-.sc{background:var(--surface);padding:15px 22px}
+.sc{background:var(--surface);padding:13px 22px 14px}
 .sc .v{font-family:var(--mono);font-size:clamp(16px,1.6vw,21px);font-weight:500;
   letter-spacing:-.03em;color:var(--b900);line-height:1}
 .sc .l{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;
@@ -116,7 +118,7 @@
   font-family:var(--mono);font-size:11.5px;line-height:1.95;color:var(--muted-2);letter-spacing:-.01em}
 .refs b{color:var(--ink-2);font-weight:450;display:inline-block;min-width:104px}
 .doc-veil{position:absolute;left:1px;right:1px;bottom:1px;height:150px;border-radius:0 0 4px 4px;
-  background:linear-gradient(to bottom,rgba(255,255,255,0),#fff 62%);
+  background:linear-gradient(to bottom,rgba(252,253,255,0),var(--surface) 62%);
   display:flex;align-items:flex-end;justify-content:center;padding-bottom:24px;pointer-events:none}
 .doc-veil span{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted-2)}
 
@@ -125,7 +127,7 @@
   background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
 .tl-i{background:var(--surface);padding:clamp(20px,2.2vw,28px);display:grid;gap:10px;
   align-content:start;position:relative;transition:background .3s var(--e)}
-.tl-i:hover{background:#FAFCFF}
+.tl-i:hover{background:var(--surface-2)}
 .tl-i .ph{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--b500)}
 .tl-i h3{min-height:2.4em}
 .tl-i p{font-size:13.5px;line-height:1.58;color:var(--muted)}
@@ -135,7 +137,7 @@
 .contrast{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:22px;
   background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
 .ct{background:var(--surface);padding:18px 22px;position:relative;transition:background .3s var(--e)}
-.ct:hover{background:#FAFCFF}
+.ct:hover{background:var(--surface-2)}
 .ct .mk{position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--b400);
   transform:scaleY(0);transform-origin:bottom;transition:transform .45s var(--e)}
 .ct:hover .mk{transform:scaleY(1)}
@@ -149,7 +151,7 @@
 .ct .c{font-size:12.5px;color:var(--muted);margin-top:8px}
 
 /* ══ CTA / FOOT ════════════════════════════════════════ */
-.cta{background:var(--paper-2);border-top:1px solid var(--line)}
+.cta{background:transparent;border-top:1px solid var(--line)}
 .cta-in{padding-block:clamp(70px,8vw,110px);display:grid;gap:20px;max-width:740px}
 .cta h2{max-width:17ch}
 .cta .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
