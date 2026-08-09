@@ -21,7 +21,7 @@ const N = STAGES.length;
 
 export function Pinned() {
   const trackRef = useRef<HTMLDivElement>(null);
-  const barRef = useRef<HTMLElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -36,17 +36,28 @@ export function Pinned() {
       track.style.height = isPinned() ? `${N * 78 + 100}vh` : "auto";
     };
 
-    const onScroll = () => {
+    // The bar is four segments rather than one sweep. A single bar creeping
+    // across 400vh gives no sense of which stage you are in or how close
+    // the next one is; four filling in turn makes the handover visible.
+    const paintBar = (p: number) => {
       const bar = barRef.current;
+      if (!bar) return;
+      for (let j = 0; j < N; j++) {
+        const seg = bar.children[j] as HTMLElement | undefined;
+        if (seg) seg.style.setProperty("--f", String(Math.min(1, Math.max(0, p * N - j))));
+      }
+    };
+
+    const onScroll = () => {
       if (!isPinned()) {
-        if (bar) bar.style.width = "100%";
+        paintBar(1);
         return;
       }
       const r = track.getBoundingClientRect();
       const span = track.offsetHeight - innerHeight;
       const p = Math.min(1, Math.max(0, -r.top / span));
       setActive(Math.min(N - 1, Math.floor(p * N * 0.999)));
-      if (bar) bar.style.width = `${(p * 100).toFixed(1)}%`;
+      paintBar(p);
     };
 
     const onResize = () => {
@@ -93,9 +104,9 @@ export function Pinned() {
                 </p>
                 <h2>Architecturally unable to see your code.</h2>
                 <p className="lede">
-                  The assessment is initiated and controlled by the target. It executes inside a
-                  confidential enclave that Exira cannot enter, view or manipulate. Not by policy;
-                  by construction.
+                  The target starts the pass, issues the only credential, and keeps a signed record
+                  when it ends. We are not trusted to stay out of the sealed environment. There is
+                  no way in.
                 </p>
               </div>
               <div className="steps">
@@ -118,8 +129,10 @@ export function Pinned() {
                   </div>
                 ))}
               </div>
-              <div className="pin-bar">
-                <i ref={barRef} />
+              <div className="pin-bar" ref={barRef}>
+                {STAGES.map((s) => (
+                  <i key={s.n} />
+                ))}
               </div>
             </div>
 
@@ -150,13 +163,6 @@ export function Pinned() {
             </div>
           </div>
         </div>
-      </div>
-      <div className="wrap">
-        <p className="pin-note">
-          Where that level of isolation is not required, the same eleven modules run under an
-          engagement NDA with time-limited read-only access:{" "}
-          <b>faster to stand up, lower cost, identical output.</b>
-        </p>
       </div>
     </section>
   );

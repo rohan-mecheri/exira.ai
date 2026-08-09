@@ -8,8 +8,14 @@
   gap:clamp(32px,5vw,72px);align-items:center}
 .hero h1{margin:18px 0 0}
 .hero h1 .b{color:var(--b500);display:block}
-.hero-sub{margin-top:20px;max-width:40ch;text-wrap:balance;font-size:clamp(16px,1.2vw,18.5px);color:var(--ink-2);
-  line-height:1.5;text-wrap:pretty}
+/* The tagline is the standfirst: large enough to be read as a claim about
+   the company, small enough that it never competes with the h1. */
+/* Wide enough to break after "intelligence," rather than mid-phrase.
+   balance would even the two lines out and split it in the wrong place. */
+.hero-stand{margin-top:20px;max-width:44ch;font-size:clamp(17px,1.35vw,21px);
+  font-weight:500;letter-spacing:-.018em;line-height:1.35;color:var(--ink);text-wrap:pretty}
+.hero-sub{margin-top:14px;max-width:44ch;font-size:clamp(14.5px,1.05vw,16px);color:var(--muted);
+  line-height:1.55;text-wrap:pretty}
 .hero-hr{height:1px;background:var(--line);margin:30px 0 22px;max-width:520px}
 .hero-cta{display:flex;gap:24px;flex-wrap:wrap;align-items:center}
 .hero-meta{margin-top:26px;display:flex;flex-wrap:wrap;gap:6px 20px;

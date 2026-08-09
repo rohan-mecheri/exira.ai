@@ -17,11 +17,26 @@ import { Scramble } from "./Scramble";
    .doc here is the report card and only the report card; the thesis body
    grid is .essay. */
 
-const SCOPE: readonly { value: string; label: string }[] = [
-  { value: "1.23M", label: "Lines read" },
-  { value: "46", label: "Findings" },
-  { value: "3", label: "Cross-module" },
-  { value: "0", label: "Deal-blocking" },
+interface Figure {
+  value: string;
+  label: string;
+}
+
+/* Two banded rows rather than a wall of tiles: what went in, then what
+   came out. Eight big tiles took more height than the finding they were
+   framing; four told you nothing about the scale of the read. */
+const SCOPE: readonly Figure[] = [
+  { value: "44,499", label: "commits" },
+  { value: "17,942", label: "files" },
+  { value: "552", label: "contributors" },
+  { value: "1.23M", label: "lines" },
+];
+
+const OUTPUT: readonly Figure[] = [
+  { value: "46", label: "findings" },
+  { value: "3", label: "cross-module" },
+  { value: "2", label: "to verify" },
+  { value: "0", label: "deal-blocking" },
 ];
 
 type Severity = "material" | "attention" | "noted";
@@ -71,10 +86,18 @@ export function Report() {
             </div>
 
             <div className="doc-strip rv d2">
-              {SCOPE.map((s) => (
-                <div key={s.label} className="dst">
-                  <span className="v">{s.value}</span>
-                  <span className="l">{s.label}</span>
+              <span className="dsl">Read</span>
+              {SCOPE.map((f) => (
+                <div key={f.label} className="dst">
+                  <span className="v">{f.value}</span>
+                  <span className="l">{f.label}</span>
+                </div>
+              ))}
+              <span className="dsl">Raised</span>
+              {OUTPUT.map((f) => (
+                <div key={f.label} className="dst">
+                  <span className="v">{f.value}</span>
+                  <span className="l">{f.label}</span>
                 </div>
               ))}
             </div>

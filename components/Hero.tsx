@@ -6,13 +6,16 @@ export function Hero() {
     <section className="hero">
       <div className="wrap hero-grid">
         <div className="rv">
-          <p className="eyebrow">Automated technical due diligence</p>
+          <p className="eyebrow">Buy-side · Sell-side · Private credit</p>
           <h1>
-            The codebase is the asset.<span className="b">Read it like one.</span>
+            Technical diligence<span className="b">in hours, not weeks.</span>
           </h1>
+          <p className="hero-stand">
+            Institutional-grade software intelligence, from acquisition to exit.
+          </p>
           <p className="hero-sub">
-            Eleven modules against the target&apos;s entire repository. Investor-grade findings in
-            hours, without us ever receiving the code.
+            Eleven modules read the target&apos;s entire repository. The target runs the pass and
+            keeps the source; we receive the findings.
           </p>
           <div className="hero-hr" />
           <div className="hero-cta">

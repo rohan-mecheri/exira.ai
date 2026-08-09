@@ -95,10 +95,10 @@ export interface LifecycleEvent {
     spine of the /assessment page. */
 export const LIFECYCLE_RECORD: readonly LifecycleEvent[] = [
   { at: "09:14:02", event: "authorisation issued", detail: "4 repositories, read-only" },
-  { at: "09:14:03", event: "enclave provisioned", detail: "digest a91f…3c07, attested" },
+  { at: "09:14:03", event: "environment provisioned", detail: "digest a91f…3c07, attested" },
   { at: "09:14:07", event: "repository cloned", detail: "direct from provider over TLS" },
   { at: "09:14:09", event: "credentials erased", detail: "post-checkout" },
   { at: "09:41:55", event: "analysis complete", detail: "11 modules, 46 findings" },
   { at: "09:41:57", event: "report sealed", detail: "sha256 7e2b…9d14" },
-  { at: "09:42:01", event: "enclave destroyed", detail: "storage keys discarded" },
+  { at: "09:42:01", event: "environment destroyed", detail: "storage keys discarded" },
 ];

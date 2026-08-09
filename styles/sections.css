@@ -33,14 +33,20 @@
   cursor:pointer;transition:padding-left .35s var(--e)}
 .step::before{content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:2px;background:var(--b500);
   transform:scaleY(0);transform-origin:top;transition:transform .45s var(--e)}
-.step[data-on="1"]{padding-left:18px}
+.step[data-on="1"]{padding-left:18px;
+  background:linear-gradient(90deg,rgba(35,77,158,.07),rgba(35,77,158,0) 62%)}
 .step[data-on="1"]::before{transform:scaleY(1)}
 .step .k{font-family:var(--mono);font-size:10.5px;color:var(--muted-2);letter-spacing:.08em;transition:color .3s}
 .step .t{font-size:14.5px;color:var(--muted);letter-spacing:-.012em;transition:color .3s}
 .step[data-on="1"] .k{color:var(--b500)}
 .step[data-on="1"] .t{color:var(--b900);font-weight:500}
-.pin-bar{margin-top:20px;height:2px;background:var(--line-2);border-radius:2px;overflow:hidden}
-.pin-bar i{display:block;height:100%;width:0;background:var(--b500);transition:width .15s linear}
+/* Four segments, one per stage. Pinned.tsx writes each segment's fill
+   fraction to --f and the fill itself is a pseudo-element, so scaling it
+   never distorts the track it sits in. */
+.pin-bar{margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.pin-bar i{display:block;height:2px;border-radius:2px;background:var(--line-2);position:relative}
+.pin-bar i::after{content:"";position:absolute;inset:0;border-radius:2px;background:var(--b500);
+  transform:scaleX(var(--f,0));transform-origin:left;transition:transform .12s linear}
 
 .schema{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:18px 20px 14px}
 .schema svg{width:100%;height:auto}
@@ -48,6 +54,15 @@
 .frame{position:absolute;inset:0;opacity:0;transform:translateY(12px);pointer-events:none;
   transition:opacity .45s var(--e),transform .45s var(--e)}
 .frame[data-on="1"]{opacity:1;transform:none;pointer-events:auto;position:relative}
+/* Contents arrive in sequence behind the frame. A crossfade alone was easy
+   to scroll straight past; a staggered entrance makes the handover an
+   event you notice without stopping to look for it. */
+.frame .fk,.frame h3,.frame p,.frame .spec{opacity:0;transform:translateY(10px);
+  transition:opacity .5s var(--e),transform .5s var(--e)}
+.frame[data-on="1"] .fk{opacity:1;transform:none;transition-delay:.04s}
+.frame[data-on="1"] h3{opacity:1;transform:none;transition-delay:.10s}
+.frame[data-on="1"] p{opacity:1;transform:none;transition-delay:.16s}
+.frame[data-on="1"] .spec{opacity:1;transform:none;transition-delay:.22s}
 .frame .fk{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--b500)}
 .frame h3{margin:10px 0 12px;font-size:clamp(18px,1.7vw,23px)}
 .frame p{font-size:14.5px;line-height:1.66;color:var(--muted);max-width:62ch}
@@ -64,12 +79,12 @@
 
 /* schematic states */
 #schema .nd rect,#schema .nd path{transition:opacity .4s var(--e),stroke .4s var(--e)}
-#schema .nd{opacity:.42;transition:opacity .4s var(--e)}
+#schema .nd{opacity:.6;transition:opacity .4s var(--e)}
 #schema .nd.hot{opacity:1}
-#schema .fl{opacity:.26;transition:opacity .4s var(--e)}
+#schema .fl{opacity:.3;transition:opacity .4s var(--e)}
 /* The trust boundary is the frame of the diagram, not one of its steps,
    so it never drops to step opacity. */
-#schema .bd{opacity:.55;transition:opacity .4s var(--e)}
+#schema .bd{opacity:.6;transition:opacity .4s var(--e)}
 #schema .bd.hot{opacity:1}
 #schema .fl.hot{opacity:.95}
 
@@ -102,9 +117,12 @@
   text-transform:uppercase;color:var(--muted-2)}
 /* Masthead strip: value and label on one line, so the numbers frame the
    document instead of filling it. */
-.doc-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-2);
+.doc-strip{display:grid;grid-template-columns:84px repeat(4,1fr);gap:1px;background:var(--line-2);
   border-bottom:1px solid var(--line-2)}
-.dst{background:var(--surface);padding:11px 22px;display:flex;align-items:baseline;gap:9px}
+.dsl{background:var(--surface);padding:10px 0 10px 22px;display:flex;align-items:center;
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted-2)}
+.dst{background:var(--surface);padding:10px 16px;display:flex;align-items:baseline;gap:8px}
 .dst .v{font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:-.03em;
   color:var(--b900);line-height:1}
 .dst .l{font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;

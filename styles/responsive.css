@@ -6,6 +6,9 @@
   .frames{min-height:0;margin-top:26px;display:grid;gap:30px}
   .frame{position:relative!important;opacity:1!important;transform:none!important;
     pointer-events:auto!important;padding-top:26px;border-top:1px solid var(--line)}
+  /* Unpinned, every frame is shown at once, so the staged entrance that
+     runs on the active frame must not leave the rest invisible. */
+  .frame .fk,.frame h3,.frame p,.frame .spec{opacity:1;transform:none}
   .frame:first-child{border-top:0;padding-top:0}
   .schema{margin-top:26px}
   .mods{grid-template-columns:repeat(2,1fr)}
@@ -52,7 +55,9 @@
   .doc-b{grid-template-columns:1fr}
   .doc-lead{order:1}
   .doc-reg{order:2;border-right:0;border-top:1px solid var(--line-2)}
+  /* Labels become row headings once the four columns collapse. */
   .doc-strip{grid-template-columns:1fr 1fr}
+  .dsl{grid-column:1/-1;padding:9px 22px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
