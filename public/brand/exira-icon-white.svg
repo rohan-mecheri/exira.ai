@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-15 -15 493 464">
+  <title>exira</title>
+  <defs>
+    <linearGradient id="topLayerGradient" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%"   stop-color="#06307C"/>
+      <stop offset="30%"  stop-color="#0B3785"/>
+      <stop offset="55%"  stop-color="#234D9E"/>
+      <stop offset="78%"  stop-color="#426EB7"/>
+      <stop offset="100%" stop-color="#6F92D7"/>
+    </linearGradient>
+
+    <linearGradient id="upperGreyGradient" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%"   stop-color="#D6DCE9"/>
+      <stop offset="55%"  stop-color="#DCE2ED"/>
+      <stop offset="100%" stop-color="#E3E8F2"/>
+    </linearGradient>
+
+    <linearGradient id="lowerGreyGradient" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%"   stop-color="#E4E9F3"/>
+      <stop offset="55%"  stop-color="#E9EDF6"/>
+      <stop offset="100%" stop-color="#F0F3F9"/>
+    </linearGradient>
+
+    <pattern id="dotPattern" patternUnits="userSpaceOnUse" width="17" height="15">
+      <circle cx="8.5" cy="7.5" r="1.2" fill="#4E8EFF" fill-opacity="0.50"/>
+    </pattern>
+
+    <path id="bottomLayerShape" d="M 233.75 223.19 L 459.25 320.81 Q 462.00 322.00 459.25 323.19 L 233.75 420.81 Q 231.00 422.00 228.25 420.81 L 2.75 323.19 Q 0.00 322.00 2.75 320.81 L 228.25 223.19 Q 231.00 222.00 233.75 223.19 Z"/>
+
+    <clipPath id="bottomLayerClip">
+      <use href="#bottomLayerShape"/>
+    </clipPath>
+  </defs>
+  <rect x="-15" y="-15" width="493" height="464" fill="#FFFFFF"/>
+  <g id="exira-icon">
+    <!-- 1. Bottom dotted evidence layer -->
+    <g id="layer-bottom">
+      <use href="#bottomLayerShape" fill="#F9FBFF" stroke="#CADBFF" stroke-width="1" stroke-opacity="0.8"/>
+      <use href="#bottomLayerShape" fill="url(#dotPattern)" clip-path="url(#bottomLayerClip)"/>
+    </g>
+
+    <!-- 2. Lower grey analytical layer -->
+    <path id="layer-lower-grey"
+          d="M 235.59 149.99 L 457.41 246.01 Q 462.00 248.00 457.41 249.99 L 235.59 346.01 Q 231.00 348.00 226.41 346.01 L 4.59 249.99 Q 0.00 248.00 4.59 246.01 L 226.41 149.99 Q 231.00 148.00 235.59 149.99 Z"
+          fill="url(#lowerGreyGradient)" stroke="#FFFFFF" stroke-width="1.4"/>
+
+    <!-- 3. Upper grey analytical layer -->
+    <path id="layer-upper-grey"
+          d="M 236.51 76.38 L 456.49 171.62 Q 462.00 174.00 456.49 176.38 L 236.51 271.62 Q 231.00 274.00 225.49 271.62 L 5.51 176.38 Q 0.00 174.00 5.51 171.62 L 225.49 76.38 Q 231.00 74.00 236.51 76.38 Z"
+          fill="url(#upperGreyGradient)" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.95"/>
+
+    <!-- 4. Top blue gradient layer -->
+    <path id="layer-top-blue"
+          d="M 237.42 2.78 L 455.58 97.22 Q 462.00 100.00 455.58 102.78 L 237.42 197.22 Q 231.00 200.00 224.58 197.22 L 6.42 102.78 Q 0.00 100.00 6.42 97.22 L 224.58 2.78 Q 231.00 0.00 237.42 2.78 Z"
+          fill="url(#topLayerGradient)" stroke="#174E9E" stroke-width="1.25" stroke-opacity="0.8" stroke-linejoin="round"/>
+  </g>
+</svg>

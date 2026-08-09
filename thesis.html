@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thesis — Exira</title>
+<meta name="description" content="Why technical due diligence gets automated, and why now. Exira's thesis on the software transaction market.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;450;500&display=swap" rel="stylesheet">
+<script type="module" src="/src/js/thesis.js"></script>
+</head>
+<body>
+<!--#include sprite-->
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="/index.html" aria-label="Exira — home"><svg class="logo" role="img" aria-label="Exira"><use href="#sym-lockup"/></svg></a>
+    <nav class="nav-links">
+      <a href="/index.html#security">Security</a>
+      <a href="/index.html#coverage">Coverage</a>
+      <a href="/index.html#report">The report</a>
+      <a href="thesis.html" aria-current="page">Thesis</a>
+      <a class="btn" href="/index.html#demo">Book demo<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="mast">
+  <div class="wrap">
+    <p class="eyebrow">Thesis</p>
+    <h1>Technical diligence is a consulting practice. It should be a product.</h1>
+    <p class="stand">Software is the most transacted asset class in private markets and the least systematically evaluated one. The constraint has never been demand — it has been that assessment required a scarce human, billed by the hour, on a timeline no deal can accommodate. That constraint is gone.</p>
+    <div class="meta"><span>Exira</span><span>August 2026</span><span>~8 minute read</span></div>
+  </div>
+</div>
+
+<div class="wrap doc">
+  <nav class="toc" aria-label="Contents">
+    <span class="lbl">Contents</span>
+    <a href="#s1"><i>01</i>The unevaluated asset</a>
+    <a href="#s2"><i>02</i>Why the current model can't close it</a>
+    <a href="#s3"><i>03</i>What breaks when cost collapses</a>
+    <a href="#s4"><i>04</i>Where it applies</a>
+    <a href="#s5"><i>05</i>Why a product wins</a>
+    <a href="#s6"><i>06</i>What we are building</a>
+  </nav>
+
+  <div class="body">
+
+    <section id="s1">
+      <h2><span class="n">01</span>The unevaluated asset</h2>
+      <p>When capital changes hands in a software deal, the thing actually being bought is a codebase. Not the ARR schedule, not the customer list — those are consequences. The code is what produces them, and it is the one asset in the transaction that nobody in the room can read.</p>
+      <p>Financial diligence has a playbook. Legal has one. Commercial has one. Technical diligence has a phone number for a consultant, a three-week window, and a sampling strategy. The result is that the risk categories which recur most reliably across software transactions are also the ones most reliably left unpriced.</p>
+      <div class="stats">
+        <div class="stat"><div class="v">96%</div><div class="l">of CIOs have seen technical diligence uncover material issues in M&amp;A</div><span class="s">Accenture</span></div>
+        <div class="stat"><div class="v">1 in 4</div><div class="l">of CEOs actually run it on most transactions</div><span class="s">Accenture</span></div>
+        <div class="stat"><div class="v">30–40%</div><div class="l">of unrealised value in acquisition targets sits in technology capability</div><span class="s">Bain &amp; Company</span></div>
+      </div>
+      <p>Read those together and the shape of the problem is clear. This is not a market that doubts the value of technical diligence. It is a market that cannot afford to run it.</p>
+    </section>
+
+    <section id="s2">
+      <h2><span class="n">02</span>Why the current model can't close the gap</h2>
+      <p>The gap persists because of arithmetic, not ignorance. An enterprise consultancy bills $200–$800 an hour and delivers over months. A mid-market boutique charges $40K–$100K over three to four weeks. Both are priced per engagement and gated by the availability of a specific senior practitioner.</p>
+      <p>That produces three structural failures, none of which more spending fixes:</p>
+      <p class="small"><strong>It cannot run early.</strong> At $40K a look, diligence runs on the deal you have already decided to do. The screening decision — the one that determines which deals you pursue at all — is made without it.</p>
+      <p class="small"><strong>It cannot run repeatedly.</strong> A snapshot ages. By the time a continuation vehicle or a secondary transaction prices an asset, the original assessment is three to five years stale, the codebase has turned over, and the engineering team may have too.</p>
+      <p class="small"><strong>It cannot run consistently.</strong> Output quality tracks the individual assigned. Two engagements at the same firm produce materially different reports, which is why coverage is rarely end-to-end and why findings are hard to compare across a portfolio.</p>
+      <div class="pull"><p>Every one of these is a consequence of a human bottleneck. None of them are consequences of the work being hard to specify.</p></div>
+    </section>
+
+    <section id="s3">
+      <h2><span class="n">03</span>What breaks when the cost curve collapses</h2>
+      <p>Take the same eleven-module assessment and move it from three weeks and $60K to a few hours at a fraction of the cost, and the change is not that firms get the same report faster. The change is that the report becomes a different instrument.</p>
+      <p><em>Diligence becomes screening.</em> If assessment is cheap enough to run pre-LOI, it runs on targets you would never have resourced. A firm looking at forty deals a year is suddenly making technical judgements on all forty rather than the eight that reached exclusivity. That is not a speed improvement — it is a wider field of view.</p>
+      <p><em>Diligence becomes monitoring.</em> The same engine re-run on a schedule through the hold period tracks debt accumulation, security drift and technical covenant signals. In credit, that is an early-warning system that does not currently exist in any form.</p>
+      <p><em>Diligence becomes preparation.</em> Run from the sell side twelve months out, the identical pass surfaces what a buyer's diligence would surface, while remediation is still a sprint rather than a re-trade. Repeated quarterly, it produces a documented history of technical governance — which is an asset in a negotiation, not just a file.</p>
+      <p>One engine, four moments in the life of an asset. The unit of value shifts from a report commissioned on one deal to an intelligence layer running across a pipeline and a portfolio.</p>
+    </section>
+
+    <section id="s4">
+      <h2><span class="n">04</span>Where it applies</h2>
+      <p>The same assessment addresses seven distinct buyers. They differ in what they are underwriting, not in what needs to be examined.</p>
+      <div class="seg">
+        <div class="sg"><span class="k">01</span><div>
+          <h3>Private equity and M&amp;A</h3>
+          <p>Technology accounted for roughly a quarter of US PE deployment by value in 2024, across more than 1,200 software transactions. Lower mid-market firms running 5–15 software deals a year are the most underserved: highest deal volume, least internal technical capability, worst fit with consulting economics.</p>
+          <span class="tag">Core market</span>
+        </div></div>
+        <div class="sg"><span class="k">02</span><div>
+          <h3>Private credit and debt financing</h3>
+          <p>Lending against SaaS businesses has grown from roughly $8B in 2015 to over $500B — about a fifth of direct lending. Lenders underwriting a term loan against a software company have no instrument for assessing whether the technical asset backing the collateral is sound. Technical covenants are increasingly written into these agreements, and nobody is monitoring them.</p>
+          <span class="tag">Structurally underserved</span>
+        </div></div>
+        <div class="sg"><span class="k">03</span><div>
+          <h3>Cyber insurance underwriting</h3>
+          <p>Around three in four carriers now run external attack-surface scans during underwriting. Those tools assess the perimeter. Roughly a fifth of cyber claims were denied or partly denied in 2025, and about a third of those denials traced to failure to maintain attested controls — carriers are litigating against risks their underwriting never reached.</p>
+          <span class="tag">Adjacent</span>
+        </div></div>
+        <div class="sg"><span class="k">04</span><div>
+          <h3>Venture diligence</h3>
+          <p>Diligence periods have lengthened materially since 2022 while most firms still have no in-house engineering capability. The problem is acute for AI-native investments, where architectural claims about model capability and data infrastructure are the investment thesis and no partner can independently verify them.</p>
+          <span class="tag">Emergent</span>
+        </div></div>
+        <div class="sg"><span class="k">05</span><div>
+          <h3>Sell-side readiness</h3>
+          <p>Most companies entering a sale process carry material technical problems a buyer will find. Sell-side technical diligence exists as a consulting practice but costs tens of thousands and is inaccessible to the typical founder. Quarterly assessment through the pre-sale window is only possible at product economics.</p>
+          <span class="tag">Same engine, other side</span>
+        </div></div>
+        <div class="sg"><span class="k">06</span><div>
+          <h3>Secondaries and continuation vehicles</h3>
+          <p>Secondary volume rose sharply in 2024, with continuation vehicles taking a growing share of all PE exit activity. Buyers price these stakes on financial performance alone, against a technical assessment that is years stale, inside evaluation windows a consulting engagement cannot fit.</p>
+          <span class="tag">No incumbent</span>
+        </div></div>
+        <div class="sg"><span class="k">07</span><div>
+          <h3>Corporate strategic M&amp;A</h3>
+          <p>Integration failure accounts for a large share of failed mergers, and preventing it requires understanding both codebases before signing. Assessing API architecture, data model and identity-layer compatibility between acquirer and target is not offered as a standalone deliverable by anyone.</p>
+          <span class="tag">Unserved capability</span>
+        </div></div>
+      </div>
+    </section>
+
+    <section id="s5">
+      <h2><span class="n">05</span>Why a product wins, and what it has to get right</h2>
+      <p>Automation alone is not the thesis. Code scanners have existed for twenty years; they lose because they are sold to engineering teams to fix code, not to investors to price it. Their output is a backlog. An investment committee cannot read a backlog.</p>
+      <p>Three things have to be true for a product to displace the practice:</p>
+      <p class="small"><strong>The output has to be investor-grade.</strong> Technical condition translated into business consequence, remediation cost in engineering months, and transaction relevance. A finding that a deal team cannot act on is not a finding.</p>
+      <p class="small"><strong>The analysis has to be reconciled, not parallel.</strong> Eleven modules producing eleven reports is eleven times the noise. Key-person concentration reads differently alongside three in-flight migrations; licensing exposure changes meaning next to an AI roadmap. The findings that move deals are cross-module, and they only appear if the modules are read against each other.</p>
+      <p class="small"><strong>The target has to be able to say yes.</strong> This is the real gate. No portfolio company hands its source code to a third-party vendor because a prospective buyer asked. Any product that requires it is capped at the deals where the target has no leverage — which is not the deals worth doing.</p>
+      <div class="pull"><p>The company that solves the trust problem gets to run on every deal. The company that does not is limited to the ones where nobody objects.</p></div>
+      <p>That is why the architecture is the go-to-market. An attested, ephemeral, single-tenant environment the target authorises and can revoke — where we receive the findings and never the repository — is not a security feature bolted onto a product. It is the thing that makes the product deployable across a portfolio at all.</p>
+    </section>
+
+    <section id="s6">
+      <h2><span class="n">06</span>What we are building</h2>
+      <p>An assessment engine that reads a target's entire codebase across eleven modules, reconciles the findings against each other, subjects every conclusion to an independent critic pass, and returns an investor-grade report in hours — inside an environment the target controls and we cannot enter.</p>
+      <p>The first proof is a complete assessment of a large, public production codebase — 44,499 commits, 552 contributors, 1.23M lines — run across all eleven modules, with every finding carrying evidence references and a remediation estimate. It is the same output a deal team would receive inside an exclusivity window.</p>
+      <div class="end">
+        <p>This thesis will be wrong in places, and we would rather find out from someone doing these deals than from a spreadsheet. If you run software transactions — buy-side, sell-side, or credit — we would like to hear where it breaks.</p>
+        <div class="cta-row">
+          <a class="btn" href="/index.html#demo">Book demo<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg></a>
+          <a class="quiet" href="/index.html#report">See a real assessment</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <a href="/index.html" aria-label="Exira — home"><svg class="logo" role="img" aria-label="Exira"><use href="#sym-lockup"/></svg></a>
+      <p class="foot-c">Institutional-grade software intelligence,<br>from acquisition to exit.<br>© 2026 Exira</p>
+    </div>
+    <nav class="foot-l">
+      <a href="/index.html#security">Security</a><a href="/index.html#coverage">Coverage</a><a href="/index.html#report">The report</a><a href="/index.html#demo">Book demo</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+const ls=[...document.querySelectorAll(".toc a")];
+const secs=ls.map(a=>document.querySelector(a.getAttribute("href")));
+if("IntersectionObserver"in window){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        const i=secs.indexOf(e.target);
+        ls.forEach((a,j)=>a.classList.toggle("here",j===i));
+      }
+    });
+  },{rootMargin:"-15% 0px -70% 0px"});
+  secs.forEach(s=>s&&io.observe(s));
+}
+})();
+</script>
+</body>
+</html>

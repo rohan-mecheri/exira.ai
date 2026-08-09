@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exira — Automated technical due diligence</title>
+<meta name="description" content="Exira assesses a target's entire codebase across eleven modules and returns an investor-grade assessment in hours — without ever receiving the code.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;450;500&display=swap" rel="stylesheet">
+<script type="module" src="/src/js/main.js"></script>
+</head>
+<body>
+<!--#include sprite-->
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="#top" aria-label="Exira — home"><svg class="logo" role="img" aria-label="Exira"><use href="#sym-lockup"/></svg></a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+      <svg width="21" height="13" viewBox="0 0 21 13" fill="currentColor"><rect width="21" height="1.5"/><rect y="5.7" width="21" height="1.5"/><rect y="11.4" width="21" height="1.5"/></svg>
+    </button>
+    <nav class="nav-links" id="links">
+      <a href="#security">Security</a>
+      <a href="#coverage">Coverage</a>
+      <a href="#report">The report</a>
+      <a href="/thesis.html">Thesis</a>
+      <a class="btn" href="#demo">Book demo<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg></a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="rv">
+      <p class="eyebrow">Automated technical due diligence</p>
+      <h1>The codebase is the asset.<span class="b">Read it like one.</span></h1>
+      <p class="hero-sub">Eleven modules against the target's entire repository. Investor-grade findings in hours — without us ever receiving the code.</p>
+      <div class="hero-hr"></div>
+      <div class="hero-cta">
+        <a class="btn btn-lg" href="#demo">Book demo<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg></a>
+        <a class="quiet" href="#report">See a real assessment<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 1v9M2.5 6.5 6 10l3.5-3.5"/></svg></a>
+      </div>
+    </div>
+    <div class="rv d2">
+      <div class="panel" role="img" aria-label="A stack of thirteen layers: an evidence base, eleven analysis modules, and a resolved assessment at the top. A pass rises through them in sequence.">
+        <canvas id="cv"></canvas>
+      </div>
+      <div class="panel-cap"><span>Evidence → assessment</span><span><b id="capMod">00</b> / 11</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 01 THE GAP ══ -->
+<section class="sec" style="background:var(--surface);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <p class="eyebrow rv"><i>01</i>What goes unpriced</p>
+    <p class="gap-lede rv d1">Every software deal is priced on a codebase nobody read.</p>
+    <div class="cases">
+      <article class="case rv"><span class="mk"></span>
+        <div class="amt">−$350M</div><div class="unit">Off the purchase price</div>
+        <p class="txt">Undisclosed data breaches surfaced during late-stage diligence, after the price had been agreed rather than before.</p>
+        <p class="src">Verizon / Yahoo · 2017</p>
+      </article>
+      <article class="case rv d1"><span class="mk"></span>
+        <div class="amt">−$30M</div><div class="unit">Unbudgeted, post-close</div>
+        <p class="txt">A platform acquisition where the target's ERP could not integrate. Found after signing, so it could not be negotiated into the price.</p>
+        <p class="src">RSM case file</p>
+      </article>
+      <article class="case rv d2"><span class="mk"></span>
+        <div class="amt">−5–25%</div><div class="unit">On 30–40% of deals</div>
+        <p class="txt">Software transactions re-traded once the buyer surfaces code, security or licensing exposure during diligence.</p>
+        <p class="src">PitchBook · aggregate</p>
+      </article>
+    </div>
+    <p class="gap-foot rv d3">None of these were hidden. They were simply never looked for — technical diligence costs $40K–$300K and takes weeks, so it runs on the deal you have already decided to do, if it runs at all.</p>
+  </div>
+</section>
+
+<!-- ══ 02 ISOLATION (pinned) ══ -->
+<section class="pin" id="security">
+  <div class="pin-track" id="track">
+    <div class="pin-stage">
+      <div class="wrap pin-grid">
+        <div class="pin-left">
+          <div class="head">
+            <p class="eyebrow"><i>02</i>Isolation architecture</p>
+            <h2>Architecturally unable to see your code.</h2>
+            <p class="lede">The assessment is initiated and controlled by the target. It executes inside a confidential enclave that Exira cannot enter, view or manipulate — not by policy, by construction.</p>
+          </div>
+          <div class="steps" id="steps">
+            <div class="step" data-i="0" data-on="1"><span class="k">01</span><span class="t">Workload attestation</span></div>
+            <div class="step" data-i="1"><span class="k">02</span><span class="t">Scoped authorisation</span></div>
+            <div class="step" data-i="2"><span class="k">03</span><span class="t">Sealed execution</span></div>
+            <div class="step" data-i="3"><span class="k">04</span><span class="t">Export and destruction</span></div>
+          </div>
+          <div class="pin-bar"><i id="pinBar"></i></div>
+        </div>
+
+        <div class="pin-right">
+          <div class="schema">
+            <svg id="schema" data-step="0" viewBox="0 0 700 172" role="img" aria-label="Pipeline schematic: target, attested credential broker, sealed enclave, output policy, Exira.">
+              <defs>
+                <marker id="ah" viewBox="0 0 8 8" refX="6.4" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 .6 7 4 0 7.4Z" fill="#234D9E"/></marker>
+                <linearGradient id="cg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#06307C"/><stop offset="100%" stop-color="#6F92D7"/></linearGradient>
+              </defs>
+              <g font-family="IBM Plex Mono, monospace" font-size="10" fill="#5D7092">
+                <g class="nd" id="n-target">
+                  <rect x="4" y="56" width="96" height="60" rx="3" fill="#fff" stroke="#D8DFEA"/>
+                  <text x="52" y="80" text-anchor="middle" fill="#001448" letter-spacing=".7">TARGET</text>
+                  <text x="52" y="96" text-anchor="middle" font-size="8.5">selects repos</text>
+                </g>
+                <g class="nd" id="n-broker">
+                  <rect x="136" y="56" width="96" height="60" rx="3" fill="#fff" stroke="#D8DFEA"/>
+                  <text x="184" y="80" text-anchor="middle" fill="#001448" letter-spacing=".7">BROKER</text>
+                  <text x="184" y="96" text-anchor="middle" font-size="8.5">attested mint</text>
+                </g>
+                <g class="nd" id="n-enclave">
+                  <rect x="268" y="20" width="188" height="132" rx="4" fill="rgba(35,77,158,.05)" stroke="#234D9E" stroke-dasharray="5 4"/>
+                  <text x="362" y="40" text-anchor="middle" fill="#234D9E" font-size="9.5" letter-spacing="1.1">SEALED ENCLAVE</text>
+                  <path d="M362 60 404 82 362 104 320 82Z" fill="url(#cg2)"/>
+                  <path d="M362 84 404 106 362 128 320 106Z" fill="none" stroke="#426EB7" stroke-width="1.2" opacity=".45"/>
+                  <text x="362" y="146" text-anchor="middle" font-size="8.5">11 modules · critic pass</text>
+                </g>
+                <g class="nd" id="n-out">
+                  <rect x="492" y="56" width="96" height="60" rx="3" fill="#fff" stroke="#D8DFEA"/>
+                  <text x="540" y="80" text-anchor="middle" fill="#001448" letter-spacing=".7">POLICY</text>
+                  <text x="540" y="96" text-anchor="middle" font-size="8.5">export filter</text>
+                </g>
+                <g class="nd" id="n-exira">
+                  <rect x="622" y="56" width="74" height="60" rx="3" fill="#06307C"/>
+                  <text x="659" y="83" text-anchor="middle" font-size="12" font-family="Instrument Sans, sans-serif" fill="#fff">exira</text>
+                  <text x="659" y="99" text-anchor="middle" font-size="7.5" fill="#9DB2D8">report only</text>
+                </g>
+                <g class="fl" id="f-auth"><path d="M100 86 H130" stroke="#234D9E" fill="none" marker-end="url(#ah)"/></g>
+                <g class="fl" id="f-mint"><path d="M232 86 H262" stroke="#234D9E" fill="none" marker-end="url(#ah)"/></g>
+                <g class="fl" id="f-out"><path d="M456 86 H486" stroke="#234D9E" fill="none" marker-end="url(#ah)"/></g>
+                <g class="fl" id="f-del"><path d="M588 86 H616" stroke="#234D9E" fill="none" marker-end="url(#ah)"/></g>
+                <g class="fl" id="f-clone">
+                  <path d="M362 8 V16" stroke="#234D9E" fill="none" marker-end="url(#ah)"/>
+                  <text x="372" y="12" font-size="8" fill="#5D7092">clone · TLS · direct from provider</text>
+                </g>
+                <g class="fl" id="f-block">
+                  <path d="M622 136 H460" stroke="#8D9BB4" stroke-dasharray="4 4" fill="none"/>
+                  <g transform="translate(541 136)"><circle r="7.5" fill="#FAFCFF" stroke="#8D9BB4"/><path d="M-3 -3 3 3M3 -3-3 3" stroke="#8D9BB4" stroke-width="1.3"/></g>
+                  <text x="541" y="156" text-anchor="middle" font-size="8" fill="#8D9BB4">no inbound path</text>
+                </g>
+              </g>
+            </svg>
+          </div>
+
+          <div class="frames" id="frames">
+            <article class="frame" data-i="0" data-on="1">
+              <span class="fk">01 · Workload attestation</span>
+              <h3>What runs is fixed before anything is authorised.</h3>
+              <p>Our CI pipeline builds the analysis engine — orchestration, deterministic scanners, policies, output filters — into a private OCI image. It is vulnerability-scanned, cryptographically signed and assigned an immutable digest. The confidential runner launches that digest and nothing else. Before granting any access, the target validates attestation evidence binding the environment's ephemeral key to the approved workload measurement.</p>
+              <div class="spec">
+                <div><b>image</b><span>signed OCI · immutable digest · private registry</span></div>
+                <div><b>launch</b><span>digest-pinned · no debug build · no build tooling</span></div>
+                <div><b>interfaces</b><span class="w">no SSH · no console · no inbound admin path</span></div>
+                <div><b>proof</b><span class="g">remote attestation, verified target-side</span></div>
+              </div>
+            </article>
+            <article class="frame" data-i="1">
+              <span class="fk">02 · Scoped authorisation</span>
+              <h3>The credential is minted where we cannot hold it.</h3>
+              <p>The target selects repositories and issues a one-time, read-only grant. Minting happens inside an attested credential broker, constrained by repository, job and time. The ordinary Exira control plane relays opaque ciphertext and never receives a usable token — a conventional integration whose private key sits on our backend would not satisfy this. The credential is erased immediately after checkout.</p>
+              <div class="spec">
+                <div><b>grant</b><span>one-time · read-only · repository-scoped</span></div>
+                <div><b>minted in</b><span>attested broker · job and time bound</span></div>
+                <div><b>control plane</b><span class="w">opaque ciphertext only · never a usable token</span></div>
+                <div><b>lifetime</b><span>erased post-checkout</span></div>
+                <div><b>revocation</b><span class="g">target-side, at any point</span></div>
+              </div>
+            </article>
+            <article class="frame" data-i="2">
+              <span class="fk">03 · Sealed execution</span>
+              <h3>The repository is treated as hostile input.</h3>
+              <p>The checkout lands on encrypted ephemeral storage inside the enclave, cloned directly from the provider over TLS — we are not a proxy and hold no copy. Target code is not executed by default; parsers and static tools operate on files as data. Repository-supplied agent instructions, plugin definitions and MCP configurations are ignored, symlinks are constrained to the worktree, and egress is restricted to an allow-list.</p>
+              <div class="spec">
+                <div><b>storage</b><span>encrypted ephemeral · one tenant, one assessment</span></div>
+                <div><b>execution</b><span>none by default · files read as data</span></div>
+                <div><b>injection</b><span class="w">repo-supplied agent config ignored</span></div>
+                <div><b>egress</b><span>allow-list only · no general network</span></div>
+                <div><b>training</b><span class="g">customer code never used to train, ours or a provider's</span></div>
+              </div>
+            </article>
+            <article class="frame" data-i="3">
+              <span class="fk">04 · Export and destruction</span>
+              <h3>Only a schema-validated register leaves.</h3>
+              <p>Findings pass an output policy engine before release: schema enforced, secrets and source-leakage scanned, raw model sessions and native scanner output withheld. Evidence travels as file paths, line ranges and content hashes rather than unbounded excerpts. At the end of the approved window the runner, credentials and intermediate artifacts are destroyed and the target keeps a signed lifecycle record.</p>
+              <div class="spec">
+                <div><b>released</b><span>findings register · report · evidence references</span></div>
+                <div><b>withheld</b><span class="w">checkout · credentials · raw sessions · excerpts</span></div>
+                <div><b>evidence</b><span>path + line range + content hash</span></div>
+                <div><b>destruction</b><span>runner · credentials · intermediate artifacts</span></div>
+                <div><b>record</b><span class="g">signed, tamper-evident, held by the target</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><p class="pin-note">Where that level of isolation is not required, the same eleven modules run under an engagement NDA with time-limited read-only access — <b>faster to stand up, lower cost, identical output.</b></p></div>
+</section>
+
+<!-- ══ 03 COVERAGE ══ -->
+<section class="sec" id="coverage">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow"><i>03</i>Coverage</p>
+      <h2>Eleven modules, reconciled against each other.</h2>
+      <p class="lede">Key-person concentration reads differently alongside three in-flight migrations. Below is the register from a live assessment of a production analytics platform.</p>
+    </div>
+    <div class="mods rv d1" id="mods"></div>
+  </div>
+</section>
+
+<!-- ══ 04 REPORT ══ -->
+<section class="sec" id="report" style="background:var(--paper-2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow"><i>04</i>The deliverable</p>
+      <h2>What lands in the data room.</h2>
+      <p class="lede">Every finding carries a disposition, a remediation estimate in engineering months, and a traceable evidence reference.</p>
+    </div>
+    <div class="doc-wrap rv d1">
+      <article class="doc">
+        <div class="doc-h">
+          <svg viewBox="-15 -15 493 464" aria-hidden="true"><use href="#sym-icon"/></svg>
+          <span class="t">Technical Due Diligence — confidential</span>
+          <span class="m">June 2026 · 11 modules</span>
+        </div>
+        <div class="scope">
+          <div class="sc"><div class="v">44,499</div><div class="l">Commits analysed</div></div>
+          <div class="sc"><div class="v">552</div><div class="l">Contributors</div></div>
+          <div class="sc"><div class="v">17,942</div><div class="l">Source files</div></div>
+          <div class="sc"><div class="v">1.23M</div><div class="l">Lines of code</div></div>
+          <div class="sc"><div class="v">1,981</div><div class="l">Migrations traced</div></div>
+          <div class="sc"><div class="v">46</div><div class="l">Findings raised</div></div>
+          <div class="sc"><div class="v">3</div><div class="l">Cross-module risks</div></div>
+          <div class="sc"><div class="v">0</div><div class="l">Deal-blocking</div></div>
+        </div>
+        <div class="doc-b">
+          <p class="doc-sect">Material risk · highest attention</p>
+          <div class="dfind">
+            <span class="fid">F-0118 · M03 SCALABILITY × M11 TECHNICAL DEBT · CROSS-MODULE</span>
+            <h3>Three concurrent infrastructure migrations in flight</h3>
+            <p>The event streaming backbone, the caching and job-queue layer, and the data access layer for user identity are simultaneously mid-migration. Each is individually justified and each is executed responsibly with dual-write patterns that keep old and new systems in sync. The risk is not the migrations but their concurrent, in-flight state: three simultaneous transitions introduce operational complexity and a window of exposure to data inconsistency until each is closed out.</p>
+            <div class="refs">
+              <b>disposition</b>confirm completion dates pre-close<br>
+              <b>remediation</b>1–2 months streaming · 1–2 months cache · 2–3 months identity<br>
+              <b>evidence</b>3 refs · dual-write helpers, migration config, routing fallback<br>
+              <b>critic</b>upheld · severity unchanged · no contradictory evidence
+            </div>
+          </div>
+        </div>
+      </article>
+      <div class="doc-veil"><span>Book a demo to walk the full assessment</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 05 WHERE IT FITS ══ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow"><i>05</i>Where it fits</p>
+      <h2>One engine, four moments.</h2>
+      <p class="lede">At this cost and turnaround, technical diligence stops being something you commission once and becomes a screen, then a monitor, then a defence.</p>
+    </div>
+    <div class="tl">
+      <div class="tl-i rv"><span class="mk"></span><span class="ph">Screening · pre-LOI</span><h3>Look before you commit</h3><p>Run it on targets you would never resource a full engagement for. Firms doing this aren't just faster — they see more of the market.</p></div>
+      <div class="tl-i rv d1"><span class="mk"></span><span class="ph">Exclusivity</span><h3>Findings while price is open</h3><p>Architecture, security, licensing and remediation cost in engineering months — while there is still a number to move.</p></div>
+      <div class="tl-i rv d2"><span class="mk"></span><span class="ph">Hold period</span><h3>Drift, tracked</h3><p>Scheduled re-runs track debt accumulation, security drift and technical covenant signals months before they reach revenue.</p></div>
+      <div class="tl-i rv d3"><span class="mk"></span><span class="ph">Exit</span><h3>Find it before they do</h3><p>The same pass read from the other side: what a buyer's diligence would surface, while remediation is still a sprint.</p></div>
+    </div>
+    <div class="contrast rv">
+      <div class="ct"><span class="mk"></span><div class="a">2–3 weeks</div><div class="b">Hours</div><div class="c">Fits inside exclusivity</div></div>
+      <div class="ct"><span class="mk"></span><div class="a">$40K–$300K</div><div class="b">A fraction</div><div class="c">Viable earlier in the funnel</div></div>
+      <div class="ct"><span class="mk"></span><div class="a">Sampled scope</div><div class="b">Eleven modules</div><div class="c">Same coverage every run</div></div>
+      <div class="ct"><span class="mk"></span><div class="a">One snapshot</div><div class="b">Scheduled</div><div class="c">Through hold, into exit</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="cta" id="demo">
+  <div class="wrap cta-in">
+    <p class="eyebrow rv">Book demo</p>
+    <h2 class="rv d1">Bring a live deal. We'll show you what the pass finds.</h2>
+    <p class="lede rv d2">Twenty minutes. We walk a complete assessment module by module, then talk about a target in your pipeline.</p>
+    <div class="rv d3"><a class="btn btn-lg" href="mailto:hello@exira.io?subject=Exira%20demo">Book demo<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M1 6h9M6.5 2.5 10 6l-3.5 3.5"/></svg></a></div>
+    <p class="n rv d3">Buy-side · sell-side · private credit · portfolio monitoring</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <a href="#top" aria-label="Exira — home"><svg class="logo" role="img" aria-label="Exira"><use href="#sym-lockup"/></svg></a>
+      <p class="foot-c">Institutional-grade software intelligence,<br>from acquisition to exit.<br>© 2026 Exira</p>
+    </div>
+    <nav class="foot-l">
+      <a href="#security">Security</a><a href="#coverage">Coverage</a><a href="#report">The report</a><a href="/thesis.html">Thesis</a><a href="#demo">Book demo</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){"use strict";
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const MODULES=[
+ {id:"M01",n:"Key-person dependency",s:"",p:"Low concern",short:"KEY-PERSON",
+  f:"Healthy distribution · departures all pre-2025 · one contributor at 5.6%",
+  t:"Healthy distribution · departures pre-2025 · one contributor at 5.6%"},
+ {id:"M02",n:"Security & vulnerability posture",s:"",p:"Low concern",short:"SECURITY",
+  f:"Patch latency 1–6 days vs 30–90 norm · 42 custom rules · CodeQL disabled",
+  t:"Patch latency 1–6 days vs 30–90 norm · 42 custom rules · CodeQL disabled"},
+ {id:"M03",n:"Scalability & cloud architecture",s:"",p:"Low concern",short:"SCALABILITY",
+  f:"51 Rust service crates · workload-classified analytics · 2 migrations in flight",
+  t:"51 service crates · workload-classified analytics · 2 migrations in flight"},
+ {id:"M04",n:"Engineering organisation health",s:"",p:"Low concern",short:"ENG HEALTH",
+  f:"6× velocity growth (4–5× net of bots) · no coverage floor · 486 skipped tests",
+  t:"6× velocity growth · no coverage floor set · 486 skipped tests"},
+ {id:"M05",n:"Compliance & regulatory posture",s:"",p:"Low concern",short:"COMPLIANCE",
+  f:"GDPR complete · HIPAA enforced in CI · SOC 2 Type II to verify out-of-band",
+  t:"GDPR complete · HIPAA enforced in CI · SOC 2 Type II to verify"},
+ {id:"M06",n:"IP & licensing risk",s:"",p:"Low concern",short:"LICENSING",
+  f:"Three-tier structure, machine-enforced · no AGPL/SSPL — confirmed absence",
+  t:"Machine-enforced licence boundary · no AGPL/SSPL — confirmed absence"},
+ {id:"M07",n:"Technology modernisation risk",s:"",p:"Low concern",short:"MODERNISATION",
+  f:"Every component current · earliest EOL 2028 · Python 3.13 prep underway",
+  t:"Every component current · earliest EOL 2028 · 3.13 prep underway"},
+ {id:"M08",n:"AI & ML readiness",s:"pos",p:"Positive signal",short:"AI & ML",
+  f:"Multi-provider gateway · shipped AI-observability product · evals in CI",
+  t:"Multi-provider gateway · shipped observability product · evals in CI"},
+ {id:"M09",n:"Integration compatibility",s:"pos",p:"Positive signal",short:"INTEGRATION",
+  f:"154 inbound connectors — ETL-vendor tier · production MCP server",
+  t:"154 inbound connectors — ETL-vendor tier · production MCP server"},
+ {id:"M10",n:"FinOps & cloud cost efficiency",s:"watch",p:"Verify",short:"FINOPS",
+  f:"Controls present in code · live spend requires billing API access",
+  t:"Controls present in code · live spend requires billing access"},
+ {id:"M11",n:"Technical debt",s:"watch",p:"Manageable",short:"TECH DEBT",
+  f:"~70% of Python API untyped — bounded, 3–6 months · 3 concurrent migrations",
+  t:"~70% of API untyped — bounded, 3–6 months · 3 concurrent migrations"}
+];
+
+const RECORD=[
+ ["09:14:02","authorisation issued","4 repositories · read-only"],
+ ["09:14:03","enclave provisioned","digest a91f…3c07 · attested",""],
+ ["09:14:07","repository cloned","direct from provider over TLS"],
+ ["09:14:09","credentials erased","post-checkout"],
+ ["09:41:55","analysis complete","11 modules · 46 findings"],
+ ["09:41:57","report sealed","sha256 7e2b…9d14","seal"],
+ ["09:42:01","enclave destroyed","storage keys discarded","destroy"]
+];
+
+/* ── nav ── */
+const bg=document.getElementById("burger"),lk=document.getElementById("links");
+bg.onclick=()=>{const o=lk.classList.toggle("open");bg.setAttribute("aria-expanded",o)};
+lk.onclick=e=>{if(e.target.closest("a")){lk.classList.remove("open");bg.setAttribute("aria-expanded","false")}};
+
+/* ── reveals ── */
+const io="IntersectionObserver"in window&&!reduce
+ ? new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}}),{threshold:.1,rootMargin:"0px 0px -5% 0px"})
+ : null;
+if(io) document.querySelectorAll(".rv").forEach(e=>io.observe(e));
+else document.querySelectorAll(".rv").forEach(e=>e.classList.add("on"));
+
+/* ── module matrix ── */
+document.getElementById("mods").innerHTML=
+ MODULES.map(m=>`<article class="md" data-s="${m.s}">
+   <div class="top"><span class="id">${m.id}</span><span class="dot"></span></div>
+   <h3>${m.n}</h3><p>${m.t}</p></article>`).join("")
+ +`<article class="md sum"><span class="l">Assessment total</span><ul>
+     <li><b>46</b> findings raised</li><li><b>3</b> cross-module risks</li>
+     <li><b>2</b> to verify out-of-band</li><li><b>0</b> deal-blocking</li></ul></article>`;
+
+/* ── 02 pinned sequence ── */
+(function(){
+ const track=document.getElementById("track");
+ if(!track) return;
+ const stepEls=[...document.querySelectorAll("#steps .step")];
+ const frames=[...document.querySelectorAll("#frames .frame")];
+ const schema=document.getElementById("schema");
+ const bar=document.getElementById("pinBar");
+ const N=frames.length;
+ const HOT={
+  0:["n-enclave"],
+  1:["n-target","n-broker","n-enclave","f-auth","f-mint"],
+  2:["n-enclave","f-clone","f-block"],
+  3:["n-enclave","n-out","n-exira","f-out","f-del"]
+ };
+ let cur=-1;
+ function pinned(){ return matchMedia("(min-width:901px)").matches
+   && !matchMedia("(prefers-reduced-motion: reduce)").matches; }
+ function paint(i){
+  if(i===cur) return; cur=i;
+  stepEls.forEach((e,j)=>e.setAttribute("data-on",j===i?"1":"0"));
+  frames.forEach((e,j)=>e.setAttribute("data-on",j===i?"1":"0"));
+  schema.setAttribute("data-step",i);
+  schema.querySelectorAll(".nd,.fl").forEach(g=>g.classList.remove("hot"));
+  (HOT[i]||[]).forEach(id=>{const g=schema.querySelector("#"+id); if(g) g.classList.add("hot")});
+ }
+ function layout(){
+  if(pinned()){ track.style.height=(N*78+100)+"vh"; }
+  else{ track.style.height="auto"; }
+ }
+ function onScroll(){
+  if(!pinned()){ paint(cur<0?0:cur); if(bar) bar.style.width="100%"; return; }
+  const r=track.getBoundingClientRect();
+  const span=track.offsetHeight-innerHeight;
+  const p=Math.min(1,Math.max(0,(-r.top)/span));
+  paint(Math.min(N-1,Math.floor(p*N*0.999)));
+  if(bar) bar.style.width=(p*100).toFixed(1)+"%";
+ }
+ stepEls.forEach((e,j)=>e.addEventListener("click",()=>{
+  if(!pinned()){paint(j);return}
+  const span=track.offsetHeight-innerHeight;
+  scrollTo({top:track.offsetTop+span*((j+0.4)/N),behavior:"smooth"});
+ }));
+ layout(); paint(0); onScroll();
+ addEventListener("scroll",onScroll,{passive:true});
+ addEventListener("resize",()=>{layout();onScroll()});
+})();
+
+/* ══════════════════════════════════════════════════════════
+   Mini instrument — the mark, exploded.
+   Evidence plane → eleven module planes → assessment plane.
+   ══════════════════════════════════════════════════════════ */
+const cv=document.getElementById("cv"),ctx=cv.getContext("2d"),cap=document.getElementById("capMod");
+const N=13, STEP=760, HOLD=2200;
+const A=.0278,B=.9722;
+let W=0,H=0,P=[],dust=[],raf=null,t0=performance.now(),last=-1,small=false;
+
+function mark(g,x,y,rw,rh){
+ g.beginPath();
+ g.moveTo(x+A*rw,y-B*rh);
+ g.lineTo(x+B*rw,y-A*rh); g.quadraticCurveTo(x+rw,y,x+B*rw,y+A*rh);
+ g.lineTo(x+A*rw,y+B*rh); g.quadraticCurveTo(x,y+rh,x-A*rw,y+B*rh);
+ g.lineTo(x-B*rw,y+A*rh); g.quadraticCurveTo(x-rw,y,x-B*rw,y-A*rh);
+ g.lineTo(x-A*rw,y-B*rh); g.quadraticCurveTo(x,y-rh,x+A*rw,y-B*rh);
+ g.closePath();
+}
+function measure(){
+ const r=cv.getBoundingClientRect(); if(!r.width) return;
+ const dpr=Math.min(devicePixelRatio||1,2);
+ W=r.width;H=r.height; cv.width=W*dpr|0; cv.height=H*dpr|0;
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ small=W<380;
+ const rw=Math.min(W*.30,104), rh=rw*.4329;
+ const gap=Math.min((H-58)/(N-1),rh*.62);
+ const cx=W*.5+8, top=H/2-gap*(N-1)/2;
+ P=[]; for(let i=0;i<N;i++) P.push({x:cx,y:top+gap*(N-1-i),rw,rh});
+ dust=[]; for(let i=0;i<18;i++) dust.push(seed(true));
+}
+function seed(init){
+ const b=P[0]||{x:W/2,y:H*.8,rw:100,rh:44};
+ return{x:b.x+(Math.random()-.5)*b.rw*2.5,
+        y:init?b.y+Math.random()*H*.3:b.y+b.rh+12+Math.random()*50,
+        v:.12+Math.random()*.26,r:.55+Math.random()*.95,a:0};
+}
+/* architectural dimension line, left of the stack */
+function dimension(){
+ const t=P[11],b=P[1],x=Math.max(9,b.x-b.rw-22);
+ ctx.save(); ctx.strokeStyle="rgba(93,112,146,.4)"; ctx.lineWidth=1;
+ ctx.beginPath(); ctx.moveTo(x,t.y); ctx.lineTo(x,b.y); ctx.stroke();
+ [[x,t.y],[x,b.y]].forEach(([px,py])=>{ctx.beginPath();ctx.moveTo(px-3.5,py);ctx.lineTo(px+3.5,py);ctx.stroke()});
+ ctx.translate(x-7,(t.y+b.y)/2); ctx.rotate(-Math.PI/2);
+ ctx.font='500 8px "IBM Plex Mono", monospace'; ctx.fillStyle="#8D9BB4";
+ ctx.textAlign="center"; ctx.textBaseline="bottom"; ctx.fillText("11 MODULES",0,0);
+ ctx.restore();
+}
+function callout(i,sub){
+ if(small||i<1||i>11) return;
+ const L=P[i],sx=L.x+L.rw+5,sy=L.y;
+ const tx=Math.min(W-10,L.x+L.rw+52);
+ const a=Math.min(1,sub*4);
+ ctx.save(); ctx.globalAlpha=a;
+ ctx.strokeStyle="rgba(35,77,158,.5)"; ctx.lineWidth=1;
+ ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(tx,sy); ctx.stroke();
+ ctx.beginPath(); ctx.arc(sx,sy,2,0,6.283); ctx.fillStyle="#06307C"; ctx.fill();
+ ctx.font='500 8.5px "IBM Plex Mono", monospace'; ctx.fillStyle="#06307C";
+ ctx.textBaseline="bottom"; ctx.fillText(MODULES[i-1].short,tx+5,sy-3);
+ ctx.font='400 8px "IBM Plex Mono", monospace'; ctx.fillStyle="#8D9BB4";
+ ctx.textBaseline="top"; ctx.fillText(MODULES[i-1].id,tx+5,sy+2);
+ ctx.restore();
+}
+function plane(i,state,sub){
+ const L=P[i];
+ if(i===0){
+  mark(ctx,L.x,L.y,L.rw,L.rh);
+  ctx.fillStyle="#F9FBFF";ctx.fill();
+  ctx.save();ctx.clip();ctx.fillStyle="rgba(78,142,255,.5)";
+  for(let gx=L.x-L.rw;gx<L.x+L.rw;gx+=8) for(let gy=L.y-L.rh;gy<L.y+L.rh;gy+=7){
+   ctx.beginPath();ctx.arc(gx,gy,.75,0,6.283);ctx.fill();}
+  ctx.restore();
+  ctx.lineWidth=1;ctx.strokeStyle="rgba(202,219,255,.9)";ctx.stroke();
+ }else if(i===N-1){
+  mark(ctx,L.x,L.y,L.rw,L.rh);
+  if(state!=="pending"){
+   const g=ctx.createLinearGradient(L.x-L.rw,L.y,L.x+L.rw,L.y);
+   g.addColorStop(0,"#06307C");g.addColorStop(.30,"#0B3785");g.addColorStop(.55,"#234D9E");
+   g.addColorStop(.78,"#426EB7");g.addColorStop(1,"#6F92D7");
+   ctx.fillStyle=g;ctx.fill();
+   ctx.lineWidth=1.25;ctx.strokeStyle="rgba(23,78,158,.8)";ctx.stroke();
+  }else{
+   ctx.fillStyle="rgba(35,77,158,.035)";ctx.fill();
+   ctx.lineWidth=1;ctx.strokeStyle="rgba(35,77,158,.16)";ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);
+  }
+ }else{
+  const d=i/(N-2);
+  mark(ctx,L.x,L.y,L.rw,L.rh);
+  ctx.fillStyle=state==="done"?`rgba(214,220,233,${.74+.13*d})`:"rgba(233,237,246,.46)";
+  ctx.fill();
+  ctx.lineWidth=state==="done"?1.3:1;
+  ctx.strokeStyle=state==="done"?"rgba(255,255,255,.95)":"rgba(35,77,158,.13)";
+  ctx.stroke();
+  if(state==="on"){
+   const e=1-Math.pow(1-sub,3);
+   mark(ctx,L.x,L.y,L.rw,L.rh);
+   ctx.fillStyle=`rgba(66,110,183,${.30*(1-sub*.5)})`;ctx.fill();
+   ctx.lineWidth=1.4;ctx.strokeStyle="rgba(6,48,124,.78)";ctx.stroke();
+   mark(ctx,L.x,L.y,L.rw*(1+e*.20),L.rh*(1+e*.20));
+   ctx.lineWidth=1;ctx.strokeStyle=`rgba(66,110,183,${.42*(1-e)})`;ctx.stroke();
+  }
+ }
+}
+function frame(){
+ if(!P.length){raf=requestAnimationFrame(frame);return}
+ const el=performance.now()-t0,cyc=N*STEP+HOLD,p=el%cyc;
+ let idx=Math.floor(p/STEP);const run=idx<N;if(!run)idx=N-1;
+ const sub=run?(p%STEP)/STEP:1;
+ if(last>idx)last=-1;
+ if(run&&idx!==last){last=idx;if(cap)cap.textContent=String(Math.max(0,Math.min(11,idx))).padStart(2,"0")}
+ if(!run&&cap)cap.textContent="11";
+
+ ctx.clearRect(0,0,W,H);
+ ctx.fillStyle="rgba(35,77,158,.32)";
+ for(const q of dust){
+  q.y-=q.v;q.a=Math.min(1,q.a+.02);
+  const b=P[0];
+  if(q.y<b.y-3){Object.assign(q,seed(false));continue}
+  ctx.globalAlpha=.48*q.a*Math.min(1,(q.y-(b.y-3))/40);
+  ctx.beginPath();ctx.arc(q.x,q.y,q.r,0,6.283);ctx.fill();
+ }
+ ctx.globalAlpha=1;
+ dimension();
+ for(let i=0;i<N;i++) plane(i,i<idx?"done":(run&&i===idx?"on":"pending"),sub);
+
+ raf=requestAnimationFrame(frame);
+}
+function still(){
+ measure(); if(!P.length)return;
+ ctx.clearRect(0,0,W,H); dimension();
+ for(let i=0;i<N;i++) plane(i,"done",1);
+ if(cap)cap.textContent="11";
+}
+function boot(){
+ if(reduce){still();return}
+ measure(); if(!P.length){setTimeout(boot,120);return}
+ t0=performance.now();last=-1;
+ if(raf)cancelAnimationFrame(raf); raf=requestAnimationFrame(frame);
+}
+let rz;addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(boot,200)});
+if("IntersectionObserver"in window&&!reduce){
+ new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){if(!raf)raf=requestAnimationFrame(frame)}
+  else if(raf){cancelAnimationFrame(raf);raf=null}
+ }),{threshold:0}).observe(cv);
+}
+document.fonts&&document.fonts.ready?document.fonts.ready.then(boot):boot();
+})();
+</script>
+</body>
+</html>

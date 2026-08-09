@@ -1,0 +1,53 @@
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16.5px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg,canvas{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--b500);outline-offset:3px;border-radius:2px}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.03em;line-height:1.05;text-wrap:balance}
+h1{font-size:clamp(38px,4.9vw,64px);letter-spacing:-.042em;line-height:1.02}
+h2{font-size:clamp(27px,3.1vw,42px);letter-spacing:-.034em}
+h3{font-size:clamp(16.5px,1.3vw,19px);letter-spacing:-.015em;line-height:1.3}
+p{margin:0}
+.lede{font-size:clamp(16px,1.15vw,18px);line-height:1.55;color:var(--ink-2);text-wrap:pretty;max-width:56ch}
+.eyebrow{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--b500)}
+.eyebrow i{font-style:normal;color:var(--muted-2);margin-right:11px}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gut)}
+.sec{padding-block:clamp(66px,8vw,116px)}
+.head{display:grid;gap:16px;max-width:780px}
+
+/* ── buttons ───────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:9px;background:var(--b900);color:#fff;border:0;
+  border-radius:3px;padding:12px 20px;font-size:14.5px;font-weight:500;cursor:pointer;
+  position:relative;overflow:hidden;isolation:isolate;
+  transition:transform .25s var(--e),box-shadow .25s var(--e)}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(100deg,#06307C,#234D9E 55%,#6F92D7);opacity:0;transition:opacity .3s var(--e)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px -12px rgba(6,48,124,.7)}
+.btn:hover::before{opacity:1}
+.btn svg{width:12px;height:12px;transition:transform .25s var(--e)}
+.btn:hover svg{transform:translateX(3px)}
+.btn-lg{padding:14px 24px;font-size:15.5px}
+.quiet{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;color:var(--muted);
+  padding-block:3px;border-bottom:1px solid transparent;transition:color .25s var(--e),border-color .25s var(--e)}
+.quiet svg{width:11px;height:11px;transition:transform .25s var(--e)}
+.quiet:hover{color:var(--b900);border-bottom-color:var(--b400)}
+.quiet:hover svg{transform:translateY(2px)}
+
+/* ── nav (static — scrolls away) ────────────────────────── */
+.nav{border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;height:72px;gap:34px}
+.logo{display:block;flex:0 0 auto;width:88px;height:27px}
+.nav-links{display:flex;align-items:center;gap:30px;margin-left:auto}
+.nav-links a{font-size:14px;color:var(--ink-2);position:relative;padding-block:5px}
+.nav-links a.btn{color:#fff}
+.nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;
+  background:var(--b500);transition:right .3s var(--e)}
+.nav-links a:not(.btn):hover::after{right:0}
+.burger{display:none;background:none;border:0;padding:9px;margin-left:auto;cursor:pointer}
