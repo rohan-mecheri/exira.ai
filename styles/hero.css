@@ -1,5 +1,9 @@
 /* ══ HERO ══════════════════════════════════════════════ */
-.hero{padding-block:clamp(56px,7vw,96px)}
+/* --instr-gutter is the room held to the right of the layer stack for its
+   callout labels. It is the single authority: Instrument.tsx reads it to
+   place the stack, the caption pads by it to stay centred underneath, and
+   setting it to 0 at a breakpoint turns the labels off. */
+.hero{padding-block:clamp(56px,7vw,96px);--instr-gutter:78px}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;
   gap:clamp(32px,5vw,72px);align-items:center}
 .hero h1{margin:18px 0 0}
@@ -12,14 +16,20 @@
   font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted-2)}
 .hero-meta b{color:var(--b500);font-weight:500}
 
-/* mini instrument ---------------------------------------- */
-.panel{border:1px solid var(--line);border-radius:4px;position:relative;overflow:hidden;
-  width:clamp(230px,26vw,318px);aspect-ratio:.86/1;
-  background:
-    linear-gradient(to right,rgba(6,48,124,.05) 1px,transparent 1px) 0 0/38px 38px,
-    linear-gradient(to bottom,rgba(6,48,124,.05) 1px,transparent 1px) 0 0/38px 38px,
-    linear-gradient(170deg,#FCFDFE,#E9EEF6)}
+/* mini instrument ----------------------------------------
+   No frame, no plate, no blueprint grid: the stack floats on the hero
+   ground. The dimension line and the module callouts carry the technical
+   read that the panel border used to. Instrument.tsx reserves a gutter on
+   the right for those labels.
+
+   The 372px cap is load-bearing: the hero grid gives the headline whatever
+   the panel does not take, and at 1440 "The codebase is the asset." needs
+   720 of the 1172 available. Go much wider and it wraps to three lines. */
+/* .instr sizes both the canvas and its caption, so the caption stays the
+   width of the stack instead of stretching to the grid cell. */
+.instr{width:clamp(300px,28vw,372px)}
+.panel{position:relative;width:100%;aspect-ratio:1/1}
 .panel canvas{position:absolute;inset:0;width:100%;height:100%}
-.panel-cap{display:flex;justify-content:space-between;gap:12px;margin-top:10px;
+.panel-cap{display:flex;justify-content:center;padding-right:var(--instr-gutter);gap:12px;margin-top:6px;
   font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted-2)}
 .panel-cap b{color:var(--b500);font-weight:500}

@@ -14,7 +14,11 @@
 @media (max-width:1040px){
   .hero-grid,.trust-grid{grid-template-columns:1fr}
   .hero-grid{gap:40px}
-  .panel{aspect-ratio:1.5/1;max-width:560px}
+  /* One column here, so the panel is no longer competing with the headline
+     for width — give it enough to run the mark at full size and keep the
+     callouts. */
+  .instr{width:min(100%,520px)}
+  .panel{aspect-ratio:1.25/1}
   .tl,.contrast{grid-template-columns:repeat(2,1fr)}
   .mods{grid-template-columns:repeat(3,1fr)}
 }
@@ -34,7 +38,11 @@
   .nav{position:relative}
   .burger{display:block}
   .tl,.contrast,.mods,.cases,.scope{grid-template-columns:1fr}
-  .panel{width:100%;max-width:320px;aspect-ratio:1/1}
+  /* No room for callouts at this size; zero the gutter and the stack
+     recentres on the full width. */
+  .hero{--instr-gutter:0px}
+  .instr{width:100%;max-width:320px}
+  .panel{aspect-ratio:1/1}
   .spec div{grid-template-columns:112px 1fr}
   .doc-h{flex-wrap:wrap}.doc-h .m{margin-left:0;flex-basis:100%}
 }

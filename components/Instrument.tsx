@@ -24,6 +24,15 @@ const HOLD = 2200;
 const A = 0.0278;
 const B = 0.9722;
 
+/* What each plane is, bottom to top: the evidence base, the eleven
+   modules, the resolved assessment. The pass labels the plane it is
+   currently on, so the stack reads as a sequence rather than a texture. */
+const LABELS: readonly { name: string; sub?: string }[] = [
+  { name: "EVIDENCE" },
+  ...MODULES.map((m) => ({ name: m.short, sub: m.id })),
+  { name: "ASSESSMENT" },
+];
+
 interface Plane {
   x: number;
   y: number;
@@ -70,7 +79,7 @@ export function Instrument() {
     let raf: number | null = null;
     let t0 = performance.now();
     let last = -1;
-    let small = false;
+    let labelled = false;
     let rz: ReturnType<typeof setTimeout> | undefined;
     let dead = false;
 
@@ -108,11 +117,18 @@ export function Instrument() {
       cv.width = (W * dpr) | 0;
       cv.height = (H * dpr) | 0;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      small = W < 380;
-      const rw = Math.min(W * 0.3, 104);
+      // --instr-gutter is owned by hero.css, which zeroes it at the
+      // breakpoint where the labels no longer fit. Read every measure, so
+      // a resize across that breakpoint is picked up.
+      const gutter = parseFloat(getComputedStyle(cv).getPropertyValue("--instr-gutter")) || 0;
+      labelled = gutter > 0;
+      const rw = Math.min((W - gutter) * 0.3, 104);
       const rh = rw * 0.4329;
-      const gap = Math.min((H - 58) / (N - 1), rh * 0.62);
-      const cx = W * 0.5 + 8;
+
+      // Each plane extends rh above and below its own centre. The stack
+      // has to clear that at both ends, or the top plane gets cut off.
+      const gap = Math.min((H - 2 * rh - 18) / (N - 1), rh * 0.62);
+      const cx = (W - gutter) / 2;
       const top = H / 2 - (gap * (N - 1)) / 2;
       P = [];
       for (let i = 0; i < N; i++) P.push({ x: cx, y: top + gap * (N - 1 - i), rw, rh });
@@ -153,16 +169,16 @@ export function Instrument() {
       ctx.restore();
     }
 
-    /* Per-plane module labels. Written, drawn once, and left switched off —
-       frame() does not call it. Kept because it is the only place the
-       MODULES short codes get rendered onto the instrument, and turning it
-       back on is a one-line change inside frame(). */
+    /* Leader line and label for the plane the pass is currently on.
+       Starts outside the expanding ring the active plane draws, so the two
+       never collide. Suppressed wherever the gutter is zero. */
     function callout(i: number, sub: number) {
-      if (small || i < 1 || i > 11) return;
+      if (!labelled || i < 0 || i >= N) return;
+      const label = LABELS[i];
       const L = P[i];
-      const sx = L.x + L.rw + 5;
+      const sx = L.x + L.rw * 1.2 + 6;
       const sy = L.y;
-      const tx = Math.min(W - 10, L.x + L.rw + 52);
+      const tx = L.x + L.rw * 1.2 + 20;
       ctx.save();
       ctx.globalAlpha = Math.min(1, sub * 4);
       ctx.strokeStyle = "rgba(35,77,158,.5)";
@@ -175,14 +191,18 @@ export function Instrument() {
       ctx.arc(sx, sy, 2, 0, 6.283);
       ctx.fillStyle = "#06307C";
       ctx.fill();
+      ctx.textAlign = "left";
+      ctx.letterSpacing = "0.07em";
       ctx.font = `500 8.5px ${mono}`;
       ctx.fillStyle = "#06307C";
-      ctx.textBaseline = "bottom";
-      ctx.fillText(MODULES[i - 1].short, tx + 5, sy - 3);
-      ctx.font = `400 8px ${mono}`;
-      ctx.fillStyle = "#8D9BB4";
-      ctx.textBaseline = "top";
-      ctx.fillText(MODULES[i - 1].id, tx + 5, sy + 2);
+      ctx.textBaseline = label.sub ? "bottom" : "middle";
+      ctx.fillText(label.name, tx + 5, label.sub ? sy - 2 : sy);
+      if (label.sub) {
+        ctx.font = `400 8px ${mono}`;
+        ctx.fillStyle = "#8D9BB4";
+        ctx.textBaseline = "top";
+        ctx.fillText(label.sub, tx + 5, sy + 3);
+      }
       ctx.restore();
     }
 
@@ -292,6 +312,8 @@ export function Instrument() {
       dimension();
       for (let i = 0; i < N; i++)
         plane(i, i < idx ? "done" : run && i === idx ? "on" : "pending", sub);
+      // Label last, so it sits over the planes rather than under them.
+      if (run) callout(idx, sub);
 
       raf = requestAnimationFrame(frame);
     }
@@ -359,20 +381,19 @@ export function Instrument() {
   }, []);
 
   return (
-    <>
+    <div className="instr">
       <div
         className="panel"
         role="img"
-        aria-label="A stack of thirteen layers: an evidence base, eleven analysis modules, and a resolved assessment at the top. A pass rises through them in sequence."
+        aria-label="A stack of thirteen layers: an evidence base, eleven analysis modules, and a resolved assessment at the top. A pass rises through them in sequence, naming each layer as it reaches it."
       >
         <canvas ref={cvRef} />
       </div>
       <div className="panel-cap">
-        <span>Evidence → assessment</span>
         <span>
           <b ref={capRef}>00</b> / 11
         </span>
       </div>
-    </>
+    </div>
   );
 }

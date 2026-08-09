@@ -13,3 +13,8 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+# next generates these for AI agents on `next dev`; untracked by
+# default here. Delete these two lines to share them with the team.
+AGENTS.md
+CLAUDE.md
