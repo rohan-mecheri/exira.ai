@@ -18,7 +18,6 @@ export function Cta() {
             <ArrowRight />
           </a>
         </div>
-        <p className="n rv d3">Buy-side · sell-side · private credit · portfolio monitoring</p>
       </div>
     </section>
   );

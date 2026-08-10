@@ -201,8 +201,6 @@
 .cta{background:transparent;border-top:1px solid var(--line)}
 .cta-in{padding-block:clamp(70px,8vw,110px);display:grid;gap:20px;max-width:740px}
 .cta h2{max-width:17ch}
-.cta .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--muted-2);margin-top:2px}
 .foot{border-top:1px solid var(--line);padding-block:38px 44px}
 .foot-in{display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap;align-items:flex-start}
 .foot .logo{width:78px;height:24px}
