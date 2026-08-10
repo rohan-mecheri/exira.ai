@@ -30,7 +30,6 @@ export type SchemaId =
   | "n-sealed"
   | "n-policy"
   | "n-exira"
-  | "n-boundary"
   | "f-auth"
   | "f-out"
   | "f-del"
@@ -61,9 +60,9 @@ export interface Stage {
 export const STAGES: readonly Stage[] = [
   {
     n: "01",
-    step: "Verified environment",
-    heading: "No one has administrative access, including us.",
-    body: "The analysis engine is built, signed and locked to one verified version before anything starts. It runs on hardware that keeps its memory encrypted while it works, so neither the cloud provider nor Exira can read what is inside. The target confirms the environment is running that approved version before releasing anything to it.",
+    step: "Provable isolation",
+    heading: "Isolation is enforced in hardware, not by policy.",
+    body: "The analysis engine is built, signed and locked to one verified version before anything starts. It runs on hardware that encrypts its own memory while the work happens, so neither the cloud provider nor Exira can read what is inside it. The target confirms the environment is running that approved version before releasing anything to it.",
     spec: [
       { key: "environment", value: "memory stays encrypted while it runs" },
       { key: "version", value: "signed and locked before the run starts" },
@@ -71,7 +70,7 @@ export const STAGES: readonly Stage[] = [
       { key: "readable by", value: "not the cloud provider, not Exira" },
       { key: "confirmed by", value: "the target, before anything is released", tone: "g" },
     ],
-    hot: ["n-sealed", "n-boundary"],
+    hot: ["n-sealed", "n-policy"],
   },
   {
     n: "02",
@@ -99,7 +98,7 @@ export const STAGES: readonly Stage[] = [
       { key: "network", value: "reaches nothing beyond the source provider" },
       { key: "retention", value: "nothing kept, model training included", tone: "g" },
     ],
-    hot: ["n-repo", "n-sealed", "f-clone", "f-block", "n-boundary"],
+    hot: ["n-repo", "n-sealed", "f-clone", "f-block"],
   },
   {
     n: "04",

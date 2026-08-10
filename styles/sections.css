@@ -84,10 +84,6 @@
 #schema .nd{opacity:.6;transition:opacity .4s var(--e)}
 #schema .nd.hot{opacity:1}
 #schema .fl{opacity:.3;transition:opacity .4s var(--e)}
-/* The trust boundary is the frame of the diagram, not one of its steps,
-   so it never drops to step opacity. */
-#schema .bd{opacity:.6;transition:opacity .4s var(--e)}
-#schema .bd.hot{opacity:1}
 #schema .fl.hot{opacity:.95}
 
 /* ══ 03 COVERAGE — module matrix ══════════════════════ */

@@ -13,10 +13,11 @@ import type { SchemaId } from "@/lib/isolation";
    real node now: the target's own provider, sitting alongside the target
    in the left column, with both feeding the environment.
 
-   The boundary was dashed with tick ends. Dashes carry meaning here only
-   on the environment, where they say ephemeral; on the divider they were
-   just texture. It is a plain rule now, in two segments that terminate
-   against the export policy, because the policy is the only opening.
+   The divider is gone. Splitting it around the export policy left two
+   stubs projecting from the box into whitespace, which is exactly the
+   dangling line it was meant to replace. Nothing was lost: POLICY already
+   says "the only opening" and the stopped arrow already says nothing
+   comes back, so the rule was restating both while creating a defect.
 
    Connectors are orthogonal and boxes share one height and one stroke, so
    the diagram reads as an architecture drawing rather than an
@@ -26,7 +27,7 @@ import type { SchemaId } from "@/lib/isolation";
    toggled by hand, so the two cannot drift apart. */
 
 export function PipelineSchematic({ step, hot }: { step: number; hot: readonly SchemaId[] }) {
-  const on = (id: SchemaId, base: "nd" | "fl" | "bd") => (hot.includes(id) ? `${base} hot` : base);
+  const on = (id: SchemaId, base: "nd" | "fl") => (hot.includes(id) ? `${base} hot` : base);
 
   return (
     <svg
@@ -62,12 +63,6 @@ export function PipelineSchematic({ step, hot }: { step: number; hot: readonly S
       </defs>
 
       <g fontFamily="IBM Plex Mono, monospace" fontSize="10" fill="#5D7092">
-        {/* The divider. Two segments meeting the export policy, which is
-            the only thing that crosses it. */}
-        <g className={on("n-boundary", "bd")} id="n-boundary">
-          <path d="M514 18 V68M514 124 V174" stroke="#234D9E" fill="none" />
-        </g>
-
         <g className={on("f-clone", "fl")} id="f-clone">
           <path d="M122 46 H162" stroke="#234D9E" fill="none" markerEnd="url(#ah)" />
         </g>
@@ -162,7 +157,8 @@ export function PipelineSchematic({ step, hot }: { step: number; hot: readonly S
           </text>
         </g>
 
-        {/* Drawn last so the stop sits over the divider. */}
+        {/* The stop, aligned under the export policy: that is where a
+            return path would have to cross, and it does not. */}
         <g className={on("f-block", "fl")}>
           <g transform="translate(514 158)">
             <circle r="7" fill="#FCFDFF" stroke="#8D9BB4" />
