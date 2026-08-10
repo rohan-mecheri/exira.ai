@@ -143,6 +143,7 @@
 .reg-i.on .rid{color:var(--b900);font-weight:500}
 .reg-i .rmod{color:var(--muted-2);font-size:9.5px;letter-spacing:.06em}
 .reg-i .rdot{width:5px;height:5px;border-radius:50%;background:var(--muted-2)}
+.reg-i[data-sev="blocking"] .rdot{background:var(--neg)}
 .reg-i[data-sev="material"] .rdot{background:var(--watch)}
 .reg-i[data-sev="attention"] .rdot{background:var(--b400)}
 .doc-sect{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;

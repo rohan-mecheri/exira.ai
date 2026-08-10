@@ -88,7 +88,7 @@ export function PipelineSchematic({ step, hot }: { step: number; hot: readonly S
             TARGET
           </text>
           <text x="62" y="160" textAnchor="middle" fontSize="8.5">
-            issues the key
+            authorises the run
           </text>
         </g>
 

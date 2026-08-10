@@ -104,9 +104,9 @@ export function Pinned() {
                 </p>
                 <h2>Architecturally unable to see your code.</h2>
                 <p className="lede">
-                  The target initiates the assessment, issues the only credential, and holds a
-                  signed record of its lifecycle. Our inability to reach the source is enforced by
-                  the architecture, not asserted by policy.
+                  The target initiates the assessment, authorises the environment directly, and
+                  receives a signed record of everything that happened inside it. Our inability to
+                  reach the source is enforced by the architecture, not asserted by policy.
                 </p>
               </div>
               <div className="steps">

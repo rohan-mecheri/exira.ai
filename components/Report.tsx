@@ -36,20 +36,26 @@ const OUTPUT: readonly Figure[] = [
   { value: "46", label: "findings" },
   { value: "3", label: "cross-module" },
   { value: "2", label: "to verify" },
-  { value: "0", label: "deal-blocking" },
+  { value: "2", label: "deal-blocking" },
 ];
 
-type Severity = "material" | "attention" | "noted";
+type Severity = "blocking" | "material" | "attention" | "noted";
 
 interface RegisterRow {
   id: string;
   module: string;
   severity: Severity;
+  /** The one opened out beside the register. */
+  expanded?: boolean;
 }
 
-/* Eight of forty-six. The veil takes the tail. */
+/* Eight of forty-six, ordered by severity, so the two blocking findings
+   sit at the top where a real register would put them. The veil takes the
+   tail. */
 const REGISTER: readonly RegisterRow[] = [
-  { id: "F-0118", module: "M03 × M11", severity: "material" },
+  { id: "F-0131", module: "M02", severity: "blocking" },
+  { id: "F-0127", module: "M06", severity: "blocking" },
+  { id: "F-0118", module: "M03 × M11", severity: "material", expanded: true },
   { id: "F-0092", module: "M02", severity: "attention" },
   { id: "F-0071", module: "M06", severity: "attention" },
   { id: "F-0064", module: "M04", severity: "noted" },
@@ -106,10 +112,10 @@ export function Report() {
               <div className="doc-reg">
                 <p className="reg-h">Findings register</p>
                 <div className="reg">
-                  {REGISTER.map((r, i) => (
+                  {REGISTER.map((r) => (
                     <div
                       key={r.id}
-                      className={i === 0 ? "reg-i on" : "reg-i"}
+                      className={r.expanded ? "reg-i on" : "reg-i"}
                       data-sev={r.severity}
                     >
                       <span className="rid">{r.id}</span>
@@ -121,7 +127,7 @@ export function Report() {
               </div>
 
               <div className="doc-lead">
-                <p className="doc-sect">Material risk · highest attention</p>
+                <p className="doc-sect">Material risk · cross-module</p>
                 <div className="dfind">
                   <span className="fid">
                     F-0118 · M03 SCALABILITY × M11 TECHNICAL DEBT · CROSS-MODULE
@@ -137,7 +143,7 @@ export function Report() {
                     out.
                   </p>
                   <div className="refs">
-                    <b>disposition</b>confirm completion dates pre-close
+                    <b>disposition</b>close out or price before signing
                     <br />
                     <b>remediation</b>1–2 months streaming · 1–2 months cache · 2–3 months identity
                     <br />
