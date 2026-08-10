@@ -1,5 +1,3 @@
-import { Scramble } from "./Scramble";
-
 /* Section 04: what actually lands in the data room.
 
    The card has to read as a document, not a dashboard. The version with
@@ -11,8 +9,6 @@ import { Scramble } from "./Scramble";
    a report body actually is: a register down the side and the lead finding
    opened up beside it. The register runs past the fold so the veil cuts it
    mid-list, which is the honest shape of a preview.
-
-   The client is enciphered and stays that way; see components/Scramble.tsx.
 
    .doc here is the report card and only the report card; the thesis body
    grid is .essay. */
@@ -86,7 +82,9 @@ export function Report() {
               <svg viewBox="-15 -15 493 464" aria-hidden="true">
                 <use href="#sym-icon" />
               </svg>
-              <Scramble className="doc-client" text="WITHHELD" charset="letters" />
+              <span className="doc-client" aria-hidden="true">
+                PostHog
+              </span>
               <span className="t">Assessment report</span>
               <span className="m">June 2026 · 11 modules</span>
             </div>

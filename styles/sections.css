@@ -113,12 +113,13 @@
 .doc-h{display:flex;align-items:center;gap:12px;padding:15px 22px;border-bottom:1px solid var(--line-2)}
 .doc-h svg{width:22px;height:22px;flex:0 0 auto}
 .doc-h .t{font-size:14.5px;font-weight:500;letter-spacing:-.012em}
-/* The client name, enciphered. Set identically to the report title beside
-   it, with no chip and no colour of its own, so it reads as the masthead
-   line with one part of it withheld rather than as a separate badge.
-   Scramble.tsx pins the width, since proportional type would otherwise
-   shift the title on every tick. */
-.doc-client{font-size:14.5px;font-weight:500;letter-spacing:-.012em;white-space:nowrap}
+/* The client name, blurred out. Set identically to the report title
+   beside it so the masthead reads as one line with the name protected,
+   rather than as a separate badge. The blur bleeds past the glyphs, so it
+   carries its own right-hand padding to keep the smear clear of the
+   title. Selection is off: the word should not come out on a drag. */
+.doc-client{font-size:14.5px;font-weight:500;letter-spacing:-.012em;white-space:nowrap;
+  filter:blur(5px);padding-right:5px;user-select:none;-webkit-user-select:none}
 .doc-h .m{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.11em;
   text-transform:uppercase;color:var(--muted-2)}
 /* Masthead strip: value and label on one line, so the numbers frame the
