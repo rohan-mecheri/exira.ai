@@ -126,15 +126,18 @@ export function PipelineSchematic({ step, hot }: { step: number; hot: readonly S
           <rect x="606" y="68" width="88" height="56" rx="3" fill="#06307C" />
           <text
             x="650"
-            y="95"
+            y="93"
             textAnchor="middle"
-            fontSize="12"
+            fontSize="13.5"
             fontFamily="Instrument Sans, sans-serif"
+            fontWeight="500"
+            letterSpacing="-.2"
             fill="#fff"
           >
             exira
           </text>
-          <text x="650" y="111" textAnchor="middle" fontSize="7.5" fill="#9DB2D8">
+          <path d="M628 101 H672" stroke="#4E7ACB" strokeWidth=".8" />
+          <text x="650" y="114" textAnchor="middle" fontSize="8" fill="#9DB2D8" letterSpacing=".5">
             report only
           </text>
         </g>

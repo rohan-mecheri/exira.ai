@@ -79,12 +79,20 @@
   line-height:1.8;color:var(--muted);max-width:82ch}
 .sec-note b{color:var(--ink);font-weight:500}
 
-/* schematic states */
-#schema .nd rect,#schema .nd path{transition:opacity .4s var(--e),stroke .4s var(--e)}
-#schema .nd{opacity:.6;transition:opacity .4s var(--e)}
+/* Schematic states. Opacity alone made the active stage almost invisible:
+   the step from .6 to 1 is not a state change anyone notices. Idle sits
+   lower now, and an active node also takes the brand stroke and a tinted
+   ground, so the highlight reads as selection rather than as a slightly
+   brighter box. Idle stays legible because the stroke stays. */
+#schema .nd{opacity:.45;transition:opacity .45s var(--e)}
 #schema .nd.hot{opacity:1}
-#schema .fl{opacity:.3;transition:opacity .4s var(--e)}
-#schema .fl.hot{opacity:.95}
+#schema .nd rect{transition:stroke .45s var(--e),stroke-width .45s var(--e),fill .45s var(--e)}
+#schema .nd.hot rect{stroke:var(--b500);stroke-width:1.4}
+#schema .nd.hot rect[fill="#FCFDFF"]{fill:#EDF2FC}
+#schema .fl{opacity:.22;transition:opacity .45s var(--e)}
+#schema .fl.hot{opacity:1}
+#schema .fl path{transition:stroke-width .45s var(--e)}
+#schema .fl.hot path{stroke-width:1.5}
 
 /* ══ 03 COVERAGE — module matrix ══════════════════════ */
 .mods{margin-top:clamp(30px,3.6vw,44px);display:grid;grid-template-columns:repeat(4,1fr);gap:1px;

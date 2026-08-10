@@ -86,7 +86,7 @@ export function Report() {
               <svg viewBox="-15 -15 493 464" aria-hidden="true">
                 <use href="#sym-icon" />
               </svg>
-              <Scramble className="doc-client" text="CLIENT WITHHELD" charset="alnum" />
+              <Scramble className="doc-client" text="WITHHELD" charset="letters" />
               <span className="t">Assessment report</span>
               <span className="m">June 2026 · 11 modules</span>
             </div>

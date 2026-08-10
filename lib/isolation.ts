@@ -69,12 +69,12 @@ export const STAGES: readonly Stage[] = [
       { key: "readable by", value: "not the cloud provider, not Exira" },
       { key: "confirmed by", value: "the target, before anything is released", tone: "g" },
     ],
-    hot: ["n-sealed", "n-policy"],
+    hot: ["n-sealed"],
   },
   {
     n: "02",
     step: "Single-use access",
-    heading: "Access is issued to the environment, never to us.",
+    heading: "Access is never issued to us.",
     body: "The target authorises the environment directly. The key covers only the repositories it selects, and its private half is created inside the environment and can never be copied out, so it is cryptographically bound to that single run and worthless anywhere else. Exira is never a party to it. It lapses when the checkout finishes, and the target can withdraw it sooner.",
     spec: [
       { key: "authorised by", value: "the target, straight to the environment" },

@@ -4,6 +4,8 @@
 
 export const CHARSET_ALNUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
 export const CHARSET_HEX = "01ABCDEF#$%&*!?/\\{}[]<>";
+/** Letters only. Calmer than the symbol sets, and name-shaped. */
+export const CHARSET_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 export interface ScrambleOptions {
   /** Pool random characters are drawn from. Default CHARSET_ALNUM. */
@@ -94,6 +96,8 @@ export interface ObfuscateOptions extends ScrambleOptions {
   band?: number;
   /** Ciphered characters between the end of one sweep and the next. Default 6. */
   gap?: number;
+  /** Chance a given ciphered position redraws on a tick. Default 0.35. */
+  churn?: number;
 }
 
 /* Permanent obfuscation. Unlike scramble(), this never settles: a narrow
@@ -115,6 +119,7 @@ export function obfuscate(
   const revealDelay = opts.revealDelay ?? 55;
   const band = opts.band ?? 3;
   const gap = opts.gap ?? 6;
+  const churn = opts.churn ?? 0.35;
 
   const chars = text.split("");
   const isSpace = chars.map((c) => /\s/.test(c));
@@ -125,12 +130,22 @@ export function obfuscate(
 
   const randomChar = () => charset.charAt(Math.floor(Math.random() * charset.length));
 
+  /* Every ciphered position holding a new glyph on every tick strobes.
+     Each one redraws with probability `churn` instead, so the field
+     evolves rather than flickering, at the same tick rate. */
+  const shown = chars.map(() => randomChar());
+
   const step = () => {
     const head = ((tick * speed) / revealDelay) % period;
     let out = "";
     for (let i = 0; i < chars.length; i++) {
       const behind = head - i;
-      out += isSpace[i] || (behind >= 0 && behind < band) ? chars[i] : randomChar();
+      if (isSpace[i] || (behind >= 0 && behind < band)) {
+        out += chars[i];
+        continue;
+      }
+      if (Math.random() < churn) shown[i] = randomChar();
+      out += shown[i];
     }
     el.textContent = out;
     tick += 1;

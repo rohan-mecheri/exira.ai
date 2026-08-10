@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { CHARSET_ALNUM, CHARSET_HEX, obfuscate } from "@/lib/scramble";
+import { CHARSET_ALNUM, CHARSET_HEX, CHARSET_LETTERS, obfuscate } from "@/lib/scramble";
 
 /* A value that is never shown. The cipher runs continuously rather than
    resolving and re-running on a timer: a decrypt that completes, even
@@ -20,7 +20,7 @@ import { CHARSET_ALNUM, CHARSET_HEX, obfuscate } from "@/lib/scramble";
 export interface ScrambleProps {
   text: string;
   /** Which exported charset to draw from. Default "alnum". */
-  charset?: "alnum" | "hex";
+  charset?: "alnum" | "hex" | "letters";
   /** Milliseconds between ticks. */
   speed?: number;
   /** Milliseconds between one character passing under the wave and the next. */
@@ -39,7 +39,8 @@ export function Scramble({ text, charset = "alnum", speed, revealDelay, classNam
     // never start a timer.
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const set = charset === "hex" ? CHARSET_HEX : CHARSET_ALNUM;
+    const set =
+      charset === "hex" ? CHARSET_HEX : charset === "letters" ? CHARSET_LETTERS : CHARSET_ALNUM;
     let disposed = false;
     let visible = false;
     let locked = false;
@@ -48,13 +49,10 @@ export function Scramble({ text, charset = "alnum", speed, revealDelay, classNam
 
     /* This is set in proportional type, so every substituted character is
        a different width and whatever sits beside it would move on each
-       tick. The box is pinned to the widest rendering the charset can
-       produce, not to the settled string: the settled one is whatever
-       letters the real value happens to use, and a run of W and @ is far
-       wider than a run of I and L, so pinning to it lets the cipher spill
-       over its neighbour. Widest character comes from canvas metrics,
-       which cost no layout; the probe itself is measured in the DOM so
-       letter-spacing is accounted for. */
+       tick. The box has to be pinned, and pinning it to the settled string
+       is not enough: the real value happens to use narrow letters, so a
+       run of wide ones spills over the neighbour. Glyph metrics come from
+       canvas, which costs no layout. */
     const lockWidth = () => {
       el.style.display = "inline-block";
       el.style.overflow = "hidden";
@@ -82,10 +80,11 @@ export function Scramble({ text, charset = "alnum", speed, revealDelay, classNam
         /* The widest glyph is roughly 1.7x the mean, so reserving n times
            the widest leaves a gap wide enough to break the masthead line.
            A sum of n glyph widths concentrates far more tightly than any
-           single one: four standard deviations of that sum is a width the
-           cipher effectively never reaches, and overflow:hidden absorbs
-           the remaining tail by trimming a pixel off a noise glyph. */
-        bound = n * mean + 4 * Math.sqrt(variance * n) + spaces;
+           single one, so three standard deviations of that sum is a width
+           the cipher effectively never reaches, and overflow:hidden
+           absorbs the remaining tail by trimming a pixel off a noise
+           glyph. */
+        bound = n * mean + 3 * Math.sqrt(variance * n) + spaces;
       }
 
       el.style.width = `${Math.ceil(Math.max(settled, bound))}px`;
