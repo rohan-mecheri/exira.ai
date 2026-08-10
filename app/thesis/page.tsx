@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "@/components/Arrow";
+import { BookDemo } from "@/components/BookDemo";
 import { Toc, type TocEntry } from "@/components/Toc";
 import { SEGMENTS } from "@/lib/segments";
 
@@ -248,10 +249,10 @@ export default function Thesis() {
                 sell-side, or credit, we would like to hear where it breaks.
               </p>
               <div className="cta-row">
-                <Link className="btn" href="/#demo">
+                <BookDemo className="btn">
                   Book demo
                   <ArrowRight />
-                </Link>
+                </BookDemo>
                 <Link className="quiet" href="/#report">
                   See a real assessment
                 </Link>

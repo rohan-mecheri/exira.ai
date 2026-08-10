@@ -1,4 +1,5 @@
 import { ArrowRight } from "./Arrow";
+import { BookDemo } from "./BookDemo";
 
 /* The close. One CTA — see docs/website-spec.md §1. */
 
@@ -13,10 +14,10 @@ export function Cta() {
           your pipeline.
         </p>
         <div className="rv d3">
-          <a className="btn btn-lg" href="mailto:hello@exira.io?subject=Exira%20demo">
+          <BookDemo className="btn btn-lg">
             Book demo
             <ArrowRight />
-          </a>
+          </BookDemo>
         </div>
       </div>
     </section>

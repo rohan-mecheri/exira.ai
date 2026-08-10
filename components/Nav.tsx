@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight } from "./Arrow";
+import { BookDemo } from "./BookDemo";
 
 /* Static header: no sticky behaviour, by design.
 
@@ -63,10 +64,10 @@ export function Nav() {
           <Link href="/thesis" aria-current={pathname === "/thesis" ? "page" : undefined}>
             Thesis
           </Link>
-          <a className="btn" href={to("#demo")}>
+          <BookDemo className="btn">
             Book demo
             <ArrowRight />
-          </a>
+          </BookDemo>
         </nav>
       </div>
     </header>

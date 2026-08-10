@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BookDemo } from "./BookDemo";
 
 /* Same link-resolution rule as the header — see Nav.tsx. */
 
@@ -39,7 +40,7 @@ export function Footer() {
             </a>
           ))}
           {home && <Link href="/thesis">Thesis</Link>}
-          <a href={to("#demo")}>Book demo</a>
+          <BookDemo>Book demo</BookDemo>
         </nav>
       </div>
     </footer>

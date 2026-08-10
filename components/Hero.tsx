@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowRight } from "./Arrow";
 import { Instrument } from "./Instrument";
+import { BookDemo } from "./BookDemo";
 
 export function Hero() {
   return (
@@ -15,10 +16,10 @@ export function Hero() {
           </p>
           <div className="hero-hr" />
           <div className="hero-cta">
-            <a className="btn btn-lg" href="#demo">
+            <BookDemo className="btn btn-lg">
               Book demo
               <ArrowRight />
-            </a>
+            </BookDemo>
             <a className="quiet" href="#report">
               See a real assessment
               <ArrowDown />
