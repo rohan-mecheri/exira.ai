@@ -83,7 +83,7 @@ export function Report() {
                 <use href="#sym-icon" />
               </svg>
               <span className="doc-client" aria-hidden="true">
-                PostHog
+                Redacted
               </span>
               <span className="t">Assessment report</span>
               <span className="m">June 2026 · 11 modules</span>
