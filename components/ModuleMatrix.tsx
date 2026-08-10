@@ -7,10 +7,13 @@ import { MODULES } from "@/lib/modules";
    output of one sample assessment, complete with a disposition dot, which
    made a catalogue of what we look at pretend to be a report.
 
-   Eleven into a four-column grid leaves one cell short. The grid draws its
-   rules as 1px gaps over a background, so an absent twelfth cell would
-   show as a block of line colour: the blank tile fills it deliberately and
-   is hidden at one column, where there is nothing to fill. */
+   Eleven into a four-column grid leaves one cell short, and the grid draws
+   its rules as 1px gaps over a background, so an absent twelfth cell would
+   show as a block of line colour. That cell carries the note about how the
+   modules are judged: it has to be filled, and this is the one thing on
+   the page that belongs beside the coverage rather than beneath it. It is
+   marked as a note rather than a twelfth module, and twelve cells divide
+   evenly at four, three, two and one column. */
 
 export function ModuleMatrix() {
   return (
@@ -37,14 +40,17 @@ export function ModuleMatrix() {
               <p>{m.does}</p>
             </article>
           ))}
-          <article className="md blank" aria-hidden="true" />
+          <article className="md note">
+            <div className="top">
+              <span className="id">The engine</span>
+            </div>
+            <h3>Weighted by what moved a price</h3>
+            <p>
+              Models fine-tuned on completed assessments and the deal outcomes that followed. Every
+              conclusion then clears an independent critic.
+            </p>
+          </article>
         </div>
-        <p className="sec-note rv d2">
-          The modules run on models <b>fine-tuned against completed diligence assessments and the
-          deal outcomes that followed</b>, so a finding is weighted by what moved a price rather than
-          by what a linter flags. Every conclusion then goes through an independent critic pass
-          before it reaches the register.
-        </p>
       </div>
     </section>
   );

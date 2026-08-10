@@ -41,8 +41,6 @@
   .nav{position:relative}
   .burger{display:block}
   .tl,.contrast,.mods,.cases,.scope{grid-template-columns:1fr}
-  /* Single column has no short row to fill. */
-  .md.blank{display:none}
   /* No room for callouts at this size; zero the gutter and the stack
      recentres on the full width. */
   .hero{--instr-gutter:0px}

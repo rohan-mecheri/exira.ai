@@ -73,11 +73,6 @@
 .spec span{color:var(--ink-2)}
 .spec .g{color:var(--pos)}
 .spec .w{color:var(--watch)}
-/* A footnote under a section: mono, because it is machine-verified fact
-   rather than argument. */
-.sec-note{margin-top:clamp(26px,3vw,38px);font-family:var(--mono);font-size:11.5px;
-  line-height:1.8;color:var(--muted);max-width:82ch}
-.sec-note b{color:var(--ink);font-weight:500}
 
 /* Schematic states. Opacity alone made the active stage almost invisible:
    the step from .6 to 1 is not a state change anyone notices. Idle sits
@@ -104,8 +99,12 @@
 .md .id{font-family:var(--mono);font-size:10.5px;color:var(--muted-2);letter-spacing:.07em}
 .md h3{font-size:14.5px;letter-spacing:-.014em;line-height:1.25}
 .md p{font-family:var(--mono);font-size:11px;line-height:1.55;color:var(--muted);letter-spacing:-.012em}
-.md.blank{background:var(--paper-2)}
-.md.blank:hover{background:var(--paper-2)}
+/* The twelfth cell. Same anatomy as a module tile so the grid stays one
+   object, a deeper ground and a brand-coloured label so nobody counts it
+   as a twelfth module. */
+.md.note{background:var(--paper-2)}
+.md.note:hover{background:var(--paper-2)}
+.md.note .id{color:var(--b500);text-transform:uppercase;letter-spacing:.13em;font-size:9.5px}
 
 /* ══ 04 REPORT ═════════════════════════════════════════ */
 .doc-wrap{margin-top:clamp(30px,3.6vw,44px);position:relative}
