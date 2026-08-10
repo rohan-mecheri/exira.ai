@@ -104,9 +104,9 @@ export function Pinned() {
                 </p>
                 <h2>Architecturally unable to see your code.</h2>
                 <p className="lede">
-                  The target starts the pass, issues the only credential, and keeps a signed record
-                  when it ends. We are not trusted to stay out of the sealed environment. There is
-                  no way in.
+                  The target initiates the assessment, issues the only credential, and holds a
+                  signed record of its lifecycle. Our inability to reach the source is enforced by
+                  the architecture, not asserted by policy.
                 </p>
               </div>
               <div className="steps">

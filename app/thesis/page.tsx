@@ -144,7 +144,7 @@ export default function Thesis() {
             </p>
             <p>
               <em>Diligence becomes preparation.</em> Run from the sell side twelve months out, the
-              identical pass surfaces what a buyer&apos;s diligence would surface, while remediation
+              identical assessment surfaces what a buyer&apos;s diligence would surface, while remediation
               is still a sprint rather than a re-trade. Repeated quarterly, it produces a documented
               history of technical governance, which is an asset in a negotiation, not just a file.
             </p>

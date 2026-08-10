@@ -8,14 +8,10 @@ export function Hero() {
         <div className="rv">
           <p className="eyebrow">Buy-side · Sell-side · Private credit</p>
           <h1>
-            Technical diligence<span className="b">in hours, not weeks.</span>
+            Underwrite the code.<span className="b">Not just the numbers.</span>
           </h1>
           <p className="hero-stand">
             Institutional-grade software intelligence, from acquisition to exit.
-          </p>
-          <p className="hero-sub">
-            Eleven modules read the target&apos;s entire repository. The target runs the pass and
-            keeps the source; we receive the findings.
           </p>
           <div className="hero-hr" />
           <div className="hero-cta">

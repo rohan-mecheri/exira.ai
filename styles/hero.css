@@ -14,8 +14,6 @@
    balance would even the two lines out and split it in the wrong place. */
 .hero-stand{margin-top:20px;max-width:44ch;font-size:clamp(17px,1.35vw,21px);
   font-weight:500;letter-spacing:-.018em;line-height:1.35;color:var(--ink);text-wrap:pretty}
-.hero-sub{margin-top:14px;max-width:44ch;font-size:clamp(14.5px,1.05vw,16px);color:var(--muted);
-  line-height:1.55;text-wrap:pretty}
 .hero-hr{height:1px;background:var(--line);margin:30px 0 22px;max-width:520px}
 .hero-cta{display:flex;gap:24px;flex-wrap:wrap;align-items:center}
 .hero-meta{margin-top:26px;display:flex;flex-wrap:wrap;gap:6px 20px;

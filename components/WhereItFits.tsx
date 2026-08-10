@@ -25,7 +25,7 @@ const MOMENTS: readonly Moment[] = [
   {
     phase: "Exit",
     heading: "Find it before they do",
-    body: "The same pass read from the other side: what a buyer's diligence would surface, while remediation is still a sprint.",
+    body: "The same assessment, read from the other side: what a buyer's diligence would surface, while remediation is still a sprint.",
   },
 ];
 

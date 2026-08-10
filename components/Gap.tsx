@@ -22,8 +22,8 @@ const CASES: readonly Case[] = [
   },
   {
     amount: "5–25%",
-    unit: "On 30–40% of deals",
-    text: "Software transactions re-traded once the buyer surfaces code, security or licensing exposure during diligence.",
+    unit: "Off the agreed price",
+    text: "Software transactions are re-traded on 30–40% of deals, once the buyer surfaces code, security or licensing exposure during diligence.",
     source: "PitchBook · aggregate",
   },
 ];

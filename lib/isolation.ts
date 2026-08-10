@@ -1,20 +1,19 @@
-/* Section 02: the four stages of a pass, and which parts of the
+/* Section 02: the four stages of an assessment, and which parts of the
    schematic each one lights up.
 
-   Two rules govern this copy.
+   Register. The reader is a deal partner who will forward this to an
+   engineer, or an engineer sitting in the room while the partner pitches
+   it. So the vocabulary is the vocabulary of the field: attestation,
+   digest pinning, memory encryption in use, key binding, non-exportable
+   private keys, default-deny egress. Vague reassurance ("an output
+   check", "read-only access") fails both readers, because the partner
+   cannot repeat it and the engineer does not believe it.
 
-   The target is the actor, we are the constrained party. Every heading
-   used to take a piece of our machinery as its grammatical subject: the
-   credential is minted, the repository is treated, a register leaves. The
-   passive voice hid who was being restrained and the reader's own asset
-   never appeared as the thing being protected, so an accurate section
-   read as a controls inventory. These are the four sentences an operating
-   partner has to be able to repeat to a nervous CTO.
-
-   And it states guarantees, never mechanism. No image formats, no
-   registries, no broker internals, no named cloud products, and no list
-   of the specific repository-supplied inputs we neutralise. That detail
-   is the part a competitor reads once and copies.
+   Where it still stops. Naming the standard mechanisms is table stakes
+   and gives nothing away. Naming our image formats, registries, broker
+   internals or the specific classes of repository-supplied input we
+   neutralise would, so those stay out. The moat is the assessment engine,
+   not the fact that we run it on confidential compute.
 
    Deliberately absent, both pending the founder's sign-off: any claim of
    data residency, and any claim of a fine-tuned or proprietary model.
@@ -57,56 +56,56 @@ export interface Stage {
 export const STAGES: readonly Stage[] = [
   {
     n: "01",
-    step: "No way in",
-    heading: "Nobody can enter the environment, including us.",
-    body: "The target starts the pass. What runs is fixed and signed beforehand, and the environment launches that measurement and nothing else. The target verifies this itself rather than taking our word for it. There is no console, no shell and no support path in, so no account of ours can be compelled to read the code.",
+    step: "Attested runtime",
+    heading: "No operator path exists into the runtime, ours included.",
+    body: "The analysis engine ships as a signed image with a fixed digest and executes on confidential compute, where memory is encrypted in use and the host and hypervisor sit outside the trust boundary. The target verifies attestation evidence binding that digest to the live instance before releasing anything to it.",
     spec: [
-      { key: "initiated", value: "by the target, on its own authority" },
-      { key: "workload", value: "signed, immutable, one measurement only" },
-      { key: "entry", value: "no console, no shell, no support path", tone: "w" },
-      { key: "our access", value: "no privilege level exists for us" },
-      { key: "proof", value: "attestation the target verifies itself", tone: "g" },
+      { key: "runtime", value: "confidential compute, memory encrypted in use" },
+      { key: "image", value: "signed, digest-pinned, no build tooling present" },
+      { key: "operator plane", value: "none: no SSH, console or support path", tone: "w" },
+      { key: "trust boundary", value: "excludes the host, the hypervisor and Exira" },
+      { key: "proof", value: "attestation evidence verified target-side", tone: "g" },
     ],
     hot: ["n-sealed", "n-boundary"],
   },
   {
     n: "02",
-    step: "Target-issued access",
-    heading: "We never hold a credential to the repository.",
-    body: "The target chooses what is in scope and issues one read-only authorisation, bound to that scope and to a single pass. It is minted inside the sealed environment and works nowhere else, so there is no key on our systems to leak, subpoena or reuse. It expires at checkout, and the target can revoke it sooner.",
+    step: "Key-bound authorisation",
+    heading: "Credentials are cryptographically bound to that runtime.",
+    body: "The target issues a single-use authorisation bound to a public key that exists only inside the attested runtime. Its private half is generated in memory there and is non-exportable, so the credential cannot be replayed anywhere else, Exira infrastructure included. Scope is fixed at issue, it expires at checkout, and the target can revoke without notice.",
     spec: [
-      { key: "grant", value: "read-only, scope-bound, single pass" },
-      { key: "minted", value: "inside the environment, not on our systems" },
-      { key: "our systems", value: "never hold a usable credential", tone: "w" },
-      { key: "lifetime", value: "expires at checkout" },
-      { key: "revocation", value: "target-side, at any point, without asking us", tone: "g" },
+      { key: "authorisation", value: "single-use, scope fixed at issue" },
+      { key: "binding", value: "to a public key held only in the runtime" },
+      { key: "private key", value: "generated in memory, non-exportable", tone: "w" },
+      { key: "our systems", value: "never hold a replayable credential" },
+      { key: "revocation", value: "target-side, immediate, without notice", tone: "g" },
     ],
     hot: ["n-target", "n-sealed", "f-auth"],
   },
   {
     n: "03",
-    step: "The code stays put",
-    heading: "Source never reaches us and is never trained on.",
-    body: "The pass pulls the repository straight from the provider into encrypted storage inside the sealed environment. We are never in the path and hold no copy. Code is read as data, never executed, and anything it asserts about how our tooling should behave is ignored. Nothing is retained for training, by us or by any provider.",
+    step: "Sealed execution",
+    heading: "Source never transits Exira infrastructure.",
+    body: "The clone is fetched over TLS directly from the target's provider onto encrypted ephemeral storage inside the runtime. Exira operates no proxy and holds no copy. Repository contents are parsed as untrusted data, never executed, and any instruction they carry about tool behaviour is discarded. Egress is default-deny.",
     spec: [
-      { key: "transfer", value: "provider to environment, we are not a proxy" },
-      { key: "storage", value: "encrypted, ephemeral, one tenant per pass" },
-      { key: "execution", value: "read as data, repository instructions ignored", tone: "w" },
-      { key: "egress", value: "closed by default, inbound and outbound" },
-      { key: "training", value: "never, ours or a provider's", tone: "g" },
+      { key: "transfer", value: "provider to runtime over TLS, no proxy" },
+      { key: "storage", value: "encrypted, ephemeral, single tenant per run" },
+      { key: "handling", value: "parsed as untrusted data, never executed", tone: "w" },
+      { key: "egress", value: "default-deny, allow-list only" },
+      { key: "retention", value: "none, model provider training included", tone: "g" },
     ],
     hot: ["n-sealed", "f-clone", "f-block", "n-boundary"],
   },
   {
     n: "04",
-    step: "Only the report leaves",
-    heading: "One report leaves. Everything else is destroyed.",
-    body: "Findings pass an output check before release, screened for anything resembling source or secrets. Evidence travels as references, never excerpts. When the approved window closes, the environment, the credential and every intermediate are destroyed, and the target keeps a signed, tamper-evident record that it happened.",
+    step: "Controlled export",
+    heading: "One schema-validated artifact crosses the boundary.",
+    body: "Every finding is validated against a published schema and screened for source fragments, credentials and secrets before release. Evidence travels as file paths, line ranges and content hashes, never excerpts. When the approved window closes the runtime, its keys and all intermediate state are destroyed, and the target retains a signed, tamper-evident record of the lifecycle.",
     spec: [
       { key: "released", value: "findings register and report, under NDA" },
-      { key: "withheld", value: "checkout, credentials, raw tool output", tone: "w" },
-      { key: "evidence", value: "references, never excerpts" },
-      { key: "destroyed", value: "environment, credential, every intermediate" },
+      { key: "evidence", value: "paths, line ranges and content hashes" },
+      { key: "withheld", value: "the clone, credentials, raw tool output", tone: "w" },
+      { key: "destruction", value: "runtime, keys and all intermediate state" },
       { key: "record", value: "signed, tamper-evident, held by the target", tone: "g" },
     ],
     hot: ["n-sealed", "n-policy", "n-exira", "f-out", "f-del"],

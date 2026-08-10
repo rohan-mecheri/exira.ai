@@ -23,8 +23,8 @@ export function ModuleMatrix() {
           <h2>Eleven modules, reconciled against each other.</h2>
           <p className="lede">
             Each module reads one dimension of the codebase. The findings that move deals are the
-            ones that only surface when the modules are read against each other, so every pass
-            reconciles them before it reports.
+            ones that only surface when the modules are read against each other, so every
+            assessment reconciles them before it reports.
           </p>
         </div>
         <div className="mods rv d1">
