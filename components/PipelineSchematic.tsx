@@ -15,9 +15,15 @@ import type { SchemaId } from "@/lib/isolation";
 
    The divider is gone. Splitting it around the export policy left two
    stubs projecting from the box into whitespace, which is exactly the
-   dangling line it was meant to replace. Nothing was lost: POLICY already
-   says "the only opening" and the stopped arrow already says nothing
-   comes back, so the rule was restating both while creating a defect.
+   dangling line it was meant to replace.
+
+   Removing it stranded the stopped arrow, which had been terminating on
+   the divider and afterwards terminated on nothing. The return path is an
+   ordinary edge between two ordinary nodes now, exira back to the export
+   policy, routed clear of both boxes and cut on its own run. Two edges
+   between the same pair of boxes, one live and one severed, is the
+   shortest way to say the only opening is one-way, and neither end of it
+   floats.
 
    Connectors are orthogonal and boxes share one height and one stroke, so
    the diagram reads as an architecture drawing rather than an
@@ -64,86 +70,86 @@ export function PipelineSchematic({ step, hot }: { step: number; hot: readonly S
 
       <g fontFamily="IBM Plex Mono, monospace" fontSize="10" fill="#5D7092">
         <g className={on("f-clone", "fl")} id="f-clone">
-          <path d="M122 46 H162" stroke="#234D9E" fill="none" markerEnd="url(#ah)" />
+          <path d="M118 46 H152" stroke="#234D9E" fill="none" markerEnd="url(#ah)" />
         </g>
         <g className={on("f-auth", "fl")} id="f-auth">
-          <path d="M122 146 H162" stroke="#234D9E" fill="none" markerEnd="url(#ah)" />
+          <path d="M118 146 H152" stroke="#234D9E" fill="none" markerEnd="url(#ah)" />
         </g>
         <g className={on("f-out", "fl")} id="f-out">
-          <path d="M432 96 H456" stroke="#234D9E" fill="none" markerEnd="url(#ah)" />
+          <path d="M404 96 H434" stroke="#234D9E" fill="none" markerEnd="url(#ah)" />
         </g>
         <g className={on("f-del", "fl")} id="f-del">
-          <path d="M566 96 H604" stroke="#234D9E" fill="none" markerEnd="url(#ah)" />
+          <path d="M544 86 H600" stroke="#234D9E" fill="none" markerEnd="url(#ah)" />
         </g>
 
-        {/* The one edge that exists in order to be stopped. */}
+        {/* The return edge, drawn so it can be shown cut. */}
         <g className={on("f-block", "fl")} id="f-block">
           <path
-            d="M610 158 H530"
+            d="M650 124 V150 H500 V126"
             stroke="#8D9BB4"
             strokeDasharray="4 4"
             fill="none"
             markerEnd="url(#ahStopped)"
           />
         </g>
-        <text x="570" y="182" textAnchor="middle" fontSize="8" fill="#8D9BB4">
+        <text x="575" y="170" textAnchor="middle" fontSize="8" fill="#8D9BB4">
           no return path
         </text>
 
         <g className={on("n-repo", "nd")} id="n-repo">
-          <rect x="6" y="18" width="116" height="56" rx="3" fill="#FCFDFF" stroke="#D8DFEA" />
-          <text x="64" y="44" textAnchor="middle" fill="#001448" letterSpacing=".7">
+          <rect x="6" y="18" width="112" height="56" rx="3" fill="#FCFDFF" stroke="#D8DFEA" />
+          <text x="62" y="44" textAnchor="middle" fill="#001448" letterSpacing=".7">
             REPOSITORY
           </text>
-          <text x="64" y="60" textAnchor="middle" fontSize="8.5">
+          <text x="62" y="60" textAnchor="middle" fontSize="8.5">
             target&apos;s provider
           </text>
         </g>
 
         <g className={on("n-target", "nd")} id="n-target">
-          <rect x="6" y="118" width="116" height="56" rx="3" fill="#FCFDFF" stroke="#D8DFEA" />
-          <text x="64" y="144" textAnchor="middle" fill="#001448" letterSpacing=".7">
+          <rect x="6" y="118" width="112" height="56" rx="3" fill="#FCFDFF" stroke="#D8DFEA" />
+          <text x="62" y="144" textAnchor="middle" fill="#001448" letterSpacing=".7">
             TARGET
           </text>
-          <text x="64" y="160" textAnchor="middle" fontSize="8.5">
+          <text x="62" y="160" textAnchor="middle" fontSize="8.5">
             issues the key
           </text>
         </g>
 
         <g className={on("n-sealed", "nd")} id="n-sealed">
           <rect
-            x="168"
+            x="158"
             y="18"
-            width="264"
+            width="246"
             height="156"
             rx="4"
             fill="rgba(35,77,158,.045)"
             stroke="#234D9E"
             strokeDasharray="5 4"
           />
-          <text x="300" y="40" textAnchor="middle" fill="#234D9E" fontSize="9.5" letterSpacing="1.1">
+          <text x="281" y="40" textAnchor="middle" fill="#234D9E" fontSize="9.5" letterSpacing="1.1">
             SEALED ENVIRONMENT
           </text>
-          <use href="#sym-icon" x="256" y="54" width="88" height="83" />
-          <text x="300" y="158" textAnchor="middle" fontSize="8.5">
+          <use href="#sym-icon" x="237" y="54" width="88" height="83" />
+          <text x="281" y="158" textAnchor="middle" fontSize="8.5">
             eleven modules · critic pass
           </text>
         </g>
 
         <g className={on("n-policy", "nd")} id="n-policy">
-          <rect x="462" y="68" width="104" height="56" rx="3" fill="#FCFDFF" stroke="#234D9E" />
-          <text x="514" y="94" textAnchor="middle" fill="#001448" letterSpacing=".7">
+          <rect x="440" y="68" width="104" height="56" rx="3" fill="#FCFDFF" stroke="#234D9E" />
+          <text x="492" y="94" textAnchor="middle" fill="#001448" letterSpacing=".7">
             POLICY
           </text>
-          <text x="514" y="110" textAnchor="middle" fontSize="8.5">
+          <text x="492" y="110" textAnchor="middle" fontSize="8.5">
             the only opening
           </text>
         </g>
 
         <g className={on("n-exira", "nd")} id="n-exira">
-          <rect x="610" y="68" width="84" height="56" rx="3" fill="#06307C" />
+          <rect x="606" y="68" width="88" height="56" rx="3" fill="#06307C" />
           <text
-            x="652"
+            x="650"
             y="95"
             textAnchor="middle"
             fontSize="12"
@@ -152,15 +158,15 @@ export function PipelineSchematic({ step, hot }: { step: number; hot: readonly S
           >
             exira
           </text>
-          <text x="652" y="111" textAnchor="middle" fontSize="7.5" fill="#9DB2D8">
+          <text x="650" y="111" textAnchor="middle" fontSize="7.5" fill="#9DB2D8">
             report only
           </text>
         </g>
 
-        {/* The stop, aligned under the export policy: that is where a
-            return path would have to cross, and it does not. */}
+        {/* The cut, sitting on the policy's own border. Drawn last so it
+            reads as severing the edge rather than decorating it. */}
         <g className={on("f-block", "fl")}>
-          <g transform="translate(514 158)">
+          <g transform="translate(575 150)">
             <circle r="7" fill="#FCFDFF" stroke="#8D9BB4" />
             <path d="M-2.8 -2.8 2.8 2.8M2.8 -2.8-2.8 2.8" stroke="#8D9BB4" strokeWidth="1.3" />
           </g>
