@@ -106,11 +106,12 @@
 .doc-h{display:flex;align-items:center;gap:12px;padding:15px 22px;border-bottom:1px solid var(--line-2)}
 .doc-h svg{width:22px;height:22px;flex:0 0 auto}
 .doc-h .t{font-size:14.5px;font-weight:500;letter-spacing:-.012em}
-/* The client, enciphered. Sized so the perpetual scramble never reflows
-   the row: mono, fixed tracking, and its own chip. */
-.doc-client{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;
-  color:var(--b700);background:var(--paper-2);border-radius:2px;padding:4px 8px;
-  white-space:nowrap}
+/* The client name, enciphered. Set identically to the report title beside
+   it, with no chip and no colour of its own, so it reads as the masthead
+   line with one part of it withheld rather than as a separate badge.
+   Scramble.tsx pins the width, since proportional type would otherwise
+   shift the title on every tick. */
+.doc-client{font-size:14.5px;font-weight:500;letter-spacing:-.012em;white-space:nowrap}
 .doc-h .m{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.11em;
   text-transform:uppercase;color:var(--muted-2)}
 /* Masthead strip: value and label on one line, so the numbers frame the
