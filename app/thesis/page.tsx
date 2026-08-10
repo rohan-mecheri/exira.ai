@@ -249,7 +249,7 @@ export default function Thesis() {
                 sell-side, or credit, we would like to hear where it breaks.
               </p>
               <div className="cta-row">
-                <BookDemo className="btn">
+                <BookDemo source="thesis" className="btn">
                   Book demo
                   <ArrowRight />
                 </BookDemo>

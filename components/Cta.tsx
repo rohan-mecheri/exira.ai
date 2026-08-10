@@ -10,11 +10,11 @@ export function Cta() {
         <p className="eyebrow rv">Book demo</p>
         <h2 className="rv d1">Bring a live deal. We&apos;ll show you what the assessment finds.</h2>
         <p className="lede rv d2">
-          Twenty minutes. We walk a complete assessment module by module, then talk about a target in
+          Thirty minutes. We walk a complete assessment module by module, then talk about a target in
           your pipeline.
         </p>
         <div className="rv d3">
-          <BookDemo className="btn btn-lg">
+          <BookDemo source="close" className="btn btn-lg">
             Book demo
             <ArrowRight />
           </BookDemo>

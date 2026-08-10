@@ -64,7 +64,7 @@ export function Nav() {
           <Link href="/thesis" aria-current={pathname === "/thesis" ? "page" : undefined}>
             Thesis
           </Link>
-          <BookDemo className="btn">
+          <BookDemo source="nav" className="btn">
             Book demo
             <ArrowRight />
           </BookDemo>

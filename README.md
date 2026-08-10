@@ -128,8 +128,17 @@ have their written blessing.
 
 ## Before launch
 
-- [ ] Swap the `mailto:` CTA for a Cal.com link (20-minute slots), pre-filled
-      with *"Is there a live deal you'd like us to look at?"*
+- [x] Booking: all five controls go through `components/BookDemo.tsx` to
+      the Calendly event in `lib/booking.ts`. Each is tagged so the source
+      lands on the booking as `utm_content` (nav / hero / close / footer /
+      thesis) with no analytics installed.
+- [ ] In Calendly, add the invitee questions: company, and the qualifier
+      *"Is there a live deal you'd like us to look at?"* Name and email are
+      collected by Calendly already; the site does not and should not
+      collect them itself.
+- [ ] Duration: the event is 30 minutes and the close now says so. If it
+      should be 20, per the outreach emails, change the event and change
+      that one word back.
 - [ ] Add an OG image — a still of the hero instrument mid-pass
 - [ ] Add analytics (Plausible or Fathom), tracking one event: `book_demo_click`
 - [x] Fine-tune claim: approved 10 Aug 2026. It appears under the module

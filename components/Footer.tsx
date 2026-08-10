@@ -40,7 +40,7 @@ export function Footer() {
             </a>
           ))}
           {home && <Link href="/thesis">Thesis</Link>}
-          <BookDemo>Book demo</BookDemo>
+          <BookDemo source="footer">Book demo</BookDemo>
         </nav>
       </div>
     </footer>

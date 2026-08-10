@@ -16,7 +16,7 @@ export function Hero() {
           </p>
           <div className="hero-hr" />
           <div className="hero-cta">
-            <BookDemo className="btn btn-lg">
+            <BookDemo source="hero" className="btn btn-lg">
               Book demo
               <ArrowRight />
             </BookDemo>

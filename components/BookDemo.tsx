@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, type ReactNode } from "react";
-import { CALENDLY_URL, bookingHref } from "@/lib/booking";
+import { CALENDLY_URL, bookingHref, type BookingSource } from "@/lib/booking";
 
 /* Every "Book demo" on the site.
 
@@ -54,25 +54,38 @@ function loadWidget(): Promise<void> {
   return pending;
 }
 
-export function BookDemo({ className, children }: { className?: string; children: ReactNode }) {
+export function BookDemo({
+  source,
+  className,
+  children,
+}: {
+  source: BookingSource;
+  className?: string;
+  children: ReactNode;
+}) {
+  const href = bookingHref(source);
+
   const warm = useCallback(() => {
     if (CALENDLY_URL) void loadWidget();
   }, []);
 
-  const onClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!CALENDLY_URL) return;
-    // Let the browser own new-tab, new-window and middle clicks.
-    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    const calendly = window.Calendly;
-    if (!calendly) return;
-    e.preventDefault();
-    calendly.initPopupWidget({ url: CALENDLY_URL });
-  }, []);
+  const onClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (!CALENDLY_URL) return;
+      // Let the browser own new-tab, new-window and middle clicks.
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const calendly = window.Calendly;
+      if (!calendly) return;
+      e.preventDefault();
+      calendly.initPopupWidget({ url: href });
+    },
+    [href]
+  );
 
   return (
     <a
       className={className}
-      href={bookingHref}
+      href={href}
       target={CALENDLY_URL ? "_blank" : undefined}
       rel={CALENDLY_URL ? "noopener noreferrer" : undefined}
       onPointerEnter={warm}
