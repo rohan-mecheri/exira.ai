@@ -17,13 +17,13 @@ import type { SchemaId } from "@/lib/isolation";
    stubs projecting from the box into whitespace, which is exactly the
    dangling line it was meant to replace.
 
-   Removing it stranded the stopped arrow, which had been terminating on
-   the divider and afterwards terminated on nothing. The return path is an
-   ordinary edge between two ordinary nodes now, exira back to the export
-   policy, routed clear of both boxes and cut on its own run. Two edges
-   between the same pair of boxes, one live and one severed, is the
-   shortest way to say the only opening is one-way, and neither end of it
-   floats.
+   The severed return edge went with it. Three attempts at drawing "there
+   is no way back" all produced the same defect in a new position, which
+   was the signal that the drawing should not carry the claim at all. An
+   absent edge already says a path does not exist; drawing one in order to
+   cross it out asserts the opposite first. POLICY reads "the only
+   opening", the flow runs one way, and stage 03's copy states it
+   outright.
 
    Connectors are orthogonal and boxes share one height and one stroke, so
    the diagram reads as an architecture drawing rather than an
@@ -41,7 +41,7 @@ export function PipelineSchematic({ step, hot }: { step: number; hot: readonly S
       data-step={step}
       viewBox="0 0 700 200"
       role="img"
-      aria-label="Schematic: the target's repository provider and the target itself both feed a sealed environment. Findings cross a boundary through an export policy to Exira. There is no return path."
+      aria-label="Schematic: the target's repository provider and the target itself both feed a sealed environment. Findings leave it through an export policy, which is the only opening, and reach Exira. Every path runs one way."
     >
       <defs>
         <marker
@@ -54,17 +54,6 @@ export function PipelineSchematic({ step, hot }: { step: number; hot: readonly S
           orient="auto"
         >
           <path d="M0 .8 7 4 0 7.2Z" fill="#234D9E" />
-        </marker>
-        <marker
-          id="ahStopped"
-          viewBox="0 0 8 8"
-          refX="6.6"
-          refY="4"
-          markerWidth="5.5"
-          markerHeight="5.5"
-          orient="auto"
-        >
-          <path d="M0 .8 7 4 0 7.2Z" fill="#8D9BB4" />
         </marker>
       </defs>
 
@@ -82,19 +71,6 @@ export function PipelineSchematic({ step, hot }: { step: number; hot: readonly S
           <path d="M544 86 H600" stroke="#234D9E" fill="none" markerEnd="url(#ah)" />
         </g>
 
-        {/* The return edge, drawn so it can be shown cut. */}
-        <g className={on("f-block", "fl")} id="f-block">
-          <path
-            d="M650 124 V150 H500 V126"
-            stroke="#8D9BB4"
-            strokeDasharray="4 4"
-            fill="none"
-            markerEnd="url(#ahStopped)"
-          />
-        </g>
-        <text x="575" y="170" textAnchor="middle" fontSize="8" fill="#8D9BB4">
-          no return path
-        </text>
 
         <g className={on("n-repo", "nd")} id="n-repo">
           <rect x="6" y="18" width="112" height="56" rx="3" fill="#FCFDFF" stroke="#D8DFEA" />
@@ -163,14 +139,6 @@ export function PipelineSchematic({ step, hot }: { step: number; hot: readonly S
           </text>
         </g>
 
-        {/* The cut, sitting on the policy's own border. Drawn last so it
-            reads as severing the edge rather than decorating it. */}
-        <g className={on("f-block", "fl")}>
-          <g transform="translate(575 150)">
-            <circle r="7" fill="#FCFDFF" stroke="#8D9BB4" />
-            <path d="M-2.8 -2.8 2.8 2.8M2.8 -2.8-2.8 2.8" stroke="#8D9BB4" strokeWidth="1.3" />
-          </g>
-        </g>
       </g>
     </svg>
   );

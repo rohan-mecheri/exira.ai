@@ -33,8 +33,7 @@ export type SchemaId =
   | "f-auth"
   | "f-out"
   | "f-del"
-  | "f-clone"
-  | "f-block";
+  | "f-clone";
 
 /** `g` reads as reassurance, `w` as something to note. */
 export type SpecTone = "g" | "w";
@@ -98,7 +97,7 @@ export const STAGES: readonly Stage[] = [
       { key: "network", value: "reaches nothing beyond the source provider" },
       { key: "retention", value: "nothing kept, model training included", tone: "g" },
     ],
-    hot: ["n-repo", "n-sealed", "f-clone", "f-block"],
+    hot: ["n-repo", "n-sealed", "f-clone"],
   },
   {
     n: "04",
