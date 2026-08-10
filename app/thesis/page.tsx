@@ -230,6 +230,12 @@ export default function Thesis() {
               target controls and we cannot enter.
             </p>
             <p>
+              The models behind the modules are fine-tuned on completed diligence assessments and the
+              outcomes of the deals they informed. That is the difference between a finding a deal
+              team can price and an entry in an engineering backlog, and it is not something a
+              general-purpose scanner or a general-purpose model arrives at on its own.
+            </p>
+            <p>
               The first proof is a complete assessment of a large, public production codebase of
               44,499 commits, 552 contributors and 1.23M lines, run across all eleven modules, with
               every finding carrying evidence references and a remediation estimate. It is the same

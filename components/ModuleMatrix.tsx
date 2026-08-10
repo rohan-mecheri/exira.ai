@@ -39,6 +39,12 @@ export function ModuleMatrix() {
           ))}
           <article className="md blank" aria-hidden="true" />
         </div>
+        <p className="sec-note rv d2">
+          The modules run on models <b>fine-tuned against completed diligence assessments and the
+          deal outcomes that followed</b>, so a finding is weighted by what moved a price rather than
+          by what a linter flags. Every conclusion then goes through an independent critic pass
+          before it reaches the register.
+        </p>
       </div>
     </section>
   );

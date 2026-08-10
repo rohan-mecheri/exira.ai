@@ -132,5 +132,12 @@ have their written blessing.
       with *"Is there a live deal you'd like us to look at?"*
 - [ ] Add an OG image — a still of the hero instrument mid-pass
 - [ ] Add analytics (Plausible or Fathom), tracking one event: `book_demo_click`
-- [ ] Decide on the fine-tune claim — see `docs/website-spec.md` §9
+- [x] Fine-tune claim: approved 10 Aug 2026. It appears under the module
+      matrix and in thesis §06, phrased as models fine-tuned on completed
+      assessments and the deal outcomes that followed. A technical buyer
+      will test this in the demo, so the demo has to be able to show it.
+- [ ] Data residency: still unclaimed anywhere. "EU-hosted" was the
+      original wording but the pipeline is mostly North American, so the
+      line to make once it is contractually true is residency in the
+      region the client chooses, not residency in one region
 - [ ] Confirm the production origin in `app/layout.tsx` (`metadataBase`)

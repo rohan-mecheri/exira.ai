@@ -73,9 +73,11 @@
 .spec span{color:var(--ink-2)}
 .spec .g{color:var(--pos)}
 .spec .w{color:var(--watch)}
-.pin-note{padding-bottom:clamp(56px,6vw,88px);font-family:var(--mono);font-size:11.5px;
-  line-height:1.8;color:var(--muted);max-width:78ch}
-.pin-note b{color:var(--ink);font-weight:500}
+/* A footnote under a section: mono, because it is machine-verified fact
+   rather than argument. */
+.sec-note{margin-top:clamp(26px,3vw,38px);font-family:var(--mono);font-size:11.5px;
+  line-height:1.8;color:var(--muted);max-width:82ch}
+.sec-note b{color:var(--ink);font-weight:500}
 
 /* schematic states */
 #schema .nd rect,#schema .nd path{transition:opacity .4s var(--e),stroke .4s var(--e)}
