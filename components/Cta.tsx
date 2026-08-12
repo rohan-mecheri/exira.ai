@@ -8,10 +8,10 @@ export function Cta() {
     <section className="cta" id="demo">
       <div className="wrap cta-in">
         <p className="eyebrow rv">Book demo</p>
-        <h2 className="rv d1">Bring a live deal. We&apos;ll show you what the assessment finds.</h2>
+        <h2 className="rv d1">Walk through a live target. See exactly what the assessment surfaces.</h2>
         <p className="lede rv d2">
-          Thirty minutes. We walk a complete assessment module by module, then talk about a target in
-          your pipeline.
+          A thirty-minute session — we walk through a complete assessment module by module, then apply
+          it to a target in your pipeline.
         </p>
         <div className="rv d3">
           <BookDemo source="close" className="btn btn-lg">

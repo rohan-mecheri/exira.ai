@@ -13,6 +13,15 @@ import { PipelineSchematic } from "./PipelineSchematic";
    Track height is N * 78 + 100 vh — shorten by cutting a stage, not by
    shrinking the track, or the stepping gets twitchy.
 
+   That height is also set inline on first render, not only inside the
+   effect below. An anchor link to a later section (e.g. /#report) is
+   resolved by the browser against the server-rendered HTML, before any
+   client JS runs — if the track started at its unpinned, contentless
+   height and only grew to N * 78 + 100 vh once the effect fired, the
+   browser would already have scrolled to a position that this section
+   then expands underneath, leaving the viewport stranded inside it
+   instead of at the target further down the page.
+
    Scroll position is read imperatively, but everything downstream of it is
    ordinary state: the active index drives the steps, the frames and the
    schematic through props. */
@@ -94,7 +103,7 @@ export function Pinned() {
 
   return (
     <section className="pin" id="security">
-      <div className="pin-track" ref={trackRef}>
+      <div className="pin-track" ref={trackRef} style={{ height: `${N * 78 + 100}vh` }}>
         <div className="pin-stage">
           <div className="wrap pin-grid">
             <div className="pin-left">

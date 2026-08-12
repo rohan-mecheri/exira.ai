@@ -1,0 +1,47 @@
+/* ══ /demo, /privacy ══════════════════════════════════ */
+.demo-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);gap:clamp(40px,6vw,90px);
+  align-items:start}
+.demo-grid h1{margin:16px 0 14px;max-width:18ch}
+.demo-grid .lede{max-width:44ch}
+
+.demo-panel{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;
+  padding:clamp(26px,3vw,34px);box-shadow:0 24px 60px -36px rgba(6,48,124,.3)}
+
+.demo-form{display:grid;gap:16px}
+.demo-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.demo-form label{display:grid;gap:6px;font-size:13px;color:var(--ink-2);font-weight:500}
+.demo-lbl{display:block}
+.demo-lbl i{font-style:normal;color:var(--b500);margin-left:2px}
+.demo-form input,.demo-form textarea{
+  font:inherit;font-size:14.5px;color:var(--ink);background:var(--paper);
+  border:1px solid var(--line);border-radius:5px;padding:10px 12px;width:100%;
+  transition:border-color .2s var(--e),background .2s var(--e)}
+.demo-form input::placeholder,.demo-form textarea::placeholder{color:var(--muted-2)}
+.demo-form input:hover,.demo-form textarea:hover{border-color:var(--muted-2)}
+.demo-form input:focus,.demo-form textarea:focus{
+  outline:none;border-color:var(--b400);background:var(--surface-2)}
+.demo-form textarea{resize:vertical;min-height:84px}
+.demo-form button{justify-self:start;margin-top:2px}
+.demo-form button:disabled{opacity:.6;cursor:default}
+.demo-err{font-size:13.5px;color:var(--neg)}
+
+.demo-done{padding:8px 0}
+.demo-done h3{margin-bottom:8px}
+
+.demo-reach{margin-top:34px;padding-top:24px;border-top:1px solid var(--line);display:grid;gap:7px;
+  max-width:44ch}
+.demo-reach a{color:var(--b700);font-weight:500;font-size:14.5px}
+.demo-reach a:hover{text-decoration:underline}
+.demo-fine{font-size:12.5px;color:var(--muted)}
+.demo-fine a{color:inherit;font-size:inherit;font-weight:inherit;text-decoration:underline}
+
+.legal{padding-block:clamp(50px,6vw,80px)}
+.legal .essay-body{max-width:640px}
+.legal .essay-body section+section{margin-top:36px}
+.legal .essay-body h2{font-size:19px;letter-spacing:-.015em;margin-bottom:10px}
+.legal .essay-body p{font-size:15px;line-height:1.62;margin-bottom:13px}
+
+@media (max-width:900px){
+  .demo-grid{grid-template-columns:1fr}
+  .demo-row{grid-template-columns:1fr}
+}

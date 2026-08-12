@@ -7,9 +7,8 @@ export function Hero() {
     <section className="hero">
       <div className="wrap hero-grid">
         <div className="rv">
-          <p className="eyebrow">Buy-side · Sell-side · Private credit</p>
           <h1>
-            Underwrite the code.<span className="b">Not just the numbers.</span>
+            Technical diligence<span className="b">for private capital</span>
           </h1>
           <p className="hero-stand">
             Institutional-grade software intelligence, from acquisition to exit.

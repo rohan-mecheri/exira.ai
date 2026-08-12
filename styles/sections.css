@@ -198,13 +198,15 @@
 .ct .c{font-size:12.5px;color:var(--muted);margin-top:8px}
 
 /* ══ CTA / FOOT ════════════════════════════════════════ */
-.cta{background:transparent;border-top:1px solid var(--line)}
-.cta-in{padding-block:clamp(70px,8vw,110px);display:grid;gap:20px;max-width:740px}
+.cta{background:transparent}
+.cta-in{padding-block:clamp(70px,8vw,110px);display:grid;gap:20px}
 .cta h2{max-width:17ch}
-.foot{border-top:1px solid var(--line);padding-block:38px 44px}
+.foot{padding-block:38px 44px}
 .foot-in{display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap;align-items:flex-start}
 .foot .logo{width:78px;height:24px}
 .foot-c{margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--muted-2);line-height:1.9}
+.foot-c a{color:var(--muted-2);text-decoration:underline;text-underline-offset:2px}
+.foot-c a:hover{color:var(--muted)}
 .foot-l{display:flex;gap:24px;font-size:13.5px;color:var(--muted)}
 
 .rv{opacity:0;transform:translateY(13px);transition:opacity .7s var(--e),transform .7s var(--e)}

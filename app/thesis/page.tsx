@@ -26,12 +26,11 @@ export default function Thesis() {
       <div className="mast">
         <div className="wrap">
           <p className="eyebrow">Thesis</p>
-          <h1>Technical diligence is a consulting practice. It should be a product.</h1>
+          <h1>Technical diligence should be a product, not a consulting practice.</h1>
           <p className="stand">
             Software is the most transacted asset class in private markets and the least
-            systematically evaluated one. The constraint has never been demand. It has been that
-            assessment required a scarce human, billed by the hour, on a timeline no deal can
-            accommodate. That constraint is gone.
+            evaluated. Assessment required a scarce human billed by the hour — that constraint is
+            gone.
           </p>
           <div className="meta">
             <span>Exira</span>

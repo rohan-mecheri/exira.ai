@@ -27,10 +27,7 @@ export function Footer() {
             </svg>
           </Link>
           <p className="foot-c">
-            Institutional-grade software intelligence,
-            <br />
-            from acquisition to exit.
-            <br />© 2026 Exira
+            © 2026 Exira · <Link href="/privacy">Privacy</Link>
           </p>
         </div>
         <nav className="foot-l">
