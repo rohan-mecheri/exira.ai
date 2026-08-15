@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Sprite } from "@/components/Sprite";
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Nav />
         {children}
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
