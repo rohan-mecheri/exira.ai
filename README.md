@@ -133,10 +133,20 @@ have their written blessing.
       The form there posts to `app/api/contact/route.ts`, which emails
       `CONTACT_EMAIL` (`lib/booking.ts`, currently `sales@exira.ai`) via
       Resend.
-- [ ] Set `RESEND_API_KEY` (and ideally `CONTACT_FROM_EMAIL` once the
-      sending domain is verified) wherever this deploys — without it the
-      form fails closed with a friendly error instead of silently dropping
-      submissions.
+- [x] Mail: `exira.ai` is verified in Resend and `RESEND_API_KEY` /
+      `CONTACT_FROM_EMAIL` (`Exira Website <noreply@exira.ai>`) are set
+      locally and in Vercel. Without the key the form fails closed with a
+      friendly error rather than silently dropping submissions, so an
+      unconfigured environment is loud. Note Vercel bakes env vars in at
+      build time — adding one does not reach a deployment that already
+      exists, and needs a redeploy.
+- [ ] `CONTACT_TO_EMAIL` overrides where submissions land, leaving
+      `CONTACT_EMAIL` as the address the site prints. It is set locally to
+      route notifications to a personal inbox and deliberately not set in
+      Vercel, so production delivers to `sales@exira.ai`. Remove it once
+      that inbox is the one being watched.
+- [ ] Rate-limit and spam-trap `app/api/contact/route.ts`. It is a public
+      POST that sends mail on demand, with neither.
 - [ ] Add an OG image — a still of the hero instrument mid-pass
 - [ ] Add analytics (Plausible or Fathom), tracking one event: `book_demo_click`
 - [x] Fine-tune claim: approved 10 Aug 2026. It appears under the module
