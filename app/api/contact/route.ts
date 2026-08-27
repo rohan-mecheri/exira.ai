@@ -7,7 +7,13 @@ import { CONTACT_EMAIL } from "@/lib/booking";
    Requires RESEND_API_KEY (from resend.com) at runtime. CONTACT_FROM_EMAIL
    is the verified sending address for that Resend account/domain — until
    one is set, this falls back to Resend's shared test address, which only
-   delivers to the account owner's own inbox. */
+   delivers to the account owner's own inbox.
+
+   CONTACT_TO_EMAIL is where submissions actually land, which is not
+   necessarily the address the page prints. CONTACT_EMAIL is public copy —
+   it appears on /demo and throughout the privacy policy as the address to
+   write to — so routing notifications elsewhere should not mean editing
+   what a reader sees. Unset it and this falls back to CONTACT_EMAIL. */
 
 const REQUIRED = ["firstName", "lastName", "email", "firm", "message"] as const;
 
@@ -44,7 +50,7 @@ export async function POST(request: Request) {
 
   const { error } = await resend.emails.send({
     from: process.env.CONTACT_FROM_EMAIL || "Exira Website <onboarding@resend.dev>",
-    to: CONTACT_EMAIL,
+    to: process.env.CONTACT_TO_EMAIL || CONTACT_EMAIL,
     replyTo: email,
     subject: `Demo request — ${firm}`,
     text: [
