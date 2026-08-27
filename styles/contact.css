@@ -1,7 +1,21 @@
 /* ══ /demo, /privacy ══════════════════════════════════ */
 .demo-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);gap:clamp(40px,6vw,90px);
   align-items:start}
-.demo-grid h1{margin:16px 0 14px;max-width:18ch}
+/* Optical alignment with the lede beneath. Both start at the same box
+   edge, but their first glyphs do not start at the same place inside it:
+   at 4.9vw/600 a 'T' carries .028em of side bearing, at 1.15vw/400 a 'W'
+   carries .050em, and the h1's is worth ~4x more because the type is ~4x
+   larger. That difference is .016em of the h1's size mid-clamp and .014em
+   once both sizes clamp, so .015em covers the range to within a fifth of a
+   pixel. Measured off the served variable face rather than guessed:
+   Instrument Sans thins its bearings as weight climbs, so the 400 figures
+   do not apply to a 600 headline.
+
+   In em so it tracks the clamp, and a margin rather than a text-indent so
+   a wrapped second line does not sit proud of the first. Tied to these two
+   glyphs: rewrite either line to start with a different letter and the
+   number wants re-deriving. */
+.demo-grid h1{margin:0 0 14px -.015em;max-width:18ch}
 .demo-grid .lede{max-width:44ch}
 
 .demo-panel{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;

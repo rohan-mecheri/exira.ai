@@ -108,9 +108,6 @@ export function Pinned() {
           <div className="wrap pin-grid">
             <div className="pin-left">
               <div className="head">
-                <p className="eyebrow">
-                  <i>02</i>Isolation architecture
-                </p>
                 <h2>Architecturally unable to see your code.</h2>
                 <p className="lede">
                   The target initiates the assessment, authorises the environment directly, and

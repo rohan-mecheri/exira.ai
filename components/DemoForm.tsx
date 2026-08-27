@@ -90,7 +90,7 @@ export function DemoForm() {
         <span className="demo-lbl">
           Message<i aria-hidden="true">*</i>
         </span>
-        <textarea name="message" required rows={4} placeholder="Tell us about a target in your pipeline." />
+        <textarea name="message" required rows={4} />
       </label>
 
       {error && <p className="demo-err">{error}</p>}

@@ -20,9 +20,6 @@ export function ModuleMatrix() {
     <section className="sec" id="coverage">
       <div className="wrap">
         <div className="head rv">
-          <p className="eyebrow">
-            <i>03</i>Coverage
-          </p>
           <h2>Eleven modules, reconciled against each other.</h2>
           <p className="lede">
             Each module reads one dimension of the codebase. The findings that move deals are the

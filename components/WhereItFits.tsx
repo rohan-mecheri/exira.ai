@@ -47,9 +47,6 @@ export function WhereItFits() {
     <section className="sec">
       <div className="wrap">
         <div className="head rv">
-          <p className="eyebrow">
-            <i>05</i>Where it fits
-          </p>
           <h2>One engine, four moments.</h2>
           <p className="lede">
             At this cost and turnaround, technical diligence stops being something you commission
@@ -59,7 +56,6 @@ export function WhereItFits() {
         <div className="tl">
           {MOMENTS.map((m, i) => (
             <div key={m.phase} className={i === 0 ? "tl-i rv" : `tl-i rv d${i}`}>
-              <span className="mk" />
               <span className="ph">{m.phase}</span>
               <h3>{m.heading}</h3>
               <p>{m.body}</p>
@@ -69,7 +65,6 @@ export function WhereItFits() {
         <div className="contrast rv">
           {CONTRASTS.map((c) => (
             <div key={c.note} className="ct">
-              <span className="mk" />
               <div className="a">{c.before}</div>
               <div className="b">{c.after}</div>
               <div className="c">{c.note}</div>

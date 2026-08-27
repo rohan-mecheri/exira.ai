@@ -32,14 +32,10 @@ export function Gap() {
   return (
     <section className="sec">
       <div className="wrap">
-        <p className="eyebrow rv">
-          <i>01</i>What goes unpriced
-        </p>
-        <p className="gap-lede rv d1">Every software deal is priced on a codebase nobody read.</p>
+        <p className="gap-lede rv">Every software deal is priced on a codebase nobody read.</p>
         <div className="cases">
           {CASES.map((c, i) => (
             <article key={c.source} className={i === 0 ? "case rv" : `case rv d${i}`}>
-              <span className="mk" />
               <div className="amt">{c.amount}</div>
               <div className="unit">{c.unit}</div>
               <p className="txt">{c.text}</p>
@@ -47,11 +43,6 @@ export function Gap() {
             </article>
           ))}
         </div>
-        <p className="gap-foot rv d3">
-          None of these were hidden. They were simply never looked for. Technical diligence costs
-          $40K–$300K and takes weeks, so it runs on the deal you have already decided to do, if it
-          runs at all.
-        </p>
       </div>
     </section>
   );

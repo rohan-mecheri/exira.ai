@@ -66,9 +66,6 @@ export function Report() {
     <section className="sec" id="report">
       <div className="wrap">
         <div className="head rv">
-          <p className="eyebrow">
-            <i>04</i>The deliverable
-          </p>
           <h2>What lands in the data room.</h2>
           <p className="lede">
             Every finding carries a disposition, a remediation estimate in engineering months, and a
