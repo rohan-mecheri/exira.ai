@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import type { BookingSource } from "@/lib/booking";
 
@@ -11,6 +11,12 @@ export function DemoForm() {
   const source = (params.get("src") as BookingSource | null) ?? undefined;
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+
+  /* How long the form was open before it was submitted. Sent as an
+     elapsed figure rather than a timestamp so a client whose clock is
+     wrong is not penalised for it. The endpoint reads it as one weak
+     signal among several — see the note there. */
+  const openedAt = useRef(Date.now());
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,6 +31,8 @@ export function DemoForm() {
       phone: form.get("phone"),
       firm: form.get("firm"),
       message: form.get("message"),
+      referrer: form.get("referrer"),
+      elapsedMs: Date.now() - openedAt.current,
       source,
     };
 
@@ -92,6 +100,25 @@ export function DemoForm() {
         </span>
         <textarea name="message" required rows={4} />
       </label>
+
+      {/* Honeypot. Not a real field: hidden from sight, skipped by the
+          keyboard, and hidden from assistive technology, so nobody filling
+          this form in can reach it — which is what makes a value in it a
+          signal rather than a guess.
+
+          Named 'referrer' on purpose. The obvious choices — website, url,
+          company, nickname — are all names a browser or password manager
+          will autofill, and an autofilled honeypot silently discards a
+          real submission. That is the expensive direction to be wrong in,
+          so the name avoids every standard autocomplete token and opts out
+          besides. The bots this catches fill every input they find; none
+          of them need tempting. */}
+      <div className="demo-hp" aria-hidden="true">
+        <label>
+          Referrer
+          <input name="referrer" type="text" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
 
       {error && <p className="demo-err">{error}</p>}
 
