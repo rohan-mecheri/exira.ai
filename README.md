@@ -25,8 +25,11 @@ npm run dev       # http://localhost:3000
 | `npm run start`     | Serve the production build locally       |
 | `npm run typecheck` | `tsc --noEmit`                           |
 
-Deploy: Vercel, no configuration. Both routes prerender as static content —
-there is no server-side work at request time.
+Deploy: Vercel. The four pages prerender as static content, so nothing is
+rendered per request; `app/api/contact/route.ts` is the one dynamic route,
+and it needs `RESEND_API_KEY` and `CONTACT_FROM_EMAIL` in the environment
+(see Before launch). Vercel resolves those at build time, so adding one does
+not reach a deployment that already exists — redeploy after.
 
 ---
 
@@ -37,6 +40,9 @@ app/
   layout.tsx            Nav, Footer, sprite, fonts, metadata
   page.tsx              Home
   thesis/page.tsx       Thesis
+  demo/page.tsx         The contact form
+  privacy/page.tsx      Privacy policy
+  api/contact/route.ts  Receives a submission and mails it on
 components/
   Nav.tsx               Header + mobile drawer (shared)
   Footer.tsx            Footer (shared)
@@ -57,6 +63,8 @@ lib/
   modules.ts            MODULES — the eleven modules and their findings
   isolation.ts          STAGES — section 02's four stages
   segments.ts           SEGMENTS — thesis §04's seven buyers
+  booking.ts            Where every Book demo points, and the contact address
+  rate-limit.ts         Per-address limiter for the contact endpoint
 styles/
   globals.css           Entry; imports the rest in order
   tokens.css            Colour, type, spacing custom properties
@@ -145,8 +153,18 @@ have their written blessing.
       route notifications to a personal inbox and deliberately not set in
       Vercel, so production delivers to `sales@exira.ai`. Remove it once
       that inbox is the one being watched.
-- [ ] Rate-limit and spam-trap `app/api/contact/route.ts`. It is a public
-      POST that sends mail on demand, with neither.
+- [x] Rate limit and spam trap on `app/api/contact/route.ts`: 5 requests
+      per address per hour (`lib/rate-limit.ts`), a honeypot field and an
+      elapsed-time check, plus body and per-field length caps. The route's
+      own comment explains the ordering and why the two bot checks answer
+      200 rather than rejecting.
+
+      The limiter is in memory, so it is per serverless instance and
+      resets on a cold start — enough to stop one client hammering the
+      form, not a distributed flood. The upgrade is the same `rateLimit`
+      interface backed by Vercel KV or Upstash, or a Vercel Firewall rule
+      in front of the route. Worth doing if the form ever attracts real
+      abuse; not worth the dependency before that.
 - [ ] Add an OG image — a still of the hero instrument mid-pass
 - [ ] Add analytics (Plausible or Fathom), tracking one event: `book_demo_click`
 - [x] Fine-tune claim: approved 10 Aug 2026. It appears under the module
@@ -157,4 +175,6 @@ have their written blessing.
       original wording but the pipeline is mostly North American, so the
       line to make once it is contractually true is residency in the
       region the client chooses, not residency in one region
-- [ ] Confirm the production origin in `app/layout.tsx` (`metadataBase`)
+- [x] Production origin confirmed: the site serves at `www.exira.ai` and
+      the apex 308s to it, so `metadataBase` is the www host. Anything that
+      publishes a URL — canonical, OG, Twitter — resolves against it.
