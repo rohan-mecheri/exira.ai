@@ -29,7 +29,13 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://exira.ai"),
+  /* The www host, because that is the one that serves: the apex 308s to
+     it. metadataBase is what Next resolves canonical, OG and Twitter URLs
+     against, so pointing it at the redirecting host publishes addresses
+     that bounce — in link previews and to crawlers, both of which treat a
+     redirect as a weaker signal than the real thing. Change this if the
+     canonical host ever changes; it is the one origin the app hardcodes. */
+  metadataBase: new URL("https://www.exira.ai"),
   title: {
     default: "Exira · Automated technical due diligence",
     template: "%s · Exira",
