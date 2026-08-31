@@ -12,10 +12,14 @@
    otherwise grow without limit under exactly the attack it exists to
    blunt, and the defence becomes the leak. */
 
-/** Requests allowed per address per window. Deliberately generous: a real
-    person books one demo, and the client validates required fields before
-    posting, so a legitimate visitor should never see the second digit. */
-const LIMIT = 5;
+/** Requests allowed per address per window.
+
+    Sized for an address rather than a person, which is the distinction
+    that matters here: the buyer is a firm, and a firm's partners share one
+    office address. Several of them submitting in the same hour is a
+    plausible good day, not an attack, so the ceiling has room for it.
+    Failures that are our fault do not count against it — see release(). */
+const LIMIT = 8;
 const WINDOW_MS = 60 * 60 * 1000;
 
 /** Ceiling on tracked addresses, ~a few hundred KB at full stretch. */
@@ -58,8 +62,13 @@ export function rateLimit(key: string, now: number = Date.now()): Verdict {
 /* Vercel sets x-forwarded-for to the client address and overwrites
    anything the caller sent, so the first entry is trustworthy there. It is
    not trustworthy off Vercel, which is why this is one layer of several
-   rather than the whole defence. Everything unattributable shares the
-   "unknown" bucket, which is the conservative direction to fail. */
+   rather than the whole defence.
+
+   Everything unattributable shares the "unknown" bucket. That is the
+   conservative direction to fail, but it does mean a deployment sitting
+   behind no proxy at all would put every visitor on earth in one bucket —
+   worth knowing before this is hosted anywhere but Vercel. `next dev`
+   attributes requests normally, so local work is unaffected. */
 export function clientKey(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) {
@@ -67,6 +76,18 @@ export function clientKey(request: Request): string {
     if (first) return first;
   }
   return request.headers.get("x-real-ip")?.trim() || "unknown";
+}
+
+/* Hand back the slot a request took. For failures the caller is not
+   responsible for: a missing API key or a bad gateway is our problem, and
+   charging a visitor five attempts for it would spend their quota on our
+   outage and then hide the real error behind a 429. */
+export function release(key: string) {
+  const times = hits.get(key);
+  if (!times?.length) return;
+  times.pop();
+  if (times.length) hits.set(key, times);
+  else hits.delete(key);
 }
 
 /** Exported for the route's comments and for tests to stay in step. */

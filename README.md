@@ -153,11 +153,16 @@ have their written blessing.
       route notifications to a personal inbox and deliberately not set in
       Vercel, so production delivers to `sales@exira.ai`. Remove it once
       that inbox is the one being watched.
-- [x] Rate limit and spam trap on `app/api/contact/route.ts`: 5 requests
+- [x] Rate limit and spam trap on `app/api/contact/route.ts`: 8 requests
       per address per hour (`lib/rate-limit.ts`), a honeypot field and an
       elapsed-time check, plus body and per-field length caps. The route's
-      own comment explains the ordering and why the two bot checks answer
-      200 rather than rejecting.
+      own comment explains the ordering.
+
+      The two bot checks flag rather than reject. A submission they catch
+      still arrives, subject-tagged `[suspect]`, because their failure
+      mode is destroying a real enquiry while showing its sender "Message
+      sent." A tagged mail in the wrong folder is recoverable; that is
+      not. Worth a filter rule on the receiving inbox.
 
       The limiter is in memory, so it is per serverless instance and
       resets on a cold start — enough to stop one client hammering the
