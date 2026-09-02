@@ -171,7 +171,12 @@ have their written blessing.
       in front of the route. Worth doing if the form ever attracts real
       abuse; not worth the dependency before that.
 - [ ] Add an OG image — a still of the hero instrument mid-pass
-- [ ] Add analytics (Plausible or Fathom), tracking one event: `book_demo_click`
+- [x] Analytics: Vercel Web Analytics gives page views, and
+      `components/BookDemo.tsx` fires one custom event, `book_demo_click`,
+      carrying which of the five controls was used. Page views say how many
+      arrived; the event says how many asked, and from where. Custom events
+      have to be enabled for the project in the Vercel dashboard, and they
+      count against the plan's event allowance.
 - [x] Fine-tune claim: approved 10 Aug 2026. It appears under the module
       matrix and in thesis §06, phrased as models fine-tuned on completed
       assessments and the deal outcomes that followed. A technical buyer
