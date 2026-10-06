@@ -1,0 +1,32 @@
+/* Designer C hero object (lab). Mirrors the production .hm block. */
+.hm{margin:0;width:clamp(320px,34vw,480px)}
+@media (min-width:1041px){.hm{transform:translateY(4%)}}
+@media (max-width:1040px){.hm{width:min(100%,460px);margin-inline:auto}}
+@media (max-width:820px){.hm{width:100%;max-width:420px}}
+
+.stage{--ov:var(--ovp);position:relative;width:100%;aspect-ratio:1/1;
+  touch-action:pan-y;-webkit-tap-highlight-color:transparent;outline-offset:6px;border-radius:5px}
+.live{cursor:grab}
+.stage:global(.is-grabbing){cursor:grabbing}
+
+/* The mark, placed where the scene's rest frame draws it. */
+.poster{position:absolute;left:var(--pl);top:var(--pt);width:var(--pw);height:auto;max-width:none;
+  pointer-events:none;user-select:none;transition:opacity .6s var(--e)}
+/* The canvas runs past the stage above and below so the open stack has
+   room, but never takes pointer events: input lives on the stage. */
+.stage canvas{position:absolute;left:0;width:100%;
+  top:calc(var(--ov) * -100%);height:calc((1 + 2 * var(--ov)) * 100%);max-width:none;
+  pointer-events:none;opacity:0;transition:opacity .6s var(--e)}
+.live canvas{opacity:1}
+.live .poster{opacity:0}
+
+@media (hover:none),(pointer:coarse){
+  .stage{--ov:var(--ovt)}
+  .poster{left:var(--tl);top:var(--tt);width:var(--tw)}
+}
+
+.cap{margin-top:-8px;min-height:3em;display:grid;justify-items:center;align-content:start;gap:1px;
+  text-align:center;font-size:14px;line-height:1.45;text-wrap:balance}
+.capT{color:var(--ink-2);font-weight:500}
+.capD{color:var(--muted);max-width:56ch}
+@media (max-width:820px){.cap{min-height:4.4em}}

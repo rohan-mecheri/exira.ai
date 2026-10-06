@@ -6,11 +6,11 @@
    with that pass, not here. */
 
 export interface Module {
-  /** M01-M11. */
+  /** M01-M11. Internal key only; never printed. */
   id: string;
   /** Module name, as it appears on the tile. */
   name: string;
-  /** Uppercase label for the hero canvas callout. */
+  /** Short label for the hero canvas callout. */
   short: string;
   /** What this module reads. Written as coverage, not as a finding. */
   does: string;
@@ -20,68 +20,68 @@ export const MODULES: readonly Module[] = [
   {
     id: "M01",
     name: "Key-person dependency",
-    short: "KEY-PERSON",
-    does: "Where authorship concentrates, who has already left, and which systems still depend on them.",
+    short: "Key-person",
+    does: "We find the systems that depend on a handful of engineers, including people who have already left the company.",
   },
   {
     id: "M02",
     name: "Security & vulnerability posture",
-    short: "SECURITY",
-    does: "Dependency exposure, patch latency, secret handling, and which controls the pipeline actually enforces.",
+    short: "Security",
+    does: "We measure dependency exposure and how quickly patches land, then check how secrets are handled and which controls the pipeline enforces.",
   },
   {
     id: "M03",
     name: "Scalability & cloud architecture",
-    short: "SCALABILITY",
-    does: "Service boundaries, data flow, and what the architecture does at the next order of magnitude.",
+    short: "Scalability",
+    does: "We map the services and how data moves between them, then assess how the design would cope with ten times the load.",
   },
   {
     id: "M04",
     name: "Engineering organisation health",
-    short: "ENG HEALTH",
-    does: "Throughput, review discipline and test practice, read from repository history rather than claimed.",
+    short: "Eng. health",
+    does: "We judge delivery pace and engineering discipline from the repository history, which shows how the team really reviews and tests its work.",
   },
   {
     id: "M05",
     name: "Compliance & regulatory posture",
-    short: "COMPLIANCE",
-    does: "Which obligations are enforced in code, which are asserted on paper, and what needs verifying out of band.",
+    short: "Compliance",
+    does: "We separate obligations enforced in code from those that exist only in policy documents, and flag what must be verified outside the codebase.",
   },
   {
     id: "M06",
     name: "IP & licensing risk",
-    short: "LICENSING",
-    does: "Every dependency licence, how it combines with the product's own distribution, and what survives the transaction.",
+    short: "Licensing",
+    does: "We check every dependency licence against how the product is distributed, and identify what carries through the transaction.",
   },
   {
     id: "M07",
     name: "Technology modernisation risk",
-    short: "MODERNISATION",
-    does: "Runtime, framework and platform versions against their support horizons, and the upgrades already overdue.",
+    short: "Modernisation",
+    does: "We compare runtime, framework and platform versions with their end-of-support dates and list the upgrades that are already overdue.",
   },
   {
     id: "M08",
     name: "AI & ML readiness",
     short: "AI & ML",
-    does: "Whether AI capability is built in or bolted on: provider dependence, evaluation discipline, data foundations.",
+    does: "We judge whether AI is central to the product or added on later, looking at provider dependence, evaluation practice and the underlying data.",
   },
   {
     id: "M09",
     name: "Integration compatibility",
-    short: "INTEGRATION",
-    does: "The surface the product exposes and consumes, and the real cost of integrating it with an acquirer.",
+    short: "Integration",
+    does: "We map the interfaces the product exposes and relies on, and estimate the true cost of integrating it with an acquirer's systems.",
   },
   {
     id: "M10",
     name: "FinOps & cloud cost efficiency",
-    short: "FINOPS",
-    does: "The architectural decisions that drive infrastructure spend, and whether cost control exists in code.",
+    short: "FinOps",
+    does: "We trace infrastructure spend back to the design decisions behind it and check whether cost controls exist in the code.",
   },
   {
     id: "M11",
     name: "Technical debt",
-    short: "TECH DEBT",
-    does: "Deferred work carried in the codebase, converted into remediation effort in engineering months.",
+    short: "Tech debt",
+    does: "We quantify the deferred work in the codebase and convert it into the engineering months needed to clear it.",
   },
 ];
 

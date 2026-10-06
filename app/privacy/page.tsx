@@ -11,7 +11,6 @@ export default function Privacy() {
     <main>
       <div className="mast">
         <div className="wrap">
-          <p className="eyebrow">Legal</p>
           <h1>Privacy Policy</h1>
           <p className="stand">Last updated: 12 August 2026</p>
         </div>

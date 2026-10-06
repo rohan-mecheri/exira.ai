@@ -3,9 +3,9 @@
 Marketing site for Exira — automated technical due diligence.
 
 Next.js App Router, TypeScript, plain CSS with custom properties. No CSS
-framework: the token system in `styles/tokens.css` is carrying the
-mono-is-evidence rule, and utility classes would scatter that decision
-across every element.
+framework: the token system in `styles/tokens.css` carries the type and
+colour decisions, and utility classes would scatter them across every
+element.
 
 ---
 
@@ -36,16 +36,17 @@ not reach a deployment that already exists — redeploy after.
 ## Layout
 
 ```
+archive/
+  thesis/page.tsx       The thesis page, withdrawn from the site (/thesis redirects home)
+  hero-lab/             Unused hero graphic experiments
 app/
   layout.tsx            Nav, Footer, sprite, fonts, metadata
   page.tsx              Home
-  thesis/page.tsx       Thesis
   demo/page.tsx         The contact form
   privacy/page.tsx      Privacy policy
   api/contact/route.ts  Receives a submission and mails it on
 components/
   Nav.tsx               Header + mobile drawer (shared)
-  Footer.tsx            Footer (shared)
   Sprite.tsx            Inlined brand mark (see below)
   Arrow.tsx             The two CTA arrows
   Hero.tsx              Hero copy + instrument
@@ -56,9 +57,8 @@ components/
   ModuleMatrix.tsx      Section 03 module matrix
   Report.tsx            Section 04 report card
   WhereItFits.tsx       Section 05
-  Cta.tsx               The close
   Reveals.tsx           One-shot scroll reveals
-  Toc.tsx               Thesis contents rail
+  Toc.tsx               Thesis contents rail (unused while the thesis is withdrawn)
 lib/
   modules.ts            MODULES — the eleven modules and their findings
   isolation.ts          STAGES — section 02's four stages
@@ -70,7 +70,7 @@ styles/
   tokens.css            Colour, type, spacing custom properties
   base.css              Reset, type scale, buttons, nav
   hero.css              Hero + instrument panel
-  sections.css          Sections 01–05, CTA, footer
+  sections.css          Sections 01–05
   thesis.css            Thesis page only
   responsive.css        All breakpoints, loaded last
 public/
@@ -95,16 +95,15 @@ is injected as a string rather than hand-converted to JSX — sixty lines of
 gradient, pattern and clipPath markup is a transcription risk with nothing
 to gain.
 
-**Mono means machine-verified.** IBM Plex Mono is reserved for evidence —
-counts, module IDs, findings, dispositions, spec keys. Instrument Sans
-carries human argument: headlines, lede, body. Keeping that line is what
-makes the data read as measured rather than marketed.
+**One typeface.** Instrument Sans sets everything: headlines, body, labels
+and figures. Numbers that should line up use `font-variant-numeric:
+tabular-nums` rather than a monospace, and labels are sentence case with
+no letter-spacing. No uppercase tracked eyebrows.
 
 **Fonts are self-hosted via `next/font`.** No third-party request, and the
-fallback is metric-matched so nothing shifts on load. The families are
-exposed as `--font-sans` / `--font-mono`, which `tokens.css` folds into the
-`--sans` and `--mono` stacks. `Instrument.tsx` reads the resolved `--mono`
-value at runtime, because a canvas needs a concrete family string rather
+fallback is metric-matched so nothing shifts on load. The family is
+exposed as `--font-sans`, which `tokens.css` folds into the `--sans`
+stack. `Instrument.tsx` reads the resolved `--sans` value at runtime, because a canvas needs a concrete family string rather
 than a CSS variable — that read is the one place a font rename could break
 silently.
 

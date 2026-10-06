@@ -1,0 +1,46 @@
+/* Designer F lab stage. The canvas bleeds past the stage so the open
+   die never clips; only the stage takes input. */
+.fig{margin:0;width:clamp(320px,37vw,540px)}
+.stage{position:relative;width:100%;aspect-ratio:1.08/1;touch-action:pan-y;
+  -webkit-tap-highlight-color:transparent;outline-offset:6px;border-radius:6px;cursor:grab}
+.stage:active{cursor:grabbing}
+.stage canvas{position:absolute;left:-26%;top:-22%;width:152%;height:134%;max-width:none;pointer-events:none}
+.stage:focus-visible{outline:2px solid var(--b400)}
+@media (min-width:1041px){.fig{transform:translateX(30px)}}
+@media (max-width:1040px){
+  .fig{width:min(100%,600px);margin-inline:auto}
+  .stage{aspect-ratio:1.45/1}
+  .stage canvas{left:-6%;width:112%;top:-18%;height:130%}
+}
+
+/* Part name: a hairline leader from the clicked point to a small card. */
+.tag{position:absolute;z-index:2;pointer-events:none;animation:tagIn .22s var(--e) both}
+.dot{position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;
+  background:var(--surface);box-shadow:0 0 0 1.5px var(--b500)}
+.lead{position:absolute;left:0;top:-36px;width:28px;height:36px;
+  border-left:1px solid var(--b400);border-top:1px solid var(--b400);transform:skewX(-38deg);transform-origin:bottom left}
+.card{position:absolute;left:22px;bottom:30px;display:grid;gap:2px;width:max-content;max-width:240px;
+  padding:8px 11px;border-radius:8px;background:color-mix(in srgb,var(--surface) 92%,transparent);
+  box-shadow:0 1px 0 var(--line),0 6px 18px rgb(0 20 72 / .08);border:1px solid var(--line);
+  font-size:13px;line-height:1.35;color:var(--muted)}
+.card strong{font-weight:600;color:var(--ink);font-size:13.5px;letter-spacing:-.01em}
+.tag[data-flip] .lead{left:auto;right:0;border-left:0;border-right:1px solid var(--b400);transform:skewX(38deg);transform-origin:bottom right}
+.tag[data-flip] .card{left:auto;right:22px}
+@keyframes tagIn{from{opacity:0;transform:translateY(3px)}}
+@media (prefers-reduced-motion:reduce){.tag{animation:none}}
+
+/* Hover labels: a dot on the part, a hairline, the name. Positioned by the
+   scene every frame; opacity follows the open state. */
+.label{position:absolute;left:0;top:0;z-index:1;pointer-events:none;opacity:0;will-change:transform,opacity}
+.ldot{position:absolute;left:-2.5px;top:-2.5px;width:5px;height:5px;border-radius:50%;background:var(--b500);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--paper) 80%,transparent)}
+.lline{position:absolute;left:0;width:1px;background:var(--b400);opacity:.7}
+.ltext{position:absolute;white-space:nowrap;font-size:13px;font-weight:500;letter-spacing:-.005em;color:var(--ink-2);line-height:1}
+.label[data-dir="n"] .lline{bottom:4px;height:34px}
+.label[data-dir="n"] .ltext{bottom:44px;left:0;transform:translateX(-50%)}
+.label[data-dir="nw"] .lline{bottom:4px;height:46px}
+.label[data-dir="nw"] .ltext{bottom:56px;right:-8px}
+.label[data-dir="ne"] .lline{bottom:4px;height:46px}
+.label[data-dir="ne"] .ltext{bottom:56px;left:-8px}
+.label[data-dir="s"] .lline{top:4px;height:34px}
+.label[data-dir="s"] .ltext{top:44px;left:0;transform:translateX(-50%)}

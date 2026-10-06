@@ -25,7 +25,7 @@ const SCOPE: readonly Figure[] = [
   { value: "44,499", label: "commits" },
   { value: "17,942", label: "files" },
   { value: "552", label: "contributors" },
-  { value: "1.23M", label: "lines" },
+  { value: "1.23M", label: "lines of code" },
 ];
 
 const OUTPUT: readonly Figure[] = [
@@ -39,7 +39,6 @@ type Severity = "blocking" | "material" | "attention" | "noted";
 
 interface RegisterRow {
   id: string;
-  module: string;
   severity: Severity;
   /** The one opened out beside the register. */
   expanded?: boolean;
@@ -49,16 +48,16 @@ interface RegisterRow {
    sit at the top where a real register would put them. The veil takes the
    tail. */
 const REGISTER: readonly RegisterRow[] = [
-  { id: "F-0131", module: "M02", severity: "blocking" },
-  { id: "F-0127", module: "M06", severity: "blocking" },
-  { id: "F-0118", module: "M03 × M11", severity: "material", expanded: true },
-  { id: "F-0092", module: "M02", severity: "attention" },
-  { id: "F-0071", module: "M06", severity: "attention" },
-  { id: "F-0064", module: "M04", severity: "noted" },
-  { id: "F-0055", module: "M11", severity: "noted" },
-  { id: "F-0043", module: "M05", severity: "attention" },
-  { id: "F-0031", module: "M09", severity: "noted" },
-  { id: "F-0028", module: "M07", severity: "noted" },
+  { id: "F-0131", severity: "blocking" },
+  { id: "F-0127", severity: "blocking" },
+  { id: "F-0118", severity: "material", expanded: true },
+  { id: "F-0092", severity: "attention" },
+  { id: "F-0071", severity: "attention" },
+  { id: "F-0064", severity: "noted" },
+  { id: "F-0055", severity: "noted" },
+  { id: "F-0043", severity: "attention" },
+  { id: "F-0031", severity: "noted" },
+  { id: "F-0028", severity: "noted" },
 ];
 
 export function Report() {
@@ -66,10 +65,10 @@ export function Report() {
     <section className="sec" id="report">
       <div className="wrap">
         <div className="head rv">
-          <h2>What lands in the data room.</h2>
+          <h2>A real assessment, redacted</h2>
           <p className="lede">
-            Every finding carries a disposition, a remediation estimate in engineering months, and a
-            traceable evidence reference.
+            Each finding is given a disposition and a remediation estimate in engineering months,
+            and points to the evidence behind it.
           </p>
         </div>
 
@@ -87,14 +86,14 @@ export function Report() {
             </div>
 
             <div className="doc-strip rv d2">
-              <span className="dsl">Read</span>
+              <span className="dsl">Analysed</span>
               {SCOPE.map((f) => (
                 <div key={f.label} className="dst">
                   <span className="v">{f.value}</span>
                   <span className="l">{f.label}</span>
                 </div>
               ))}
-              <span className="dsl">Raised</span>
+              <span className="dsl">Reported</span>
               {OUTPUT.map((f) => (
                 <div key={f.label} className="dst">
                   <span className="v">{f.value}</span>
@@ -105,7 +104,6 @@ export function Report() {
 
             <div className="doc-b rv d3">
               <div className="doc-reg">
-                <p className="reg-h">Findings register</p>
                 <div className="reg">
                   {REGISTER.map((r) => (
                     <div
@@ -114,7 +112,6 @@ export function Report() {
                       data-sev={r.severity}
                     >
                       <span className="rid">{r.id}</span>
-                      <span className="rmod">{r.module}</span>
                       <span className="rdot" />
                     </div>
                   ))}
@@ -122,36 +119,32 @@ export function Report() {
               </div>
 
               <div className="doc-lead">
-                <p className="doc-sect">Material risk · cross-module</p>
+                <p className="doc-sect">Material risk across two modules</p>
                 <div className="dfind">
-                  <span className="fid">
-                    F-0118 · M03 SCALABILITY × M11 TECHNICAL DEBT · CROSS-MODULE
-                  </span>
-                  <h3>Three concurrent infrastructure migrations in flight</h3>
+                  <h3>Three infrastructure migrations running at once</h3>
                   <p>
-                    The event streaming backbone, the caching and job-queue layer, and the data
-                    access layer for user identity are simultaneously mid-migration. Each is
-                    individually justified and each is executed responsibly, with dual-write patterns
-                    that keep old and new systems in sync. The risk is not the migrations but their
-                    concurrent, in-flight state: three simultaneous transitions introduce operational
-                    complexity and a window of exposure to data inconsistency until each is closed
-                    out.
+                    The event streaming backbone, the caching and job-queue layer and the identity
+                    data-access layer are all mid-migration at the same time. Each migration is
+                    justified and well run, with dual-write patterns keeping old and new systems in
+                    sync. The concern is that all three are open together. That adds operational
+                    complexity and leaves room for data inconsistency until each one is closed out.
                   </p>
-                  <div className="refs">
-                    <b>disposition</b>close out or price before signing
-                    <br />
-                    <b>remediation</b>1–2 months streaming · 1–2 months cache · 2–3 months identity
-                    <br />
-                    <b>evidence</b>3 refs · dual-write helpers, migration config, routing fallback
-                    <br />
-                    <b>critic</b>upheld · severity unchanged · no contradictory evidence
-                  </div>
+                  <dl className="refs">
+                    <dt>Disposition</dt>
+                    <dd>Close out or price in before signing</dd>
+                    <dt>Remediation</dt>
+                    <dd>Streaming 1–2 months, cache 1–2 months, identity 2–3 months</dd>
+                    <dt>Evidence</dt>
+                    <dd>3 references: dual-write helpers, migration config, routing fallback</dd>
+                    <dt>Critic review</dt>
+                    <dd>Upheld, severity unchanged, no contradicting evidence</dd>
+                  </dl>
                 </div>
               </div>
             </div>
           </article>
           <div className="doc-veil">
-            <span>Book a demo to walk the full assessment</span>
+            <span>Book a demo to see the full assessment</span>
           </div>
         </div>
       </div>

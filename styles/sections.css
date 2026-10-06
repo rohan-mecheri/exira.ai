@@ -1,4 +1,7 @@
 /* ══ 01 THE GAP ═══════════════════════════════════════ */
+/* Tighter than a standard section: it sits directly under the hero and
+   reads as the hero's evidence, not as a new chapter. */
+.sec.gap{padding-block:clamp(16px,2.4vw,32px) clamp(36px,4.4vw,64px)}
 .gap-lede{font-size:clamp(22px,2.3vw,30px);font-weight:500;letter-spacing:-.026em;
   line-height:1.28;max-width:24ch;text-wrap:balance}
 .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
@@ -6,101 +9,159 @@
 .case{background:var(--surface);padding:clamp(22px,2.4vw,30px);display:grid;gap:0;align-content:start;
   transition:background .3s var(--e)}
 .case:hover{background:var(--surface-2)}
-.case .amt{font-family:var(--mono);font-size:clamp(26px,2.9vw,38px);font-weight:500;
-  letter-spacing:-.04em;color:var(--b900);line-height:1}
-.case .unit{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--muted-2);margin-top:11px}
+.case .amt{font-size:clamp(30px,3.2vw,42px);font-weight:600;letter-spacing:-.035em;
+  font-variant-numeric:tabular-nums;color:var(--b900);line-height:1}
+.case .unit{font-size:14px;font-weight:500;color:var(--muted);margin-top:10px}
 .case .txt{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2);
   font-size:14.5px;line-height:1.58;color:var(--muted)}
-.case .src{margin-top:16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--muted-2)}
+.case .src{margin-top:16px;font-size:12.5px;color:var(--muted-2)}
 
 /* ══ 02 ISOLATION — pinned sequence ═══════════════════ */
 .pin{background:transparent}
 .pin-track{position:relative}
+/* The stage clears the fixed nav bar, so "centred" means centred in the
+   part of the viewport you can actually see. */
 .pin-stage{position:sticky;top:0;height:100vh;min-height:600px;display:flex;align-items:center;
-  padding-block:40px}
+  padding-block:calc(var(--nav-pin) + 28px) 28px}
 .pin-grid{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
   gap:clamp(30px,4.4vw,72px);width:100%;align-items:start}
 .pin-left .head{max-width:none}
-.steps{margin-top:clamp(24px,3vw,38px);border-top:1px solid var(--line)}
-.step{display:grid;grid-template-columns:auto 1fr;gap:15px;align-items:baseline;
-  padding:13px 0 13px 12px;border-bottom:1px solid var(--line-2);position:relative;
-  cursor:pointer;transition:padding-left .35s var(--e)}
-.step::before{content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:2px;background:var(--b500);
-  transform:scaleY(0);transform-origin:top;transition:transform .45s var(--e)}
-.step[data-on="1"]{padding-left:18px;
-  background:linear-gradient(90deg,rgba(35,77,158,.07),rgba(35,77,158,0) 62%)}
-.step[data-on="1"]::before{transform:scaleY(1)}
-.step .k{font-family:var(--mono);font-size:10.5px;color:var(--muted-2);letter-spacing:.08em;transition:color .3s}
-.step .t{font-size:14.5px;color:var(--muted);letter-spacing:-.012em;transition:color .3s}
-.step[data-on="1"] .k{color:var(--b500)}
-.step[data-on="1"] .t{color:var(--b900);font-weight:500}
-/* Four segments, one per stage. Pinned.tsx writes each segment's fill
-   fraction to --f and the fill itself is a pseudo-element, so scaling it
-   never distorts the track it sits in. */
-.pin-bar{margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
-.pin-bar i{display:block;height:2px;border-radius:2px;background:var(--line-2);position:relative}
-.pin-bar i::after{content:"";position:absolute;inset:0;border-radius:2px;background:var(--b500);
-  transform:scaleX(var(--f,0));transform-origin:left;transition:transform .12s linear}
+/* The rail. Every label sits on the same inset whether or not it is
+   current, so nothing moves sideways when the stage changes; the current
+   step is marked by ink and weight, and by its bar. Each bar is that
+   stage's progress: Pinned.tsx writes the fill fraction to --f as the
+   track scrolls, so the four bars read as one line that advances. Bars
+   already passed rest a tone lighter than the one that is filling. */
+.steps{margin:clamp(26px,3vw,38px) 0 0;padding:0;list-style:none}
+.step{position:relative;--f:0}
+.step[data-on="1"]{--f:1}
+.step::before,.step::after{content:"";position:absolute;left:0;top:0;bottom:0;width:2px}
+.step::before{background:var(--line);transition:background .3s var(--e)}
+.step::after{background:var(--b300);transform:scaleY(var(--f));transform-origin:top;
+  transition:transform .15s linear,background .3s var(--e)}
+.step[data-on="1"]::after{background:var(--b500)}
+.step button{display:block;width:100%;margin:0;padding:17px 12px 17px 20px;border:0;background:none;
+  font:inherit;font-size:15px;line-height:22px;letter-spacing:-.012em;text-align:left;
+  color:var(--muted);cursor:pointer;transition:color .25s var(--e)}
+.step button:hover{color:var(--ink-2)}
+.step:hover::before{background:var(--muted-2)}
+.step[data-on="1"] button{color:var(--ink);font-weight:500}
+.step button:focus-visible{outline:2px solid var(--b500);outline-offset:-2px;border-radius:3px}
 
-.schema{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:18px 20px 14px}
-.schema svg{width:100%;height:auto}
-.frames{position:relative;margin-top:20px;min-height:322px}
+/* The drawing sits straight on the page ground: a card around it was a
+   third nested rectangle (section, card, sealed box) and shrank it. */
+.schema svg{width:100%;height:auto;overflow:visible}
+.frames{position:relative;margin-top:28px;min-height:204px}
 .frame{position:absolute;inset:0;opacity:0;transform:translateY(12px);pointer-events:none;
   transition:opacity .45s var(--e),transform .45s var(--e)}
 .frame[data-on="1"]{opacity:1;transform:none;pointer-events:auto;position:relative}
 /* Contents arrive in sequence behind the frame. A crossfade alone was easy
    to scroll straight past; a staggered entrance makes the handover an
    event you notice without stopping to look for it. */
-.frame .fk,.frame h3,.frame p,.frame .spec{opacity:0;transform:translateY(10px);
+.frame h3,.frame p{opacity:0;transform:translateY(10px);
   transition:opacity .5s var(--e),transform .5s var(--e)}
-.frame[data-on="1"] .fk{opacity:1;transform:none;transition-delay:.04s}
-.frame[data-on="1"] h3{opacity:1;transform:none;transition-delay:.10s}
-.frame[data-on="1"] p{opacity:1;transform:none;transition-delay:.16s}
-.frame[data-on="1"] .spec{opacity:1;transform:none;transition-delay:.22s}
-.frame .fk{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--b500)}
-.frame h3{margin:10px 0 12px;font-size:clamp(18px,1.7vw,23px)}
-.frame p{font-size:14.5px;line-height:1.66;color:var(--muted);max-width:62ch}
-.spec{margin-top:18px;border-top:1px solid var(--line);padding-top:14px;
-  font-family:var(--mono);font-size:11.5px;line-height:1.95;letter-spacing:-.012em}
-.spec div{display:grid;grid-template-columns:132px 1fr;gap:12px}
-.spec b{color:var(--muted-2);font-weight:400}
-.spec span{color:var(--ink-2)}
-.spec .g{color:var(--pos)}
-.spec .w{color:var(--watch)}
+.frame[data-on="1"] h3{opacity:1;transform:none;transition-delay:.06s}
+.frame[data-on="1"] p{opacity:1;transform:none;transition-delay:.12s}
+.frame h3{margin:0 0 12px;font-size:clamp(18px,1.7vw,23px);text-wrap:balance}
+.frame p{font-size:15px;line-height:1.62;color:var(--ink-2);max-width:62ch;text-wrap:pretty}
 
-/* Schematic states. Opacity alone made the active stage almost invisible:
-   the step from .6 to 1 is not a state change anyone notices. Idle sits
-   lower now, and an active node also takes the brand stroke and a tinted
-   ground, so the highlight reads as selection rather than as a slightly
-   brighter box. Idle stays legible because the stroke stays. */
-#schema .nd{opacity:.45;transition:opacity .45s var(--e)}
-#schema .nd.hot{opacity:1}
-#schema .nd rect{transition:stroke .45s var(--e),stroke-width .45s var(--e),fill .45s var(--e)}
-#schema .nd.hot rect{stroke:var(--b500);stroke-width:1.4}
-#schema .nd.hot rect[fill="#FCFDFF"]{fill:#EDF2FC}
-#schema .fl{opacity:.22;transition:opacity .45s var(--e)}
-#schema .fl.hot{opacity:1}
-#schema .fl path{transition:stroke-width .45s var(--e)}
-#schema .fl.hot path{stroke-width:1.5}
+/* Schematic states — see PipelineSchematic.tsx for the drawing's logic.
+   Two states per part, quiet and active, carried by colour rather than
+   opacity so the idle drawing stays crisp. Box and connector strokes do
+   not scale with the drawing, so a hairline stays a hairline and a
+   connector stays legible at every width. */
+.sch-wrap .sch-tall{display:none}
+.sch-wrap .sch-wide{display:block}
+.sch text{font-family:var(--sans);font-size:14px;font-weight:500;letter-spacing:-.01em;
+  fill:var(--muted);transition:fill .45s var(--e)}
+.sch .nd rect{fill:var(--surface);stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke;
+  transition:stroke .45s var(--e),stroke-width .45s var(--e),fill .45s var(--e)}
+.sch .nd.hot rect{stroke:var(--b500);stroke-width:1.5;fill:#E9EFFB}
+.sch .nd.hot text{fill:var(--ink)}
+/* Exira takes the navy ground only when the report reaches it. */
+.sch .nd[data-id="n-exira"].hot rect{fill:var(--b900);stroke:var(--b900)}
+.sch .nd[data-id="n-exira"].hot text{fill:#fff}
+/* The boundary is the subject, so it keeps the brand stroke in every
+   stage. It is drawn on entrance, so its stroke scales with the drawing. */
+/* The export policy reads as a port because the wall is cut for it, not
+   because it is outlined: outlined in every stage, it competed with the
+   stage's real subject. It takes emphasis only when it is the subject. */
+/* The boundary: a tinted ground with no stroke, and the wall drawn over
+   it as one open path with the port's notch cut out of it. Quiet, the
+   wall is a brand hairline; in stage 01 it is the subject. */
+.sch .sealed .ground{fill:#F4F6FB;stroke:none;transition:fill .45s var(--e)}
+.sch .sealed .wall{fill:none;stroke:var(--b500);stroke-width:1.25;stroke-linecap:butt;
+  transition:stroke .45s var(--e),stroke-width .45s var(--e)}
+.sch .sealed.hot .ground{fill:#E9EFFB}
+.sch .sealed.hot .wall{stroke:var(--b900);stroke-width:2}
+/* One type size for every label in the drawing (it must match FONT in
+   PipelineSchematic.tsx, which sets text by its cap height). The region
+   label and the engine's caption behave like any node's label: quiet,
+   or ink when they are the stage's subject. */
+.sch .region{font-weight:500;fill:var(--muted)}
+.sch .sealed.hot .region{fill:var(--ink)}
+.sch .sealed .engine.hot{fill:var(--ink)}
+/* Connectors. Quiet ones carry the muted-2 grey at a weight that still
+   reads as a route at a glance; a carrying one takes the brand colour and
+   a quarter point more, and the pulse travels over it. */
+.sch .fl{color:var(--muted-2);transition:color .45s var(--e)}
+.sch .fl.hot{color:var(--b500)}
+.sch .fl .ln{fill:none;stroke:currentColor;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.sch .fl .hd{fill:currentColor;stroke:none}
+/* The pulse: a short dash that travels the active connector once every
+   few seconds, then rests off the end of the path. pathLength is 100, so
+   the offsets are percentages: 136 holds the dash just before the start,
+   24 leaves it just past the end. */
+.sch .pulse{fill:none;stroke:var(--b900);stroke-width:1.75;stroke-linecap:round;
+  stroke-dasharray:12 112;stroke-dashoffset:24;opacity:0;transition:opacity .3s var(--e)}
+.sch .fl.hot .pulse{opacity:1;animation:sch-travel 2.8s cubic-bezier(.5,0,.25,1) .4s infinite}
+@keyframes sch-travel{0%{stroke-dashoffset:136}70%,100%{stroke-dashoffset:24}}
+/* Caption and stage control under the drawing. Unpinned only: pinned,
+   the rail on the left does this job. */
+.sch-cap{display:none;align-items:center;justify-content:space-between;gap:16px;
+  margin-top:20px;padding-top:14px;border-top:1px solid var(--line-2)}
+.sch-cap-t{display:flex;align-items:baseline;gap:10px;font-size:14px;font-weight:500;color:var(--ink);
+  letter-spacing:-.01em;min-width:0}
+.sch-cap-n{font-weight:400;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sch-cap-ctl{display:flex;gap:0;flex:0 0 auto;margin-right:-9px}
+.sch-cap-ctl button{display:grid;place-items:center;width:24px;height:32px;padding:0;border:0;
+  background:none;cursor:pointer;border-radius:3px}
+.sch-cap-ctl i{display:block;width:6px;height:6px;border-radius:50%;background:var(--line);
+  transition:background .3s var(--e)}
+.sch-cap-ctl button:hover i{background:var(--muted-2)}
+.sch-cap-ctl button[aria-pressed="true"] i{background:var(--b500)}
+.sch-cap-ctl button:focus-visible{outline:2px solid var(--b500);outline-offset:0}
+/* Entrance, once. The boundary draws itself and the rest settles in
+   behind it. Before the drawing has been seen the parts are held in their
+   pre-entrance positions; reduced motion is marked seen on mount. */
+.sch-wrap[data-seen="0"] .sealed .wall{stroke-dasharray:102;stroke-dashoffset:102}
+.sch-wrap[data-seen="0"] .sealed text,.sch-wrap[data-seen="0"] .sealed use,
+.sch-wrap[data-seen="0"] .fl,.sch-wrap[data-seen="0"] .nd:not(.sealed){opacity:0}
+.sch-wrap[data-seen="1"] .sealed .wall{stroke-dasharray:102;stroke-dashoffset:0;
+  transition:stroke-dashoffset 1.1s var(--e),stroke .45s var(--e),stroke-width .45s var(--e)}
+.sch-wrap[data-seen="1"] .sealed text,.sch-wrap[data-seen="1"] .sealed use{opacity:1;transition:opacity .6s var(--e) .5s}
+.sch-wrap[data-seen="1"] .nd:not(.sealed){opacity:1;transition:opacity .6s var(--e) .7s}
+.sch-wrap[data-seen="1"] .fl{opacity:1;transition:opacity .6s var(--e) .9s,color .45s var(--e)}
+@media (prefers-reduced-motion:reduce){
+  .sch .pulse{display:none}
+  .sch-wrap[data-seen="0"] .sealed .wall{stroke-dashoffset:0}
+  .sch-wrap[data-seen="0"] .sealed text,.sch-wrap[data-seen="0"] .sealed use,
+  .sch-wrap[data-seen="0"] .fl,.sch-wrap[data-seen="0"] .nd:not(.sealed){opacity:1}
+  .step::after,.step button,.sch-cap-ctl i{transition:none}
+}
 
 /* ══ 03 COVERAGE — module matrix ══════════════════════ */
 .mods{margin-top:clamp(30px,3.6vw,44px);display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
   background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
-.md{background:var(--surface);padding:17px 19px 19px;display:grid;gap:8px;align-content:start;
+.md{background:var(--surface);padding:20px 20px 22px;display:grid;gap:8px;align-content:start;
   transition:background .28s var(--e)}
 .md:hover{background:var(--surface-2)}
-.md .top{display:flex;align-items:center;gap:9px;min-height:14px}
-.md .id{font-family:var(--mono);font-size:10.5px;color:var(--muted-2);letter-spacing:.07em}
 .md h3{font-size:14.5px;letter-spacing:-.014em;line-height:1.25}
-.md p{font-family:var(--mono);font-size:11px;line-height:1.55;color:var(--muted);letter-spacing:-.012em}
+.md p{font-size:14px;line-height:1.55;color:var(--muted);text-wrap:pretty}
 /* The twelfth cell. Same anatomy as a module tile so the grid stays one
-   object, a deeper ground and a brand-coloured label so nobody counts it
-   as a twelfth module. */
+   object, and a deeper ground so nobody counts it as a twelfth module. */
 .md.note{background:var(--paper-2)}
 .md.note:hover{background:var(--paper-2)}
-.md.note .id{color:var(--b500);text-transform:uppercase;letter-spacing:.13em;font-size:9.5px}
 
 /* ══ 04 REPORT ═════════════════════════════════════════ */
 .doc-wrap{margin-top:clamp(30px,3.6vw,44px);position:relative}
@@ -116,54 +177,49 @@
    title. Selection is off: the word should not come out on a drag. */
 .doc-client{font-size:14.5px;font-weight:500;letter-spacing:-.012em;white-space:nowrap;
   filter:blur(5px);padding-right:5px;user-select:none;-webkit-user-select:none}
-.doc-h .m{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.11em;
-  text-transform:uppercase;color:var(--muted-2)}
+.doc-h .m{margin-left:auto;font-size:13px;color:var(--muted-2);font-variant-numeric:tabular-nums}
 /* Masthead strip: value and label on one line, so the numbers frame the
    document instead of filling it. */
-.doc-strip{display:grid;grid-template-columns:84px repeat(4,1fr);gap:1px;background:var(--line-2);
+.doc-strip{display:grid;grid-template-columns:100px repeat(4,1fr);gap:1px;background:var(--line-2);
   border-bottom:1px solid var(--line-2)}
 .dsl{background:var(--surface);padding:10px 0 10px 22px;display:flex;align-items:center;
-  font-family:var(--mono);font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--muted-2)}
+  font-size:12.5px;font-weight:500;color:var(--muted-2)}
 .dst{background:var(--surface);padding:10px 16px;display:flex;align-items:baseline;gap:8px}
-.dst .v{font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:-.03em;
+.dst .v{font-size:15.5px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;
   color:var(--b900);line-height:1}
-.dst .l{font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;
-  color:var(--muted-2)}
+.dst .l{font-size:13px;color:var(--muted)}
 
 /* Register down the side, lead finding opened up beside it. */
 .doc-b{display:grid;grid-template-columns:214px minmax(0,1fr)}
-.doc-reg{border-right:1px solid var(--line-2);padding:clamp(18px,2.2vw,24px) 20px}
+.doc-reg{border-right:1px solid var(--line-2);padding:clamp(8px,1.2vw,12px) 20px}
 .doc-lead{padding:clamp(18px,2.2vw,24px) clamp(20px,2.6vw,30px)}
-.reg-h{font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--muted-2);padding-bottom:11px;border-bottom:1px solid var(--line)}
-.reg-i{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;
+.reg-i{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;
   padding:9px 0 9px 9px;border-bottom:1px solid var(--line-2);position:relative;
-  font-family:var(--mono);font-size:10.5px}
+  font-size:13px;font-variant-numeric:tabular-nums}
+.reg-i:last-child{border-bottom:0}
 .reg-i::before{content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:2px;
   background:var(--b500);transform:scaleY(0);transform-origin:center;
   transition:transform .4s var(--e)}
 .reg-i.on::before{transform:scaleY(1)}
-.reg-i .rid{color:var(--muted);letter-spacing:.05em}
+.reg-i .rid{color:var(--muted)}
 .reg-i.on .rid{color:var(--b900);font-weight:500}
-.reg-i .rmod{color:var(--muted-2);font-size:9.5px;letter-spacing:.06em}
 .reg-i .rdot{width:5px;height:5px;border-radius:50%;background:var(--muted-2)}
 .reg-i[data-sev="blocking"] .rdot{background:var(--neg)}
 .reg-i[data-sev="material"] .rdot{background:var(--watch)}
 .reg-i[data-sev="attention"] .rdot{background:var(--b400)}
-.doc-sect{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--muted-2);padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.doc-sect{font-size:13px;font-weight:500;color:var(--watch);padding-bottom:12px;
+  border-bottom:1px solid var(--line)}
 .dfind{border-left:2px solid var(--watch);padding:2px 0 2px 18px;margin-top:22px}
-.dfind .fid{font-family:var(--mono);font-size:10px;letter-spacing:.11em;color:var(--muted-2)}
-.dfind h3{margin:8px 0 10px;font-size:19px}
+.dfind h3{margin:0 0 10px;font-size:19px}
 .dfind p{font-size:14px;line-height:1.62;color:var(--muted);max-width:74ch}
-.refs{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
-  font-family:var(--mono);font-size:11.5px;line-height:1.95;color:var(--muted-2);letter-spacing:-.01em}
-.refs b{color:var(--ink-2);font-weight:450;display:inline-block;min-width:104px}
+.refs{margin:16px 0 0;padding-top:14px;border-top:1px solid var(--line-2);display:grid;
+  grid-template-columns:max-content minmax(0,1fr);gap:6px 20px;font-size:13.5px;line-height:1.5}
+.refs dt{color:var(--ink-2);font-weight:500}
+.refs dd{margin:0;color:var(--muted)}
 .doc-veil{position:absolute;left:1px;right:1px;bottom:1px;height:150px;border-radius:0 0 4px 4px;
   background:linear-gradient(to bottom,rgba(252,253,255,0),var(--surface) 62%);
   display:flex;align-items:flex-end;justify-content:center;padding-bottom:24px;pointer-events:none}
-.doc-veil span{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted-2)}
+.doc-veil span{font-size:14px;font-weight:500;color:var(--muted)}
 
 /* ══ 05 TIMELINE ═══════════════════════════════════════ */
 .tl{margin-top:clamp(30px,3.6vw,44px);display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
@@ -171,33 +227,22 @@
 .tl-i{background:var(--surface);padding:clamp(20px,2.2vw,28px);display:grid;gap:10px;
   align-content:start;transition:background .3s var(--e)}
 .tl-i:hover{background:var(--surface-2)}
-.tl-i .ph{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--b500)}
 .tl-i h3{min-height:2.4em}
 .tl-i p{font-size:13.5px;line-height:1.58;color:var(--muted)}
 .contrast{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:22px;
   background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
 .ct{background:var(--surface);padding:18px 22px;transition:background .3s var(--e)}
 .ct:hover{background:var(--surface-2)}
-.ct .a{font-family:var(--mono);font-size:10.5px;color:var(--muted-2);text-decoration:line-through;
+.ct .a{font-size:13px;color:var(--muted-2);text-decoration:line-through;font-variant-numeric:tabular-nums;
   transition:opacity .3s var(--e),transform .3s var(--e)}
 .ct:hover .a{opacity:.45;transform:translateX(-2px)}
-.ct .b{font-family:var(--mono);font-size:clamp(17px,1.8vw,22px);font-weight:500;
-  letter-spacing:-.03em;color:var(--b900);margin-top:5px;line-height:1;
+.ct .b{font-size:clamp(18px,1.9vw,23px);font-weight:600;font-variant-numeric:tabular-nums;
+  letter-spacing:-.025em;color:var(--b900);margin-top:5px;line-height:1;
   transition:transform .35s var(--e)}
 .ct:hover .b{transform:translateX(3px)}
 .ct .c{font-size:12.5px;color:var(--muted);margin-top:8px}
 
 /* ══ CTA / FOOT ════════════════════════════════════════ */
-.cta{background:transparent}
-.cta-in{padding-block:clamp(70px,8vw,110px);display:grid;gap:20px}
-.cta h2{max-width:20ch}
-.foot{padding-block:38px 44px}
-.foot-in{display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap;align-items:flex-start}
-.foot .logo{width:78px;height:24px}
-.foot-c{margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--muted-2);line-height:1.9}
-.foot-c a{color:var(--muted-2);text-decoration:underline;text-underline-offset:2px}
-.foot-c a:hover{color:var(--muted)}
-.foot-l{display:flex;gap:24px;font-size:13.5px;color:var(--muted)}
 
 .rv{opacity:0;transform:translateY(13px);transition:opacity .7s var(--e),transform .7s var(--e)}
 .rv.on{opacity:1;transform:none}

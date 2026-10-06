@@ -1,31 +1,24 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
+import { Instrument_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
 import { Sprite } from "@/components/Sprite";
 import "@/styles/globals.css";
 
-/* Mono is evidence, sans is argument — see docs/website-spec.md.
+/* One face, set throughout. Figures that need to line up use tabular
+   numerals rather than a monospace.
 
    Self-hosted through next/font rather than a Google Fonts <link>: no
    render-blocking request to a third party, and the fallback is metric-
-   matched so nothing shifts when the real face arrives. The families are
-   exposed as --font-sans / --font-mono, which tokens.css folds into the
-   --sans and --mono stacks the rest of the site uses. */
+   matched so nothing shifts when the real face arrives. The family is
+   exposed as --font-sans, which tokens.css folds into the --sans stack the
+   rest of the site uses. */
 
 const sans = Instrument_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-sans",
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
@@ -47,12 +40,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={sans.variable}>
       <body>
         <Sprite />
         <Nav />
         {children}
-        <Footer />
         <Analytics />
       </body>
     </html>

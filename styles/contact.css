@@ -49,6 +49,7 @@
 
 .demo-reach{margin-top:34px;padding-top:24px;border-top:1px solid var(--line);display:grid;gap:7px;
   max-width:44ch}
+.demo-reach-h{font-size:13.5px;font-weight:500;color:var(--muted)}
 .demo-reach a{color:var(--b700);font-weight:500;font-size:14.5px}
 .demo-reach a:hover{text-decoration:underline}
 .demo-fine{font-size:12.5px;color:var(--muted)}

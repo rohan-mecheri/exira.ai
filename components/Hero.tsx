@@ -1,5 +1,5 @@
 import { ArrowDown, ArrowRight } from "./Arrow";
-import { Instrument } from "./Instrument";
+import { HeroModel } from "./HeroModel";
 import { BookDemo } from "./BookDemo";
 
 export function Hero() {
@@ -26,7 +26,7 @@ export function Hero() {
           </div>
         </div>
         <div className="rv d2">
-          <Instrument />
+          <HeroModel />
         </div>
       </div>
     </section>

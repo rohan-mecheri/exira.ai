@@ -15,10 +15,10 @@ export default function Demo() {
       <section className="demo sec">
         <div className="wrap demo-grid">
           <div>
-            <h1>Tell us about a target.</h1>
+            <h1>Tell us about a target</h1>
             <p className="lede">We&apos;ll walk you through a full assessment on a deal in your pipeline.</p>
             <div className="demo-reach">
-              <p className="eyebrow">Reach us directly</p>
+              <p className="demo-reach-h">Reach us directly</p>
               <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
               <p className="demo-fine">
                 We use these details only to respond to your inquiry. See our{" "}

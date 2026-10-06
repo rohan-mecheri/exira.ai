@@ -1,0 +1,8 @@
+/* Designer D lab stage. The canvas bleeds past the stage so the open
+   case never clips; only the stage takes input. */
+.fig{margin:0;width:clamp(320px,36vw,520px)}
+.stage{position:relative;width:100%;aspect-ratio:1/1;touch-action:pan-y;
+  -webkit-tap-highlight-color:transparent;outline-offset:6px;border-radius:6px;cursor:grab}
+.stage:active{cursor:grabbing}
+.stage canvas{position:absolute;left:-10%;top:-12%;width:120%;height:120%;pointer-events:none}
+.stage:focus-visible{outline:2px solid var(--b400)}

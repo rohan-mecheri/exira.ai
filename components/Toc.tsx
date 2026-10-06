@@ -34,12 +34,19 @@ export function Toc({ entries }: { entries: readonly TocEntry[] }) {
   return (
     <nav className="toc" aria-label="Contents">
       <span className="lbl">Contents</span>
-      {entries.map((e, i) => (
-        <a key={e.id} href={`#${e.id}`} className={here === e.id ? "here" : undefined}>
-          <i>{String(i + 1).padStart(2, "0")}</i>
-          {e.label}
-        </a>
-      ))}
+      <ol>
+        {entries.map((e) => (
+          <li key={e.id}>
+            <a
+              href={`#${e.id}`}
+              className={here === e.id ? "here" : undefined}
+              aria-current={here === e.id ? "location" : undefined}
+            >
+              {e.label}
+            </a>
+          </li>
+        ))}
+      </ol>
     </nav>
   );
 }

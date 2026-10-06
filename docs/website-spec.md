@@ -99,11 +99,7 @@ One section inverts, to `#06307C` — your brand navy, not black. Security is wh
 
 ### Type
 
-**Instrument Sans** and **IBM Plex Mono**. Not Inter — Inter is the tell. The pairing carries a rule:
-
-> **Mono is reserved for machine-verified evidence** — counts, module IDs, findings, dispositions, artifact keys. **Sans carries human argument** — headlines, lede, body.
-
-Deterministic facts render one way, interpretation another. That's the product as a type system, and it gives every number an instrument-panel quality without a chart anywhere on the page.
+**Instrument Sans**, throughout. Not Inter — Inter is the tell. Figures use tabular numerals rather than a monospace.
 
 `text-wrap: balance` on headlines, `pretty` on lede — both fix hyphen-breaks the screenshots caught.
 

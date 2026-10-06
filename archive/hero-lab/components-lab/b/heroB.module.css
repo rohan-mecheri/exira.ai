@@ -1,0 +1,14 @@
+/* Designer B lab: the stage is the layout box; the canvas bleeds past it
+   (BLEED in lib/lab/b/frame.ts) so the open or turned stack never clips,
+   and takes no pointer events, so it never covers the headline's links. */
+.stage{position:relative;width:100%;aspect-ratio:1/1;touch-action:pan-y;
+  -webkit-tap-highlight-color:transparent;outline-offset:6px;border-radius:6px}
+.stage:global(.is-live){cursor:grab}
+.stage:global(.is-grabbing){cursor:grabbing}
+.poster,.stage canvas{position:absolute;pointer-events:none;user-select:none;
+  left:-14%;width:128%;top:-30%;height:144%;max-width:none}
+.poster{display:block;transition:opacity .5s var(--e)}
+.stage canvas{opacity:0;transition:opacity .5s var(--e)}
+.stage:global(.is-live) canvas{opacity:1}
+.stage:global(.is-live) .poster{opacity:0}
+.stage:focus-visible{outline:2px solid var(--b400)}

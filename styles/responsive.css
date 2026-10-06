@@ -1,52 +1,62 @@
 /* ══ RESPONSIVE ════════════════════════════════════════ */
 @media (max-width:900px){
   .pin-stage{position:static;height:auto;min-height:0;padding-block:0}
-  .pin-grid{grid-template-columns:1fr}
-  .steps,.pin-bar{display:none}
-  .frames{min-height:0;margin-top:26px;display:grid;gap:30px}
-  .frame{position:relative!important;opacity:1!important;transform:none!important;
-    pointer-events:auto!important;padding-top:26px;border-top:1px solid var(--line)}
-  /* Unpinned, every frame is shown at once, so the staged entrance that
-     runs on the active frame must not leave the rest invisible. */
-  .frame .fk,.frame h3,.frame p,.frame .spec{opacity:1;transform:none}
-  .frame:first-child{border-top:0;padding-top:0}
+  .pin-grid{grid-template-columns:minmax(0,1fr)}
+  .steps{display:none}
+  .sch-cap{display:flex}
+  /* Unpinned, the text shows the stage the diagram shows, as on desktop.
+     All four share one grid cell, so the block is always as tall as the
+     longest and changing stage never moves the page beneath it. */
+  .frames{min-height:0;margin-top:22px;display:grid}
+  .frame,.frame[data-on="1"]{position:relative;inset:auto;grid-area:1/1}
   .schema{margin-top:26px}
   .mods{grid-template-columns:repeat(2,1fr)}
-  .cases,.scope{grid-template-columns:1fr 1fr}
+  .cases{grid-template-columns:1fr 1fr}
+}
+/* Between the phone bar and full width there is no room for the
+   running head beside four links and the button. */
+@media (max-width:1100px) and (min-width:821px){
+  .nav-head{display:none}
 }
 @media (max-width:1040px){
-  .hero-grid,.trust-grid{grid-template-columns:1fr}
+  .hero-grid{grid-template-columns:1fr}
   .hero-grid{gap:40px}
-  /* One column here, so the panel is no longer competing with the headline
-     for width — give it enough to run the mark at full size and keep the
-     callouts. */
-  .instr{width:min(100%,520px)}
-  .panel{aspect-ratio:1.25/1}
+  /* One column: the object sits under the CTAs, centred, with a wider
+     stage so it has room to open without crowding the copy. */
+  .hm{width:min(100%,560px);margin-inline:auto}
+  .hm-stage{aspect-ratio:1.2/1}
   .tl,.contrast{grid-template-columns:repeat(2,1fr)}
   .mods{grid-template-columns:repeat(3,1fr)}
 }
+/* Below 640px the schematic swaps to its portrait drawing rather than
+   shrinking or scrolling sideways; see PipelineSchematic.tsx. */
 @media (max-width:640px){
-  .schema{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .schema svg{min-width:540px}
+  .sch-wrap .sch-wide{display:none}
+  .sch-wrap .sch-tall{display:block;max-width:360px;margin:0 auto}
 }
 @media (max-width:820px){
   body{font-size:16px}
-  .nav-links{position:absolute;left:0;right:0;top:72px;z-index:40;flex-direction:column;
-    align-items:stretch;gap:0;background:var(--paper);padding:6px var(--gut) 20px;
-    border-bottom:1px solid var(--line);opacity:0;transform:translateY(-8px);pointer-events:none;
-    transition:opacity .25s,transform .25s}
-  .nav-links.open{opacity:1;transform:none;pointer-events:auto}
-  .nav-links a{padding-block:14px;border-bottom:1px solid var(--line-2);font-size:16px}
-  .nav-links .btn{margin-top:16px;justify-content:center}
-  .nav{position:relative}
+  /* Phone bar: the lockup gives way to the mark once pinned, so the
+     running head and Book demo both keep their room. */
+  :root{--nav-pin:52px}
+  .nav-space{height:64px}
+  .nav-in{height:64px;gap:14px}
+  .nav[data-scrolled] .nav-in{height:52px}
+  .nav-links{display:none}
   .burger{display:block}
-  .tl,.contrast,.mods,.cases,.scope{grid-template-columns:1fr}
-  /* No room for callouts at this size; zero the gutter and the stack
-     recentres on the full width. */
-  .hero{--instr-gutter:0px}
-  .instr{width:100%;max-width:320px}
-  .panel{aspect-ratio:1/1}
-  .spec div{grid-template-columns:112px 1fr}
+  .nav-head{gap:12px;font-size:13px}
+  .nav-head .nav-head-full{display:none}
+  .nav-head .nav-head-short:not(:empty){display:block}
+  .nav[data-scrolled] .logo{display:none}
+  .nav[data-scrolled] .nav-mark{display:block}
+  .btn-nav{height:36px;padding:0 13px;font-size:13.5px;gap:7px}
+  .tl,.contrast,.mods,.cases{grid-template-columns:1fr}
+  /* On a phone the stage frames both the closed and the open stack. */
+  .hm{width:100%;max-width:420px}
+  .hm-stage{aspect-ratio:1/1}
+  /* Room for a part's name and a wrapped line, held so naming a part
+     never moves the page. */
+  .hm-cap{font-size:14px;min-height:4.4em}
   .doc-h{flex-wrap:wrap}.doc-h .m{margin-left:0;flex-basis:100%}
   /* Stacked, with the lead finding first: the register is context, and
      pushing it above the finding buries what the card is for. */

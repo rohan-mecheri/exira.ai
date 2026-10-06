@@ -54,7 +54,7 @@ export function DemoForm() {
   if (status === "success") {
     return (
       <div className="demo-done">
-        <h3>Message sent.</h3>
+        <h3>Message sent</h3>
         <p className="lede">We&apos;ll get back to you shortly.</p>
       </div>
     );

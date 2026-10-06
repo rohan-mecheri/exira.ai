@@ -6,7 +6,10 @@ const config: NextConfig = {
   async redirects() {
     return [
       { source: "/index.html", destination: "/", permanent: true },
-      { source: "/thesis.html", destination: "/thesis", permanent: true },
+      // The thesis is withdrawn from the site (its page lives in
+      // archive/thesis); old links land on the home page instead.
+      { source: "/thesis.html", destination: "/", permanent: false },
+      { source: "/thesis", destination: "/", permanent: false },
     ];
   },
 };

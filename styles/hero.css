@@ -1,9 +1,5 @@
 /* ══ HERO ══════════════════════════════════════════════ */
-/* --instr-gutter is the room held to the right of the layer stack for its
-   callout labels. It is the single authority: Instrument.tsx reads it to
-   place the stack, the caption pads by it to stay centred underneath, and
-   setting it to 0 at a breakpoint turns the labels off. */
-.hero{padding-block:clamp(56px,7vw,96px);--instr-gutter:78px}
+.hero{padding-block:clamp(36px,5.5vw,80px) clamp(56px,7vw,96px)}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;
   gap:clamp(32px,5vw,72px);align-items:center}
 .hero h1{margin:18px 0 0}
@@ -16,24 +12,49 @@
   font-weight:500;letter-spacing:-.018em;line-height:1.35;color:var(--ink);text-wrap:pretty}
 .hero-hr{height:1px;background:var(--line);margin:30px 0 22px;max-width:520px}
 .hero-cta{display:flex;gap:24px;flex-wrap:wrap;align-items:center}
-.hero-meta{margin-top:26px;display:flex;flex-wrap:wrap;gap:6px 20px;
-  font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted-2)}
-.hero-meta b{color:var(--b500);font-weight:500}
 
-/* mini instrument ----------------------------------------
-   No frame, no plate, no blueprint grid: the stack floats on the hero
-   ground. The dimension line and the module callouts carry the technical
-   read that the panel border used to. Instrument.tsx reserves a gutter on
-   the right for those labels.
+/* hero object --------------------------------------------
+   The mark as a physical object (HeroModel.tsx, lib/hero/). No frame
+   and no plate: it stands on the hero ground on its own shadow, and the
+   two-line caption under it is the only text it carries.
 
-   The 372px cap is load-bearing: the hero grid gives the headline whatever
-   the panel does not take, and at 1440 "The codebase is the asset." needs
-   720 of the 1172 available. Go much wider and it wraps to three lines. */
-/* .instr sizes both the canvas and its caption, so the caption stays the
-   width of the stack instead of stretching to the grid cell. */
-.instr{width:clamp(300px,28vw,372px)}
-.panel{position:relative;width:100%;aspect-ratio:1/1}
-.panel canvas{position:absolute;inset:0;width:100%;height:100%}
-.panel-cap{display:flex;justify-content:center;padding-right:var(--instr-gutter);gap:12px;margin-top:6px;
-  font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted-2)}
-.panel-cap b{color:var(--b500);font-weight:500}
+   The stage is the layout box, centred on the object at rest so it
+   lines up with the headline. On pointer devices the canvas runs 14%
+   above it (--hm-ov, matching FRAME_POINTER.overflow in lib/hero/
+   frame.ts), so the stack has room to open without the layout holding
+   empty space for it. Touch devices rest open and need no overflow. */
+.hm{margin:0;width:clamp(320px,34vw,480px);--hm-ov:.14}
+/* Beside the headline, the grid centres object and caption together;
+   the object alone should sit on the text block's centre. A transform,
+   so the correction never changes the hero's height. */
+@media (min-width:1041px){.hm{transform:translateY(5%)}}
+.hm-stage{position:relative;width:100%;aspect-ratio:1/1;
+  /* Vertical swipes stay with the page on touch; only a horizontal drag
+     turns the object. */
+  touch-action:pan-y;-webkit-tap-highlight-color:transparent;outline-offset:6px;border-radius:5px}
+.hm-stage.is-live{cursor:grab}
+.hm-stage.is-grabbing{cursor:grabbing}
+.hm-poster img,.hm-stage canvas{position:absolute;left:0;width:100%;
+  top:calc(var(--hm-ov) * -100%);height:calc((1 + var(--hm-ov)) * 100%);max-width:none}
+.hm-poster img{transition:opacity .6s var(--e);pointer-events:none;user-select:none}
+.hm-stage canvas{opacity:0;transition:opacity .6s var(--e)}
+.hm-stage.is-live canvas{opacity:1}
+.hm-stage.is-live .hm-poster img{opacity:0}
+@media (hover:none),(pointer:coarse){
+  .hm{--hm-ov:0}
+}
+/* The name of the part pointed at or tapped. It takes no room in the
+   layout (the object carries no caption of its own) and fades in only
+   while a part is named. */
+.hm{position:relative}
+.hm-cap{position:absolute;left:0;right:0;top:100%;margin-top:2px;display:grid;justify-items:center;gap:1px;
+  text-align:center;font-size:14px;line-height:1.45;text-wrap:balance;
+  opacity:0;transition:opacity .25s var(--e);pointer-events:none}
+.hm-cap.is-on{opacity:1}
+.hm-cap-t{color:var(--ink-2);font-weight:500}
+.hm-cap-d{color:var(--muted);max-width:56ch}
+/* One column: the name sits in the flow under the object, so it can
+   never run over the section below. */
+@media (max-width:1040px){
+  .hm-cap{position:static;margin-top:6px;min-height:2.9em}
+}

@@ -25,18 +25,13 @@ export default function Thesis() {
     <main>
       <div className="mast">
         <div className="wrap">
-          <p className="eyebrow">Thesis</p>
-          <h1>Technical diligence should be a product, not a consulting practice.</h1>
+          <h1>Technical diligence should be a product, not a consulting practice</h1>
           <p className="stand">
             Software is the most transacted asset class in private markets and the least
             evaluated. Assessment required a scarce human billed by the hour — that constraint is
             gone.
           </p>
-          <div className="meta">
-            <span>Exira</span>
-            <span>August 2026</span>
-            <span>~8 minute read</span>
-          </div>
+          <p className="meta">Exira, August 2026</p>
         </div>
       </div>
 
@@ -45,9 +40,7 @@ export default function Thesis() {
 
         <div className="essay-body">
           <section id="s1">
-            <h2>
-              <span className="n">01</span>The unevaluated asset
-            </h2>
+            <h2>The unevaluated asset</h2>
             <p>
               When capital changes hands in a software deal, the thing actually being bought is a
               codebase. Not the ARR schedule, not the customer list; those are consequences. The
@@ -88,9 +81,7 @@ export default function Thesis() {
           </section>
 
           <section id="s2">
-            <h2>
-              <span className="n">02</span>Why the current model can&apos;t close the gap
-            </h2>
+            <h2>Why the current model can&apos;t close the gap</h2>
             <p>
               The gap persists because of arithmetic, not ignorance. An enterprise consultancy bills
               $200–$800 an hour and delivers over months. A mid-market boutique charges $40K–$100K
@@ -123,9 +114,7 @@ export default function Thesis() {
           </section>
 
           <section id="s3">
-            <h2>
-              <span className="n">03</span>What breaks when the cost curve collapses
-            </h2>
+            <h2>What breaks when the cost curve collapses</h2>
             <p>
               Take the same eleven-module assessment and move it from three weeks and $60K to a few
               hours at a fraction of the cost, and the change is not that firms get the same report
@@ -156,31 +145,24 @@ export default function Thesis() {
           </section>
 
           <section id="s4">
-            <h2>
-              <span className="n">04</span>Where it applies
-            </h2>
+            <h2>Where it applies</h2>
             <p>
               The same assessment addresses seven distinct buyers. They differ in what they are
               underwriting, not in what needs to be examined.
             </p>
             <div className="seg">
               {SEGMENTS.map((s) => (
-                <div key={s.n} className="sg">
-                  <span className="k">{s.n}</span>
-                  <div>
-                    <h3>{s.name}</h3>
-                    <p>{s.body}</p>
-                    <span className="tag">{s.tag}</span>
-                  </div>
+                <div key={s.name} className="sg">
+                  <h3>{s.name}</h3>
+                  <p>{s.body}</p>
+                  <span className="tag">{s.tag}</span>
                 </div>
               ))}
             </div>
           </section>
 
           <section id="s5">
-            <h2>
-              <span className="n">05</span>Why a product wins, and what it has to get right
-            </h2>
+            <h2>Why a product wins, and what it has to get right</h2>
             <p>
               Automation alone is not the thesis. Code scanners have existed for twenty years; they
               lose because they are sold to engineering teams to fix code, not to investors to price
@@ -220,9 +202,7 @@ export default function Thesis() {
           </section>
 
           <section id="s6">
-            <h2>
-              <span className="n">06</span>What we are building
-            </h2>
+            <h2>What we are building</h2>
             <p>
               An assessment engine that reads a target&apos;s entire codebase across eleven modules,
               reconciles the findings against each other, subjects every conclusion to an independent
